@@ -40,19 +40,19 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
         </div>
         <Credit season={abexSeason} compact />
         <p class="muted small">{aSum.finished > 1 ? `${aSum.finished} guilds reached the max damage of ${fmtM(aSum.max)}; those are ranked by finish time.` : aSum.finished === 1 && aSum.fastest ? `Only ${nameOf(aSum.fastest)} reached the max damage of ${fmtM(aSum.max)}.` : `No guild reached the max damage of ${fmtM(aSum.max)}.`} Bold times are finish times; others are last attacks.</p>
-        <table class="rank">
-          <thead><tr><th class="num">Rank</th><th>Guild</th><th class="num">Damage</th><th class="num">Finish / last attack</th></tr></thead>
+        <div class="table-wrap"><table class="rank">
+          <thead><tr><th class="num">Rank</th><th>Guild</th><th class="num">Damage<span class="show-sm sub">time</span></th><th class="num hide-sm">Finish / last attack</th></tr></thead>
           <tbody>
             {topAbex.map((r) => (
               <tr>
                 <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
-                <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{nameOf(r)}</a></td>
-                <td class="num">{fmtM(r.damage)}</td>
-                <td class="num"><span class:list={{ fin: finished(r) }} title={timeNote(r)}>{r.time || '—'}</span></td>
+                <td class="wrap-sm"><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{nameOf(r)}</a></td>
+                <td class="num">{fmtM(r.damage)}{r.time && <span class:list={['show-sm', 'sub', { fin: finished(r) }]}>{r.time}</span>}</td>
+                <td class="num hide-sm"><span class:list={{ fin: finished(r) }} title={timeNote(r)}>{r.time || '—'}</span></td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </section>
     )}
     {riftSeason && rSum && (
@@ -67,19 +67,19 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
         </div>
         <Credit season={riftSeason} compact />
         <p class="muted small">Top floor {fmtInt(rSum.top.floor)}; floor {fmtInt(rSum.cutoff)} made the top {rSum.players}.</p>
-        <table class="rank">
+        <div class="table-wrap"><table class="rank">
           <thead><tr><th class="num">Rank</th><th>Player</th><th class="num">Floor</th><th>Guild</th></tr></thead>
           <tbody>
             {topRift.map((r) => (
               <tr>
                 <td class="num"><Rank value={r.rank} /></td>
-                <td><a href={`/player/${r.playerId}/`}>{r.playerName}</a></td>
+                <td class="wrap-sm"><a href={`/player/${r.playerId}/`}>{r.playerName}</a></td>
                 <td class="num">{fmtInt(r.floor)}</td>
-                <td class="guild-cell">{r.guildId ? <a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{guildLabel(r.guildId, r.guildName)}</a> : '—'}</td>
+                <td class="guild-cell wrap-sm">{r.guildId ? <a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{guildLabel(r.guildId, r.guildName)}</a> : '—'}</td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </section>
     )}
   </div>

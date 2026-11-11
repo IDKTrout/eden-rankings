@@ -1,5 +1,6 @@
 ---
 import { compilers } from '../lib/data';
+import Logo from '../components/Logo.astro';
 interface Props {
   title?: string;
   description?: string;
@@ -27,8 +28,15 @@ const nav = [
     <meta property="og:site_name" content="Event Rankings" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Event Rankings logo: a gold shield with a podium and a blue crystal" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL('/og.png', Astro.site)} />
+    <meta name="theme-color" content="#151c2f" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -38,7 +46,7 @@ const nav = [
     <header class="site-head">
       <div class="wrap head-row">
         <a class="brand" href="/">
-          <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 2 28 9v14L16 30 4 23V9z" fill="var(--accent)" /><path d="M16 8l6 3.5v9L16 24l-6-3.5v-9z" fill="var(--surface)" /><path d="M16 12.5l2.5 1.5v4L16 19.5 13.5 18v-4z" fill="var(--accent)" /></svg>
+          <Logo size={30} />
           <span>Event Rankings</span>
         </a>
         <nav aria-label="Main">
@@ -57,6 +65,10 @@ const nav = [
     <footer class="site-foot">
       <div class="wrap">
         <p>{compilers.length > 0 && <>All rankings on this site were gathered by <strong>{compilers.join(', ')}</strong>, with thanks noted on each season. </>}Guilds that changed their name are combined under one guild ID; players are matched by player ID.</p>
+        <p class="made-by">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 1 L18 12 L12 23 L6 12 Z" fill="#d9a83a" /><path d="M12 4 L16 12 L12 20 L8 12 Z" fill="#3d8bff" /><path d="M12 4 L16 12 L12 12 Z" fill="#9ccaff" /></svg>
+          <span>Made by <a class="eden" href="https://edenafk.com">Eden</a></span>
+        </p>
       </div>
     </footer>
   </body>
@@ -139,6 +151,10 @@ const nav = [
   .site-foot { border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
   .site-foot .wrap { padding-block: 1.5rem 2rem; max-width: 1120px; }
   .site-foot p { max-width: 70ch; }
+  .site-foot .wrap { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: .75rem 2rem; }
+  .made-by { display: inline-flex; align-items: center; gap: .45rem; white-space: nowrap; color: var(--ink); }
+  .made-by .eden { font-family: var(--font-display); font-weight: 700; letter-spacing: .04em; color: var(--accent-ink); text-decoration: none; }
+  .made-by .eden:hover { text-decoration: underline; }
 
   /* Shared building blocks */
   .eyebrow { font-size: .75rem; text-transform: uppercase; letter-spacing: .09em; color: var(--accent-ink); font-weight: 600; }

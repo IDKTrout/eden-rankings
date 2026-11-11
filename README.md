@@ -35,6 +35,13 @@ Guilds are matched by `guild_id` and players by `player_id`, so name changes kee
 
 For AbEx, guilds at the season's `max_damage_m` finished and their time is their finish time; every other guild's time is their last attack.
 
+## Events in the sheet but not on the site yet
+
+**Alna** (`alna_rankings`, `alna_overall`): a guild event played in brackets and scored in points. The site ignores it for now (`SITE_TABS` in `src/lib/data.ts`). When it goes on the site:
+- show a guild only if it is in the season's **overall top 100 and has more than 1,000,000 points**;
+- order by `overall_rank`, which breaks equal-point ties using each bracket's own order;
+- mark scores the game rounded (`points_rounded`, such as 13M).
+
 ## How the site is built
 
 A static [Astro](https://astro.build) site, deployed by Cloudflare Workers Builds from the `main` branch.

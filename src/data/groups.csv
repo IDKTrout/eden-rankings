@@ -2,5 +2,5 @@ group_id,group_name,short_name,color,guild_count,notes
 eden,Eden,Eden,#2E9E5B,14,"Guild names start with ""Eden:""."
 sin,Sin,Sin,#D23B3B,5,"Guild names start with ""Sin:""."
 fu,FU,FU,#2F6FD6,3,"Guild names start with ""FU:""."
-elts,Elements,ELTS,#8A4FD1,14,"Guild names start with ""Element:""."
+elts,Elements,ELTS,#8A4FD1,15,"Guild names start with ""Element:""."
 storm,Storm,Storm,#1F9BB0,1,"Guild names start with ""Storm - ""."

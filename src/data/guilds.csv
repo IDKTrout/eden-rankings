@@ -133,7 +133,7 @@ g044,ChillOut,363,,ChillOut,1,1,,,FALSE
 g152,Vanguard Elite,379,,Vanguard Elite,1,1,,,FALSE
 g135,SilentFootsteps,380,,SilentFootstep / SilentFootsteps,1,1,,,FALSE
 g080,Element: YinYang,386,42,Element: YinYang,1,0,,elts,FALSE
-g094,Golden Empire,387,42,Golden Empire,1,0,,,TRUE
+g094,Golden Empire,387,42,Golden Empire,1,0,,elts,TRUE
 g079,Element: Spirit,388,42,Element: Spirit,1,0,,elts,FALSE
 g111,NIGHTMARE,389,42,NIGHTMARE,1,0,,,FALSE
 g074,Element: Curse,390,42,Element: Curse,1,0,,elts,TRUE

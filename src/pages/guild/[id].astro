@@ -1,0 +1,103 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Rank from '../../components/Rank.astro';
+import {
+  guildIds, guildById, abex, rift, seasonById, seasonLabel, playerById,
+  fmtInt, fmtM, fmtEss, fmtServer,
+} from '../../lib/data';
+
+export function getStaticPaths() {
+  return guildIds.map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params as { id: string };
+const guild = guildById.get(id);
+const order = (sid: string) => seasonById.get(sid)?.order ?? 0;
+
+const abexRows = abex.filter((r) => r.guildId === id).sort((a, b) => order(b.seasonId) - order(a.seasonId));
+const riftRows = rift.filter((r) => r.guildId === id).sort((a, b) => order(b.seasonId) - order(a.seasonId) || a.rank - b.rank);
+
+const spellings = [...new Set([...(guild?.names ?? []), ...abexRows.map((r) => r.guildName), ...riftRows.map((r) => r.guildName)])];
+const name = guild?.name || abexRows[0]?.guildName || riftRows[0]?.guildName || id;
+const otherNames = spellings.filter((n) => n !== name);
+const server = guild?.homeServer ?? abexRows.find((r) => r.server != null)?.server ?? null;
+const bestDamageRank = Math.min(...abexRows.map((r) => r.damageRank ?? Infinity));
+const riftSeasons = [...new Set(riftRows.map((r) => r.seasonId))];
+const isGameId = !/^g\d+$/.test(id);
+
+// Leaders seen, newest first.
+const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.leaderId, r])).values()];
+---
+<Layout title={name} description={`${name}: AbEx results and Temporal Rift players across Eden seasons.`}>
+  <section class="page-head">
+    <span class="eyebrow">Guild</span>
+    <h1>{name}</h1>
+    <div class="chips">
+      {server != null && <span class="chip">Server {fmtServer(server)}</span>}
+      {isGameId && <span class="chip">Guild ID {id}</span>}
+      {leaders.slice(0, 1).map((l) => <a class="chip" href={`/player/${l.leaderId}/`}>Leader {playerById.get(l.leaderId)?.name ?? l.leaderName}</a>)}
+    </div>
+    {otherNames.length > 0 && <p class="muted">Also listed as {otherNames.map((n, i) => <>{i > 0 && ', '}<strong>{n}</strong></>)}.</p>}
+  </section>
+
+  <div class="tiles">
+    <div class="tile"><span class="k">AbEx seasons</span><span class="v">{abexRows.length}</span></div>
+    <div class="tile"><span class="k">Best damage rank</span><span class="v">{Number.isFinite(bestDamageRank) ? `#${bestDamageRank}` : '—'}</span></div>
+    <div class="tile"><span class="k">Rift players ranked</span><span class="v">{riftRows.length}</span><span class="s">across {riftSeasons.length} {riftSeasons.length === 1 ? 'season' : 'seasons'}</span></div>
+    <div class="tile"><span class="k">Best Rift floor</span><span class="v">{riftRows.length ? fmtInt(Math.max(...riftRows.map((r) => r.floor))) : '—'}</span></div>
+  </div>
+
+  <section class="card" id="abex">
+    <h2>AbEx results</h2>
+    {abexRows.length ? (
+      <div class="table-wrap">
+        <table class="rank">
+          <thead><tr><th>Season</th><th class="num">Rank</th><th>Listed as</th><th>Leader</th><th class="num">Damage</th><th class="num">Time</th><th class="num">Essence</th></tr></thead>
+          <tbody>
+            {abexRows.map((r) => {
+              const s = seasonById.get(r.seasonId);
+              return (
+                <tr>
+                  <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
+                  <td class="num"><Rank value={r.damageRank} /></td>
+                  <td>{r.guildName}</td>
+                  <td>{r.leaderId ? <a href={`/player/${r.leaderId}/`}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
+                  <td class="num">{fmtM(r.damage)}</td>
+                  <td class="num">{r.time || '—'}</td>
+                  <td class="num">{r.essence == null ? '—' : `${fmtEss(r.essence)} (#${r.essenceRank})`}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    ) : <p class="empty-note">No AbEx rankings for this guild yet.</p>}
+  </section>
+
+  <section class="card" id="rift">
+    <h2>Temporal Rift players</h2>
+    {riftRows.length ? (
+      <div class="table-wrap">
+        <table class="rank">
+          <thead><tr><th>Season</th><th class="num">Rank</th><th>Player</th><th class="num">Floor</th><th>Server</th></tr></thead>
+          <tbody>
+            {riftRows.map((r) => {
+              const s = seasonById.get(r.seasonId);
+              return (
+                <tr>
+                  <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
+                  <td class="num"><Rank value={r.rank} /></td>
+                  <td><a href={`/player/${r.playerId}/`}>{r.playerName}</a></td>
+                  <td class="num">{fmtInt(r.floor)}</td>
+                  <td>{fmtServer(r.server)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    ) : <p class="empty-note">No players from this guild in a Temporal Rift ranking yet.</p>}
+  </section>
+
+  {guild?.notes && <p class="small muted">{guild.notes}</p>}
+</Layout>

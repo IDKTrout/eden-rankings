@@ -1,0 +1,44 @@
+---
+// Horizontal bars drawn in HTML so labels stay readable at any width.
+interface Bar {
+  label: string;
+  value: number;
+  display: string;
+  href?: string;
+  highlight?: boolean;
+  detail?: string;
+}
+interface Props {
+  bars: Bar[];
+  label: string;
+}
+const { bars, label } = Astro.props;
+const max = Math.max(1, ...bars.map((b) => b.value));
+---
+<ol class="bars" aria-label={label}>
+  {bars.map((b) => (
+    <li class="bar-row" title={b.detail ?? `${b.label}: ${b.display}`}>
+      <span class="bar-label">{b.href ? <a href={b.href}>{b.label}</a> : b.label}</span>
+      <span class="bar-track">
+        <span class:list={['bar-fill', { hi: b.highlight }]} style={`width:${Math.max(0.6, (b.value / max) * 100).toFixed(2)}%`}></span>
+      </span>
+      <span class="bar-value">{b.display}</span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; }
+  .bar-row { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) auto; align-items: center; gap: .6rem; font-size: .86rem; }
+  .bar-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+  .bar-label a { text-decoration: none; }
+  .bar-label a:hover { text-decoration: underline; }
+  .bar-track { height: .9rem; background: var(--raised); border-radius: 3px; overflow: hidden; }
+  .bar-fill { display: block; height: 100%; background: var(--series-1); border-radius: 3px; }
+  .bar-fill.hi { background: var(--series-2); }
+  .bar-value { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .8rem; min-width: 4.5rem; text-align: right; }
+  @media (max-width: 520px) {
+    .bar-row { grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr) auto; }
+    .bar-value { min-width: 0; }
+  }
+</style>

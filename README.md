@@ -25,6 +25,31 @@ Renamed guilds are combined through `guild_names`: every spelling points at one 
 3. Add any new player ID to `players`.
 4. Add a row to `seasons`.
 
-## Status
+Season order on the site follows the row order of the `seasons` tab, so add new seasons at the bottom. A season whose event name contains "Test" is never featured on the home page.
 
-Planning. The site's framework, hosting and domain setup are still to be decided.
+## How the site is built
+
+The site is a static [Astro](https://astro.build) site, hosted on Cloudflare Pages at edenafk.com.
+
+- `scripts/fetch-data.mjs` downloads each tab of the published sheet as CSV into `src/data/`. The publish ID is in `sheet.config.json` (or the `SHEET_PUB_ID` environment variable). If a download fails, the copy already in `src/data/` is used.
+- `src/lib/data.ts` turns those CSVs into seasons, rankings, guilds and players.
+- `src/pages/` holds the pages: home, `/seasons/`, `/season/<season_id>/`, `/guilds/`, `/guild/<guild_id>/`, `/players/`, `/player/<player_id>/` and `/search/`.
+- `apps-script/UpdateWebsite.gs` adds an "Eden website" menu to the sheet that triggers a rebuild through a Cloudflare Pages deploy hook.
+
+## Working on it locally
+
+```bash
+npm install
+npm run data      # download the latest sheet data
+npm run dev       # preview at http://localhost:4321
+npm run build     # download data and build into dist/
+```
+
+## Cloudflare Pages settings
+
+| Setting | Value |
+|---|---|
+| Framework preset | Astro |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Node version | 22 (from `.nvmrc`) |

@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FilterScript from '../components/FilterScript.astro';
+import { guildIds, guildById, abex, rift, players, guildLabel } from '../lib/data';
+
+const guildEntries = guildIds.map((id) => {
+  const g = guildById.get(id);
+  const names = [...new Set([...(g?.names ?? []), ...abex.filter((r) => r.guildId === id).map((r) => r.guildName), ...rift.filter((r) => r.guildId === id).map((r) => r.guildName)])];
+  const name = g?.name || names[0] || id;
+  return { kind: 'Guild', name, others: names.filter((n) => n !== name), href: `/guild/${encodeURIComponent(id)}/`, search: [...names, name, id].join(' ') };
+});
+const playerEntries = players.map((p) => ({
+  kind: 'Player', name: p.name, others: p.names.filter((n) => n !== p.name), href: `/player/${p.id}/`,
+  search: [...p.names, p.id].join(' '), sub: p.guildId ? guildLabel(p.guildId) : '',
+}));
+const entries = [...guildEntries, ...playerEntries].sort((a, b) => a.name.localeCompare(b.name));
+---
+<Layout title="Search" description="Find any guild or player in the Eden rankings by any name they have used.">
+  <section class="page-head">
+    <span class="eyebrow">Search</span>
+    <h1>Find a guild or player</h1>
+    <p class="muted">Matches current names, old names and IDs.</p>
+  </section>
+  <div class="card">
+    <label class="small muted" for="filter">Results (<span id="filter-count">{entries.length}</span>)</label>
+    <input id="filter" class="filter" type="search" placeholder="Type a name or ID" autocomplete="off" autofocus />
+    <ul class="results">
+      {entries.map((e) => (
+        <li data-search={e.search}>
+          <a href={e.href}>{e.name}</a>
+          <span class="chip">{e.kind}</span>
+          {'sub' in e && e.sub && <span class="muted small">{e.sub}</span>}
+          {e.others.length > 0 && <span class="muted small">also {e.others.join(', ')}</span>}
+        </li>
+      ))}
+    </ul>
+    <p id="filter-empty" class="empty-note" hidden>Nothing matches that search.</p>
+  </div>
+  <FilterScript />
+</Layout>
+
+<style>
+  .results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .results li { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; padding: .55rem 0; border-bottom: 1px solid var(--line); min-width: 0; }
+  .results li:last-child { border-bottom: 0; }
+  .results a { font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
+  .results a:hover { text-decoration: underline; }
+  .results .chip { font-size: .72rem; padding: .05rem .5rem; }
+</style>

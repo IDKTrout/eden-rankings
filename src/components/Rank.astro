@@ -1,0 +1,6 @@
+---
+interface Props { value: number | null | undefined }
+const { value } = Astro.props;
+const medal = value != null && value >= 1 && value < 4 ? `medal m${value}` : '';
+---
+{value == null ? <span class="muted">—</span> : medal ? <span class={medal}>{value}</span> : <span>{value}</span>}

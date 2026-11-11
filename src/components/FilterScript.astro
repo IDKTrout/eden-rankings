@@ -1,0 +1,27 @@
+---
+// Filters rows marked [data-search] as the visitor types into #filter. Also reads ?q= from the address.
+---
+<script>
+  const input = document.getElementById('filter') as HTMLInputElement | null;
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-search]'));
+  const count = document.getElementById('filter-count');
+  const empty = document.getElementById('filter-empty');
+  const norm = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '');
+  function apply() {
+    const q = norm(input?.value.trim() ?? '');
+    let shown = 0;
+    for (const r of rows) {
+      const hit = !q || norm(r.dataset.search ?? '').includes(q);
+      r.hidden = !hit;
+      if (hit) shown++;
+    }
+    if (count) count.textContent = q ? `${shown} of ${rows.length}` : `${rows.length}`;
+    if (empty) empty.hidden = shown > 0;
+  }
+  if (input) {
+    const q = new URLSearchParams(location.search).get('q');
+    if (q) input.value = q;
+    input.addEventListener('input', apply);
+    apply();
+  }
+</script>

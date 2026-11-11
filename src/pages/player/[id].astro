@@ -1,0 +1,87 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Rank from '../../components/Rank.astro';
+import { players, playerById, seasonById, seasonLabel, guildLabel, fmtInt, fmtM, fmtServer } from '../../lib/data';
+
+export function getStaticPaths() {
+  return players.map((p) => ({ params: { id: p.id } }));
+}
+
+const { id } = Astro.params as { id: string };
+const p = playerById.get(id)!;
+const otherNames = p.names.filter((n) => n !== p.name);
+const riftNewest = [...p.rift].reverse();
+const ledNewest = [...p.led].reverse();
+const best = p.rift.length ? Math.max(...p.rift.map((r) => r.floor)) : null;
+const bestRank = p.rift.length ? Math.min(...p.rift.map((r) => r.rank)) : null;
+const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.server ?? null;
+---
+<Layout title={p.name} description={`${p.name}: Temporal Rift floors and guilds across Eden seasons.`}>
+  <section class="page-head">
+    <span class="eyebrow">Player</span>
+    <h1>{p.name}</h1>
+    <div class="chips">
+      <span class="chip">Player ID {p.id}</span>
+      {server != null && <span class="chip">Server {fmtServer(server)}</span>}
+      {p.guildId && <a class="chip" href={`/guild/${encodeURIComponent(p.guildId)}/`}>Guild {guildLabel(p.guildId)}</a>}
+    </div>
+    {otherNames.length > 0 && <p class="muted">Also known as {otherNames.map((n, i) => <>{i > 0 && ', '}<strong>{n}</strong></>)}.</p>}
+  </section>
+
+  <div class="tiles">
+    <div class="tile"><span class="k">Best Rift floor</span><span class="v">{best == null ? '—' : fmtInt(best)}</span></div>
+    <div class="tile"><span class="k">Best Rift rank</span><span class="v">{bestRank == null ? '—' : `#${bestRank}`}</span></div>
+    <div class="tile"><span class="k">Rift seasons</span><span class="v">{p.rift.length}</span></div>
+    <div class="tile"><span class="k">AbEx seasons as leader</span><span class="v">{p.led.length}</span></div>
+  </div>
+
+  {riftNewest.length > 0 && (
+    <section class="card" id="rift">
+      <h2>Temporal Rift</h2>
+      <div class="table-wrap">
+        <table class="rank">
+          <thead><tr><th>Season</th><th class="num">Rank</th><th class="num">Floor</th><th>Name</th><th>Guild</th></tr></thead>
+          <tbody>
+            {riftNewest.map((r) => {
+              const s = seasonById.get(r.seasonId);
+              return (
+                <tr>
+                  <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
+                  <td class="num"><Rank value={r.rank} /></td>
+                  <td class="num">{fmtInt(r.floor)}</td>
+                  <td>{r.playerName}</td>
+                  <td>{r.guildId ? <a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{guildLabel(r.guildId, r.guildName)}</a> : r.guildName || '—'}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
+  {ledNewest.length > 0 && (
+    <section class="card" id="led">
+      <h2>Guilds led in AbEx</h2>
+      <div class="table-wrap">
+        <table class="rank">
+          <thead><tr><th>Season</th><th>Guild</th><th class="num">Damage rank</th><th class="num">Damage</th><th class="num">Time</th></tr></thead>
+          <tbody>
+            {ledNewest.map((r) => {
+              const s = seasonById.get(r.seasonId);
+              return (
+                <tr>
+                  <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
+                  <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{r.guildName}</a></td>
+                  <td class="num"><Rank value={r.damageRank} /></td>
+                  <td class="num">{fmtM(r.damage)}</td>
+                  <td class="num">{r.time || '—'}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+</Layout>

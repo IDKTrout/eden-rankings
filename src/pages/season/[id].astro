@@ -1,0 +1,198 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BarList from '../../components/BarList.astro';
+import Scatter from '../../components/Scatter.astro';
+import Rank from '../../components/Rank.astro';
+import {
+  seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
+  fmtInt, fmtM, fmtEss, fmtServer, type Season,
+} from '../../lib/data';
+
+export function getStaticPaths() {
+  return seasons.map((s) => ({ params: { id: s.id }, props: { season: s } }));
+}
+
+const { season } = Astro.props as { season: Season };
+const label = seasonLabel(season);
+const siblings = seasonsOf(season.kind);
+
+const abexRows = season.kind === 'abex' ? abexFor(season.id) : [];
+const aSum = season.kind === 'abex' ? abexSummary(season.id) : null;
+const ranked = abexRows.filter((r) => r.damageRank != null && r.damage != null);
+const top20 = ranked.slice(0, 20);
+const timed = ranked.filter((r) => r.seconds != null);
+const withEssence = abexRows.filter((r) => r.damage != null && r.essence != null);
+const capped = !!aSum && aSum.capped > 1;
+
+const riftRows = season.kind === 'rift' ? riftFor(season.id) : [];
+const rSum = season.kind === 'rift' ? riftSummary(season.id) : null;
+
+const guildHref = (id: string) => (id ? `/guild/${encodeURIComponent(id)}/` : undefined);
+const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : undefined);
+const hours = (s: number) => `${Math.round(s / 3600)}h`;
+---
+<Layout title={label} description={season.title}>
+  <section class="page-head">
+    <span class="eyebrow">{season.kind === 'abex' ? 'AbEx · guild damage' : 'Temporal Rift · player floors'}</span>
+    <h1>{label}</h1>
+    {siblings.length > 1 && (
+      <nav class="chips" aria-label="Other seasons">
+        {siblings.map((s) => (
+          <a class="chip" href={`/season/${s.id}/`} aria-current={s.id === season.id ? 'page' : undefined}>{seasonLabel(s)}</a>
+        ))}
+      </nav>
+    )}
+  </section>
+
+  {aSum && (
+    <>
+      {capped ? (
+        <p class="lede"><strong>{aSum.capped} guilds</strong> dealt the season's top damage of <strong>{fmtM(aSum.top)}</strong>, and <a href={guildHref(aSum.fastest.guildId)}><strong>{aSum.fastest.guildName}</strong></a> got there fastest, in <strong>{aSum.fastest.time}</strong>.</p>
+      ) : (
+        <p class="lede"><a href={guildHref(aSum.leader.guildId)}><strong>{aSum.leader.guildName}</strong></a> led with <strong>{fmtM(aSum.top)}</strong>{aSum.second && <>, ahead of <a href={guildHref(aSum.second.guildId)}>{aSum.second.guildName}</a> at <strong>{fmtM(aSum.second.damage)}</strong></>}.</p>
+      )}
+
+      <div class="tiles">
+        <div class="tile"><span class="k">Guilds ranked</span><span class="v">{fmtInt(aSum.guilds)}</span><span class="s">by damage</span></div>
+        <div class="tile"><span class="k">Top damage</span><span class="v">{fmtInt(aSum.top)}</span><span class="s">millions</span></div>
+        <div class="tile"><span class="k">Median damage</span><span class="v">{fmtInt(Math.round(aSum.median))}</span><span class="s">millions, across ranked guilds</span></div>
+        <div class="tile"><span class="k">Reached the top damage</span><span class="v">{fmtInt(aSum.capped)}</span><span class="s">{aSum.capped === 1 ? 'guild' : 'guilds'}</span></div>
+      </div>
+
+      <div class="grid-2">
+        <section class="card" id="top-damage">
+          <h2>Top 20 by damage</h2>
+          <p class="note">Damage in millions.{capped && ' Gold bars reached the season\'s top damage.'}</p>
+          <BarList
+            label={`Top 20 guilds by damage in ${label}`}
+            bars={top20.map((r) => ({
+              label: r.guildName, value: r.damage as number, display: fmtInt(r.damage),
+              href: guildHref(r.guildId), highlight: capped && r.damage === aSum.top,
+              detail: `#${r.damageRank} ${r.guildName}: ${fmtM(r.damage)} in ${r.time || '—'}`,
+            }))}
+          />
+        </section>
+        {timed.length > 1 && (
+          <section class="card" id="damage-time">
+            <h2>Damage against time taken</h2>
+            <p class="note">Each dot is a guild. Across: hours the run took. Up: damage in millions. Select a dot to open the guild.</p>
+            <Scatter
+              label={`Damage against time taken for ${timed.length} guilds in ${label}`}
+              points={timed.map((r) => ({
+                x: (r.seconds as number) / 3600, y: r.damage as number,
+                label: `#${r.damageRank} ${r.guildName}: ${fmtM(r.damage)} in ${r.time}`,
+                highlight: capped && r.damage === aSum.top, href: guildHref(r.guildId),
+              }))}
+              xTicks={(v) => `${v}h`}
+              yTicks={(v) => (v >= 1e6 ? `${(v / 1e6).toLocaleString('en-US')}T` : `${(v / 1e3).toLocaleString('en-US')}B`)}
+            />
+            <p class="note">On the up axis, 1T is 1,000,000M and 500B is 500,000M.</p>
+          </section>
+        )}
+        {withEssence.length > 1 && (
+          <section class="card" id="damage-essence">
+            <h2>Damage and essence</h2>
+            <p class="note">Guilds in both the damage and essence rankings. Across: damage. Up: essence in millions.</p>
+            <Scatter
+              label={`Essence against damage for ${withEssence.length} guilds in ${label}`}
+              points={withEssence.map((r) => ({
+                x: r.damage as number, y: r.essence as number,
+                label: `${r.guildName}: damage ${fmtM(r.damage)}, essence ${fmtEss(r.essence)}`,
+                href: guildHref(r.guildId),
+              }))}
+              xTicks={(v) => (v >= 1e6 ? `${(v / 1e6).toLocaleString('en-US')}T` : `${(v / 1e3).toLocaleString('en-US')}B`)}
+              yTicks={(v) => `${v}M`}
+            />
+          </section>
+        )}
+      </div>
+
+      <section class="card" id="ranking">
+        <h2>Full ranking</h2>
+        <div class="table-wrap tall">
+          <table class="rank">
+            <thead>
+              <tr>
+                <th class="num">Rank</th><th>Guild</th><th>Leader</th><th>Server</th>
+                <th class="num">Damage (M)</th><th class="num">Time</th>
+                {aSum.hasEssence && <><th class="num">Essence rank</th><th class="num">Essence (M)</th></>}
+              </tr>
+            </thead>
+            <tbody>
+              {abexRows.map((r) => (
+                <tr>
+                  <td class="num"><Rank value={r.damageRank} /></td>
+                  <td><a href={guildHref(r.guildId)}>{r.guildName}</a></td>
+                  <td>{r.leaderId ? <a href={playerHref(r.leaderId)}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
+                  <td>{fmtServer(r.server)}</td>
+                  <td class="num">{fmtInt(r.damage)}</td>
+                  <td class="num">{r.time || '—'}</td>
+                  {aSum.hasEssence && <><td class="num">{r.essenceRank ?? '—'}</td><td class="num">{r.essence == null ? '—' : fmtEss(r.essence).replace('M', '')}</td></>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  )}
+
+  {rSum && (
+    <>
+      <p class="lede"><a href={playerHref(rSum.top.playerId)}><strong>{rSum.top.playerName}</strong></a> reached floor <strong>{fmtInt(rSum.top.floor)}</strong>, and floor <strong>{fmtInt(rSum.cutoff)}</strong> was enough for {rSum.players === 100 ? '100th' : `#${rSum.players}`} place.</p>
+
+      <div class="tiles">
+        <div class="tile"><span class="k">Highest floor</span><span class="v">{fmtInt(rSum.top.floor)}</span><span class="s">{rSum.top.playerName}</span></div>
+        <div class="tile"><span class="k">Floor for last place</span><span class="v">{fmtInt(rSum.cutoff)}</span><span class="s">rank {rSum.players}</span></div>
+        <div class="tile"><span class="k">Guilds represented</span><span class="v">{fmtInt(rSum.guilds.length)}</span><span class="s">with a player in the ranking</span></div>
+        {rSum.guilds[0] && <div class="tile"><span class="k">Most players</span><span class="v">{rSum.guilds[0].players}</span><span class="s">{rSum.guilds[0].name}</span></div>}
+      </div>
+
+      <div class="grid-2">
+        <section class="card" id="floors">
+          <h2>Floor reached by rank</h2>
+          <p class="note">Each dot is a player. Across: rank. Up: highest floor. Select a dot to open the player.</p>
+          <Scatter
+            label={`Highest floor by rank for ${riftRows.length} players in ${label}`}
+            line
+            points={riftRows.map((r) => ({ x: r.rank, y: r.floor, label: `#${r.rank} ${r.playerName}: floor ${r.floor}`, href: playerHref(r.playerId) }))}
+            xTicks={(v) => (v < 1 ? '' : `#${v}`)}
+          />
+        </section>
+        <section class="card" id="guild-counts">
+          <h2>Guilds with the most players</h2>
+          <p class="note">Players in this ranking from each guild, top 15.</p>
+          <BarList
+            label={`Guilds with the most players in ${label}`}
+            bars={rSum.guilds.slice(0, 15).map((g) => ({
+              label: g.name, value: g.players, display: String(g.players), href: guildHref(g.guildId),
+              detail: `${g.name}: ${g.players} players, best floor ${g.best}`,
+            }))}
+          />
+        </section>
+      </div>
+
+      <section class="card" id="ranking">
+        <h2>Full ranking</h2>
+        <div class="table-wrap tall">
+          <table class="rank">
+            <thead><tr><th class="num">Rank</th><th>Player</th><th class="num">Floor</th><th>Server</th><th>Guild</th></tr></thead>
+            <tbody>
+              {riftRows.map((r) => (
+                <tr>
+                  <td class="num"><Rank value={r.rank} /></td>
+                  <td><a href={playerHref(r.playerId)}>{r.playerName}</a></td>
+                  <td class="num">{fmtInt(r.floor)}</td>
+                  <td>{fmtServer(r.server)}</td>
+                  <td>{r.guildId ? <a href={guildHref(r.guildId)}>{guildLabel(r.guildId, r.guildName)}</a> : r.guildName || '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  )}
+
+  <p class="small muted">Source: {season.title}{season.compiledBy && `, compiled by ${season.compiledBy}`}.{season.notes && ` ${season.notes}`}</p>
+</Layout>

@@ -1,0 +1,175 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = 'AbEx guild damage and Temporal Rift floors for Eden, season by season.' } = Astro.props;
+const fullTitle = title ? `${title} · Eden Rankings` : 'Eden Rankings';
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/seasons/', label: 'Seasons', match: ['/seasons', '/season/'] },
+  { href: '/guilds/', label: 'Guilds', match: ['/guilds', '/guild/'] },
+  { href: '/players/', label: 'Players', match: ['/players', '/player/'] },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-head">
+      <div class="wrap head-row">
+        <a class="brand" href="/">
+          <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 2 28 9v14L16 30 4 23V9z" fill="var(--accent)" /><path d="M16 8l6 3.5v9L16 24l-6-3.5v-9z" fill="var(--surface)" /><path d="M16 12.5l2.5 1.5v4L16 19.5 13.5 18v-4z" fill="var(--accent)" /></svg>
+          <span>Eden Rankings</span>
+        </a>
+        <nav aria-label="Main">
+          {nav.map((n) => (
+            <a href={n.href} aria-current={n.match.some((m) => path.startsWith(m)) ? 'page' : undefined}>{n.label}</a>
+          ))}
+          <a class="nav-search" href="/search/" aria-current={path.startsWith('/search') ? 'page' : undefined} aria-label="Search">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2" /><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          </a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-foot">
+      <div class="wrap">
+        <p>Rankings compiled by Tunarda and transcribed from the in-game boards. Guilds that changed their name are combined under one guild ID; players are matched by player ID.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #f2f4f8;
+    --surface: #ffffff;
+    --raised: #f7f8fb;
+    --ink: #151b2c;
+    --muted: #5b6579;
+    --line: #dce1ea;
+    --accent: #b4801a;
+    --accent-ink: #855a06;
+    --series-1: #3157c8;
+    --series-2: #c08a1c;
+    --gold: #c9961e;
+    --silver: #8b96a8;
+    --bronze: #a9653a;
+    --good: #23824f;
+    --font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --radius: 10px;
+    --gap: 1.25rem;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1220;
+      --surface: #151c2f;
+      --raised: #1a2238;
+      --ink: #e7ebf4;
+      --muted: #9aa4ba;
+      --line: #27314a;
+      --accent: #e0b04a;
+      --accent-ink: #f0c869;
+      --series-1: #7d9cff;
+      --series-2: #e0b04a;
+      --gold: #e3b543;
+      --silver: #a9b4c6;
+      --bronze: #cf8a5c;
+      --good: #4cc286;
+      color-scheme: dark;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 var(--font-body); }
+  a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 3px; }
+  a:hover { color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  h1, h2, h3 { line-height: 1.2; text-wrap: balance; margin: 0; }
+  h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: .01em; }
+  h2 { font-size: 1.15rem; font-weight: 600; }
+  p { margin: 0; }
+  .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+  .skip { position: absolute; left: -999px; }
+  .skip:focus { left: 16px; top: 8px; background: var(--surface); padding: 6px 10px; z-index: 10; }
+
+  .site-head { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+  .head-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .7rem; }
+  .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: .03em; }
+  .site-head nav { display: flex; align-items: center; gap: .25rem; }
+  .site-head nav a { text-decoration: none; color: var(--muted); padding: .4rem .65rem; border-radius: 6px; font-weight: 500; }
+  .site-head nav a:hover { color: var(--ink); background: var(--raised); }
+  .site-head nav a[aria-current='page'] { color: var(--ink); background: var(--raised); }
+  .nav-search { display: inline-flex; }
+  @media (max-width: 520px) {
+    .brand span { display: none; }
+    .site-head nav a { padding: .4rem .5rem; }
+  }
+
+  main.wrap { padding-block: 2rem 3rem; display: flex; flex-direction: column; gap: 2rem; }
+  .site-foot { border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
+  .site-foot .wrap { padding-block: 1.5rem 2rem; max-width: 1120px; }
+  .site-foot p { max-width: 70ch; }
+
+  /* Shared building blocks */
+  .eyebrow { font-size: .75rem; text-transform: uppercase; letter-spacing: .09em; color: var(--accent-ink); font-weight: 600; }
+  .page-head { display: flex; flex-direction: column; gap: .5rem; }
+  .lede { font-size: 1.15rem; max-width: 62ch; color: var(--ink); }
+  .lede strong { font-weight: 600; }
+  .muted { color: var(--muted); }
+  .small { font-size: .85rem; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .85rem; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+  .tile .k { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+  .tile .v { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .tile .s { font-size: .82rem; color: var(--muted); overflow-wrap: anywhere; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: var(--gap); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.15rem 1.25rem; display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
+  .card > p.note { font-size: .82rem; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .chip { display: inline-flex; align-items: center; gap: .35rem; background: var(--raised); border: 1px solid var(--line); border-radius: 999px; padding: .15rem .6rem; font-size: .82rem; }
+
+  .table-wrap { overflow-x: auto; }
+  .table-wrap.tall { max-height: 640px; overflow-y: auto; }
+  table.rank { border-collapse: collapse; width: 100%; font-size: .88rem; font-variant-numeric: tabular-nums; }
+  table.rank th { position: sticky; top: 0; background: var(--surface); text-align: left; font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: .55rem .6rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  table.rank td { padding: .5rem .6rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  table.rank tr:last-child td { border-bottom: 0; }
+  table.rank .num { text-align: right; }
+  table.rank tbody tr:hover { background: var(--raised); }
+  table.rank a { text-decoration: none; }
+  table.rank a:hover { text-decoration: underline; }
+
+  .medal { display: inline-grid; place-items: center; min-width: 1.7rem; height: 1.7rem; padding: 0 .3rem; border-radius: 999px; font-weight: 600; font-size: .8rem; }
+  .medal.m1 { background: var(--gold); color: #1d1503; }
+  .medal.m2 { background: var(--silver); color: #10151f; }
+  .medal.m3 { background: var(--bronze); color: #1f0f05; }
+
+  .filter { width: 100%; max-width: 420px; padding: .6rem .8rem; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  .filter::placeholder { color: var(--muted); }
+  .empty-note { color: var(--muted); padding: .75rem 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bar-fill { animation: grow .6s ease-out both; transform-origin: left; }
+    @keyframes grow { from { transform: scaleX(0); } }
+  }
+</style>

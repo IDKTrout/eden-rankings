@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { seasons, seasonLabel, abexSummary, riftSummary, fmtM, fmtInt } from '../lib/data';
+
+const list = [...seasons].reverse().map((s) => {
+  if (s.kind === 'abex') {
+    const a = abexSummary(s.id);
+    return { s, leader: a?.leader.guildName ?? '—', stat: a ? fmtM(a.top) : '—', count: a ? `${a.guilds} guilds` : '' };
+  }
+  const r = riftSummary(s.id);
+  return { s, leader: r?.top.playerName ?? '—', stat: r ? `Floor ${fmtInt(r.top.floor)}` : '—', count: r ? `${r.players} players` : '' };
+});
+---
+<Layout title="Seasons" description="Every AbEx and Temporal Rift ranking season on Eden Rankings.">
+  <section class="page-head">
+    <span class="eyebrow">Archive</span>
+    <h1>Seasons</h1>
+    <p class="muted">Newest first.</p>
+  </section>
+  <div class="season-grid">
+    {list.map(({ s, leader, stat, count }) => (
+      <a class="card season-card" href={`/season/${s.id}/`}>
+        <span class="eyebrow">{s.kind === 'abex' ? 'AbEx · guilds' : 'Temporal Rift · players'}</span>
+        <h2>{seasonLabel(s)}</h2>
+        <p><span class="muted">Leader</span> <strong>{leader}</strong></p>
+        <p class="stat">{stat}</p>
+        <p class="muted small">{count}</p>
+      </a>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .season-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: var(--gap); }
+  .season-card { text-decoration: none; gap: .35rem; transition: border-color .15s; }
+  .season-card:hover { border-color: var(--accent); color: inherit; }
+  .season-card h2 { font-family: var(--font-display); font-size: 1.35rem; }
+  .stat { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+</style>

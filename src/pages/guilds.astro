@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FilterScript from '../components/FilterScript.astro';
+import { guildIds, guildById, abex, rift, seasonById, fmtServer, fmtInt } from '../lib/data';
+
+const order = (sid: string) => seasonById.get(sid)?.order ?? 0;
+const list = guildIds.map((id) => {
+  const g = guildById.get(id);
+  const a = abex.filter((r) => r.guildId === id);
+  const rr = rift.filter((r) => r.guildId === id);
+  const latest = [...a].sort((x, y) => order(y.seasonId) - order(x.seasonId))[0];
+  const names = [...new Set([...(g?.names ?? []), ...a.map((r) => r.guildName), ...rr.map((r) => r.guildName)])];
+  const best = Math.min(...a.map((r) => r.damageRank ?? Infinity));
+  return {
+    id,
+    name: g?.name || latest?.guildName || rr[0]?.guildName || id,
+    names,
+    server: g?.homeServer ?? latest?.server ?? null,
+    best: Number.isFinite(best) ? best : null,
+    riftPlayers: rr.length,
+    bestFloor: rr.length ? Math.max(...rr.map((r) => r.floor)) : null,
+  };
+}).sort((a, b) => (a.best ?? 1e9) - (b.best ?? 1e9) || b.riftPlayers - a.riftPlayers || a.name.localeCompare(b.name));
+---
+<Layout title="Guilds" description="Every guild in the Eden rankings, with its best AbEx rank and Temporal Rift players.">
+  <section class="page-head">
+    <span class="eyebrow">Directory</span>
+    <h1>Guilds</h1>
+    <p class="muted">Every guild seen in a ranking, sorted by best AbEx damage rank. Search finds old names too.</p>
+  </section>
+  <div class="card">
+    <label class="small muted" for="filter">Search guilds (<span id="filter-count">{list.length}</span>)</label>
+    <input id="filter" class="filter" type="search" placeholder="Guild name, old name or server" autocomplete="off" />
+    <div class="table-wrap">
+      <table class="rank">
+        <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
+        <tbody>
+          {list.map((g) => (
+            <tr data-search={[...g.names, g.name, g.server != null ? `s${g.server}` : '', g.id].join(' ')}>
+              <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a>{g.names.length > 1 && <span class="muted small"> · {g.names.length} names</span>}</td>
+              <td>{fmtServer(g.server)}</td>
+              <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>
+              <td class="num">{g.riftPlayers || '—'}</td>
+              <td class="num">{g.bestFloor == null ? '—' : fmtInt(g.bestFloor)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p id="filter-empty" class="empty-note" hidden>No guild matches that search.</p>
+  </div>
+  <FilterScript />
+</Layout>

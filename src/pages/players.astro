@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FilterScript from '../components/FilterScript.astro';
+import { players, guildLabel, fmtInt } from '../lib/data';
+
+const list = players.map((p) => ({
+  ...p,
+  best: p.rift.length ? Math.max(...p.rift.map((r) => r.floor)) : null,
+  bestRank: p.rift.length ? Math.min(...p.rift.map((r) => r.rank)) : null,
+})).sort((a, b) => (b.best ?? -1) - (a.best ?? -1) || a.name.localeCompare(b.name));
+---
+<Layout title="Players" description="Every player in the Eden rankings, with their best Temporal Rift floor and guild.">
+  <section class="page-head">
+    <span class="eyebrow">Directory</span>
+    <h1>Players</h1>
+    <p class="muted">Temporal Rift players and AbEx guild leaders, matched by player ID so name changes stay together. Sorted by best Rift floor.</p>
+  </section>
+  <div class="card">
+    <label class="small muted" for="filter">Search players (<span id="filter-count">{list.length}</span>)</label>
+    <input id="filter" class="filter" type="search" placeholder="Name, old name, player ID or guild" autocomplete="off" />
+    <div class="table-wrap">
+      <table class="rank">
+        <thead><tr><th>Player</th><th>Guild</th><th class="num">Best floor</th><th class="num">Best Rift rank</th><th class="num">Player ID</th></tr></thead>
+        <tbody>
+          {list.map((p) => (
+            <tr data-search={[...p.names, p.id, guildLabel(p.guildId)].join(' ')}>
+              <td><a href={`/player/${p.id}/`}>{p.name}</a>{p.names.length > 1 && <span class="muted small"> · {p.names.length} names</span>}</td>
+              <td>{p.guildId ? <a href={`/guild/${encodeURIComponent(p.guildId)}/`}>{guildLabel(p.guildId)}</a> : '—'}</td>
+              <td class="num">{p.best == null ? '—' : fmtInt(p.best)}</td>
+              <td class="num">{p.bestRank == null ? '—' : `#${p.bestRank}`}</td>
+              <td class="num muted">{p.id}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p id="filter-empty" class="empty-note" hidden>No player matches that search.</p>
+  </div>
+  <FilterScript />
+</Layout>

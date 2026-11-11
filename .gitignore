@@ -1,17 +1,20 @@
 # Apps Script files for the Eden Guild Alliance sheet are kept out of this repo
-*.gs
+EdenTools.gs
+ExpeditionInfo.gs
 
 # Dependencies and build output
 node_modules/
 dist/
 build/
-.next/
 .astro/
 
 # Environment and secrets
 .env
 .env.*
 !.env.example
+
+# Local tool settings
+.claude/
 
 # OS and editor files
 .DS_Store

@@ -34,7 +34,8 @@ The site is a static [Astro](https://astro.build) site, hosted on Cloudflare Pag
 - `scripts/fetch-data.mjs` downloads each tab of the published sheet as CSV into `src/data/`. The publish ID is in `sheet.config.json` (or the `SHEET_PUB_ID` environment variable). If a download fails, the copy already in `src/data/` is used.
 - `src/lib/data.ts` turns those CSVs into seasons, rankings, guilds and players.
 - `src/pages/` holds the pages: home, `/seasons/`, `/season/<season_id>/`, `/guilds/`, `/guild/<guild_id>/`, `/players/`, `/player/<player_id>/` and `/search/`.
-- `apps-script/UpdateWebsite.gs` adds an "Eden website" menu to the sheet that triggers a rebuild through a Cloudflare Pages deploy hook.
+- `.github/workflows/refresh-data.yml` downloads the sheet every 3 hours and commits any change to `src/data/`, which makes Cloudflare rebuild the site. To update right away, open the repository's **Actions** tab, pick **Refresh sheet data** and press **Run workflow**.
+- `apps-script/UpdateWebsite.gs` is an optional "Eden website" menu for the sheet. It needs a Cloudflare deploy hook URL, so it's only useful if the Cloudflare project offers one.
 
 ## Working on it locally
 
@@ -45,7 +46,9 @@ npm run dev       # preview at http://localhost:4321
 npm run build     # download data and build into dist/
 ```
 
-## Cloudflare Pages settings
+## Cloudflare settings
+
+The site is deployed by Cloudflare Workers Builds from the `main` branch (project `eden-rankings`).
 
 | Setting | Value |
 |---|---|

@@ -4,13 +4,13 @@ abex-s4,2,RoadtoHeaven,Berkiel,233323,10,"3,840,000",152:39:17,"549,557",2,189.6
 abex-s4,3,Sin: Pride,SpookyCat,6545046,287,"3,840,000",166:20:46,"598,846",3,188.42,g138,Sin: Pride
 abex-s4,4,<NO M≡RCY>,Tunarda,44843,1,"3,840,000",174:31:19,"628,279",14,150.21,g007,<NO M≡RCY>
 abex-s4,5,FATE | Banshee,Kennison,3643459,171,"3,840,000",177:47:57,"640,077",5,169.83,g086,FATE
-abex-s4,6,Knights of RHOK,RHOK,4819780,214,"3,840,000",182:28:49,"656,929",4,171.16,g103,Knights of RHOK.
+abex-s4,6,Knights of RHOK,RHOK,4819780,214,"3,840,000",182:28:49,"656,929",4,171.16,127295,Knights of RHOK.
 abex-s4,7,Re:,OXIR_,589063,44,"3,840,000",187:33:52,"675,232",8,164.11,g123,Re:
 abex-s4,8,Fʀeeedom:NewDawn,〖ARRØW〗,938806,252,"3,840,000",212:56:39,"766,599",10,159.80,g089,Fʀeeedom:NewDawn
 abex-s4,9,FU: Maid Café,Astra,1363900,77,"3,840,000",213:15:20,"767,720",6,166.93,51888,FU: Maid Café
 abex-s4,10,Blackbird,Nικα,5936555,67,"3,840,000",215:20:29,"775,229",12,155.73,g034,Blackbird
-abex-s4,11,FU: Fates Hand,iperx,1695638,91,"3,840,000",217:27:19,"782,839",26,138.99,g087,FU: Fates Hand
-abex-s4,12,30Days,ChilliTimber,2019004,97,"3,840,000",221:56:17,"798,977",25,140.38,g016,30Days
+abex-s4,11,FU: Fates Hand,iperx,1695638,91,"3,840,000",217:27:19,"782,839",26,138.99,61928,FU: Fates Hand
+abex-s4,12,30Days,ChilliTimber,2019004,97,"3,840,000",221:56:17,"798,977",25,140.38,65749,30Days
 abex-s4,13,✧ AWAKEN ✧,[AMA] Tsiferki,309308,13,"3,840,000",224:19:33,"807,573",11,158.14,g010,✧ AWAKEN ✧
 abex-s4,14,Sin: Greed,Han Islat,7378117,307,"3,840,000",231:58:50,"835,130",9,164.09,g137,Sin: Greed
 abex-s4,15,Eden: Aurelion,Malignant.,4502765,210,"3,840,000",244:37:29,"880,649",24,141.81,107859,Eden: Aurelion
@@ -18,7 +18,7 @@ abex-s4,16,Aeternum,SaiLus,498601,33,"3,840,000",246:32:54,"887,574",22,142.56,g
 abex-s4,17,Astra,Lestro,72113,4,"3,682,722",262:35:49,"945,349",58,101.77,g027,Astra
 abex-s4,18,AdySSS,BackToDreams,6832205,292,"3,432,820",263:57:49,"950,269",7,165.06,g017,AdySSS
 abex-s4,19,Element: Chaos,qqs4ne,7168501,304,"3,344,623",260:41:18,"938,478",20,143.10,g072,Element: Chaos
-abex-s4,20,Regalia,Ronzzz,3984850,190,"3,266,224",263:52:12,"949,932",13,152.81,g124,Regalia
+abex-s4,20,Regalia,Ronzzz,3984850,190,"3,266,224",263:52:12,"949,932",13,152.81,100371,Regalia
 abex-s4,21,STAR⭐,Nước pha trà,7546151,320,"3,125,463",262:36:53,"945,413",18,145.54,g143,STAR⭐
 abex-s4,22,Eden: Drakonis,Sorin,4299449,204,"2,764,599",262:20:12,"944,412",15,149.98,105738,Eden: Drakonis
 abex-s4,23,Eden: Moon Sword,25-й Баам,1125292,71,"2,732,763",260:34:18,"938,058",44,116.60,49391,Eden: Moon Sword
@@ -27,7 +27,7 @@ abex-s4,25,S.T.A.R.S.,Mirana,6116690,263,"2,574,702",261:48:31,"942,511",29,134.
 abex-s4,26,Element: Fire 🔥,Onimaru,7103294,301,"2,456,469",261:09:22,"940,162",21,142.76,g076,Element: Fire 🔥
 abex-s4,27,Virtus,Brit,7792831,332,"2,455,942",263:21:44,"948,104",16,147.68,g154,Virtus
 abex-s4,28,ANIMOSITY,Ice Cat,430516,18,"2,451,769",258:19:10,"929,950",36,123.57,g025,ANIMOSITY
-abex-s4,29,FU: Valhalla Inn,VALKYRIEQWN,2483716,121,"2,359,225",263:44:24,"949,464",41,118.13,g091,FU: Valhalla Inn
+abex-s4,29,FU: Valhalla Inn,VALKYRIEQWN,2483716,121,"2,359,225",263:44:24,"949,464",41,118.13,74875,FU: Valhalla Inn
 abex-s4,30,Meta Achievers,Trivial Dum Cat,408524,15,"2,354,802",260:23:20,"937,400",39,122.25,g106,Meta Achievers
 abex-s4,31,Element: Eclipse,FOUR,8170609,350,"2,347,421",262:32:41,"945,161",19,145.28,g075,Element: Eclipse
 abex-s4,32,Sin: Wollust,chikaro,6307177,271,"2,330,108",260:14:52,"936,892",54,109.50,g139,Sin: Wollust
@@ -122,9 +122,9 @@ abex-test-s4,2,Eden:Road2Heaven,,,10,"6,032,892",263:06:14,"947,174",,,32398,Ede
 abex-test-s4,3,SUPERNOVA,,,7,"5,854,568",260:16:50,"937,010",,,g146,SUPERNOVA
 abex-test-s4,4,FATE,,,171,"5,163,781",261:49:56,"942,596",,,g086,FATE
 abex-test-s4,5,Maid ♡ Cafe,,,77,"4,969,767",261:03:04,"939,784",,,51888,FU: Maid Café
-abex-test-s4,6,Knights of RHOK.,,,214,"4,887,163",259:30:44,"934,244",,,g103,Knights of RHOK.
-abex-test-s4,7,30Days,,,97,"4,870,604",263:09:35,"947,375",,,g016,30Days
-abex-test-s4,8,Fates Hand,,,91,"4,867,596",263:17:06,"947,826",,,g087,FU: Fates Hand
+abex-test-s4,6,Knights of RHOK.,,,214,"4,887,163",259:30:44,"934,244",,,127295,Knights of RHOK.
+abex-test-s4,7,30Days,,,97,"4,870,604",263:09:35,"947,375",,,65749,30Days
+abex-test-s4,8,Fates Hand,,,91,"4,867,596",263:17:06,"947,826",,,61928,FU: Fates Hand
 abex-test-s4,9,<NO M≡RCY>,,,1,"4,652,560",263:05:57,"947,157",,,g007,<NO M≡RCY>
 abex-test-s4,10,Banshee,,,163,"4,638,928",263:11:19,"947,479",,,g030,Banshee
 abex-test-s4,11,Sin: Pride,,,287,"4,424,338",263:07:05,"947,225",,,g138,Sin: Pride
@@ -132,7 +132,7 @@ abex-test-s4,12,Eden: Aurelion,,,210,"3,973,037",261:34:09,"941,649",,,107859,Ed
 abex-test-s4,13,Blackbird,,,67,"3,801,601",262:54:03,"946,443",,,g034,Blackbird
 abex-test-s4,14,Æternum,,,33,"3,527,415",262:31:08,"945,068",,,g018,Æternum
 abex-test-s4,15,Rank One,,,143,"3,227,298",262:41:54,"945,714",,,g122,Rank One
-abex-test-s4,16,Regalia,,,190,"2,881,934",260:34:46,"938,086",,,g124,Regalia
+abex-test-s4,16,Regalia,,,190,"2,881,934",260:34:46,"938,086",,,100371,Regalia
 abex-test-s4,17,Astra,,,4,"2,713,183",259:34:24,"934,464",,,g027,Astra
 abex-test-s4,18,ANIMOSITY,,,18,"2,648,285",257:19:38,"926,378",,,g025,ANIMOSITY
 abex-test-s4,19,Amagen,,,13,"2,630,698",263:22:51,"948,171",,,g023,Amagen
@@ -141,7 +141,7 @@ abex-test-s4,21,Песочница,,,7,"2,564,293",261:09:44,"940,184",,,g161,П
 abex-test-s4,22,Eden: Pride,,,239,"2,429,361",260:31:57,"937,917",,,128031,Eden: Pride
 abex-test-s4,23,RAGNAROK ⚡,,,231,"2,360,396",256:16:35,"922,595",,,g121,RAGNAROK ⚡
 abex-test-s4,24,Meta Achievers,,,15,"2,329,525",262:24:02,"944,642",,,g106,Meta Achievers
-abex-test-s4,25,Inn Of Valhalla,,,121,"2,244,107",262:58:16,"946,696",,,g091,FU: Valhalla Inn
+abex-test-s4,25,Inn Of Valhalla,,,121,"2,244,107",262:58:16,"946,696",,,74875,FU: Valhalla Inn
 abex-test-s4,26,Moon Sword,,,71,"2,231,073",262:37:18,"945,438",,,49391,Eden: Moon Sword
 abex-test-s4,27,BurnHub,,,278,"2,115,763",260:09:51,"936,591",,,g041,BurnHub
 abex-test-s4,28,WawesCompany,,,11,"2,074,249",262:52:02,"946,322",,,g155,WawesCompany
@@ -152,7 +152,7 @@ abex-test-s4,32,AdySSS,,,292,"1,967,790",263:20:09,"948,009",,,g017,AdySSS
 abex-test-s4,33,REVELATION,,,262,"1,928,664",262:08:16,"943,696",,,g120,REVELATION
 abex-test-s4,34,Eden: Drakonis,,,204,"1,902,766",258:08:48,"929,328",,,105738,Eden: Drakonis
 abex-test-s4,35,Eden: VURK MAFIA,,,178,"1,900,636",262:34:56,"945,296",,,96092,Eden: VURK MAFIA
-abex-test-s4,36,TeaHouse,,,219,"1,853,979",262:41:52,"945,712",,,g149,TeaHouse
+abex-test-s4,36,TeaHouse,,,219,"1,853,979",262:41:52,"945,712",,,114658,TeaHouse
 abex-test-s4,37,BrightArcana,,,129,"1,845,196",261:32:45,"941,565",,,g039,BrightArcana
 abex-test-s4,38,Sin: Greed,,,307,"1,773,404",261:05:28,"939,928",,,g137,Sin: Greed
 abex-test-s4,39,Arcane Aegis,,,150,"1,734,550",259:36:00,"934,560",,,g026,Arcane Aegis

@@ -7,6 +7,7 @@ import riftCsv from '../data/rift_rankings.csv?raw';
 import guildsCsv from '../data/guilds.csv?raw';
 import guildNamesCsv from '../data/guild_names.csv?raw';
 import groupsCsv from '../data/groups.csv?raw';
+import regionsCsv from '../data/regions.csv?raw';
 
 export type Kind = 'abex' | 'rift';
 
@@ -181,6 +182,15 @@ export const groups: Group[] = parseCsv(groupsCsv)
   .filter((r) => r.group_id)
   .map((r) => ({ id: str(r.group_id), name: str(r.group_name) || str(r.group_id), short: str(r.short_name) || str(r.group_name), color: /^#[0-9a-f]{6}$/i.test(str(r.color)) ? str(r.color) : '', notes: str(r.notes) }));
 
+/** Regions group servers together: every server from first to last belongs to the region. */
+export const regions = parseCsv(regionsCsv)
+  .map((r) => ({ region: num(r.region), first: num(r.first_server), last: num(r.last_server) }))
+  .filter((r): r is { region: number; first: number; last: number } => r.region != null && r.first != null && r.last != null);
+
+/** The region a server belongs to, or null if no region in the regions tab covers it. */
+export const regionOf = (server: number | null | undefined) =>
+  server == null ? null : regions.find((r) => server >= r.first && server <= r.last)?.region ?? null;
+
 /* ------------------------------------------------------------------ lookups */
 
 export const seasonById = new Map(seasons.map((s) => [s.id, s]));
@@ -337,4 +347,9 @@ const decFmt = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximu
 export const fmtInt = (v: number | null | undefined) => (v == null ? '—' : intFmt.format(v));
 export const fmtM = (v: number | null | undefined) => (v == null ? '—' : `${intFmt.format(v)}M`);
 export const fmtEss = (v: number | null | undefined) => (v == null ? '—' : `${decFmt.format(v)}M`);
-export const fmtServer = (v: number | null | undefined) => (v == null ? '—' : `S${v}`);
+/** "S204 · R20" when the server's region is known, otherwise "S204". */
+export const fmtServer = (v: number | null | undefined) => {
+  if (v == null) return '—';
+  const region = regionOf(v);
+  return region == null ? `S${v}` : `S${v} · R${region}`;
+};

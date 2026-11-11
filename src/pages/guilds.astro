@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import FilterScript from '../components/FilterScript.astro';
 import GroupTag from '../components/GroupTag.astro';
-import { groupOf } from '../lib/data';
+import { groupOf, regionOf } from '../lib/data';
 import { guildIds, guildById, abex, rift, seasonById, fmtServer, fmtInt } from '../lib/data';
 
 const order = (sid: string) => seasonById.get(sid)?.order ?? 0;
@@ -32,13 +32,13 @@ const list = guildIds.map((id) => {
   </section>
   <div class="card">
     <label class="small muted" for="filter">Search guilds (<span id="filter-count">{list.length}</span>)</label>
-    <input id="filter" class="filter" type="search" placeholder="Guild name, old name, group or server" autocomplete="off" />
+    <input id="filter" class="filter" type="search" placeholder="Guild name, old name, group, server or region" autocomplete="off" />
     <div class="table-wrap">
       <table class="rank">
         <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
         <tbody>
           {list.map((g) => (
-            <tr data-search={[...g.names, g.name, g.server != null ? `s${g.server}` : '', g.id, groupOf(g.id)?.name ?? '', groupOf(g.id)?.short ?? ''].join(' ')}>
+            <tr data-search={[...g.names, g.name, g.server != null ? `s${g.server}` : '', regionOf(g.server) != null ? `r${regionOf(g.server)} region ${regionOf(g.server)}` : '', g.id, groupOf(g.id)?.name ?? '', groupOf(g.id)?.short ?? ''].join(' ')}>
               <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a><GroupTag guildId={g.id} />{g.names.length > 1 && <span class="muted small"> · {g.names.length} names</span>}</td>
               <td>{fmtServer(g.server)}</td>
               <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>

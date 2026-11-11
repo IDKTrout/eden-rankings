@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
 import GroupTag from '../../components/GroupTag.astro';
-import { groupOf } from '../../lib/data';
+import { groupOf, regionOf } from '../../lib/data';
 import {
   guildIds, guildById, abex, rift, seasonById, seasonLabel, playerById,
   fmtInt, fmtM, fmtEss, fmtServer,
@@ -37,7 +37,8 @@ const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.lea
     <h1>{name}</h1>
     {groupOf(id) && <p class="muted">Part of the <GroupTag guildId={id} full /> group.</p>}
     <div class="chips">
-      {server != null && <span class="chip">Server {fmtServer(server)}</span>}
+      {server != null && <span class="chip">Server S{server}</span>}
+      {regionOf(server) != null && <span class="chip">Region {regionOf(server)}</span>}
       {isGameId && <span class="chip">Guild ID {id}</span>}
       {leaders.slice(0, 1).map((l) => <a class="chip" href={`/player/${l.leaderId}/`}>Leader {playerById.get(l.leaderId)?.name ?? l.leaderName}</a>)}
     </div>

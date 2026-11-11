@@ -29,7 +29,7 @@ function updateWebsite() {
   const res = UrlFetchApp.fetch(deployHookUrl_(), { method: 'post', muteHttpExceptions: true });
   const ok = res.getResponseCode() < 300;
   const msg = ok
-    ? 'Rebuild started. edenafk.com shows the new data in about a minute.'
+    ? 'Rebuild started. event-rankings.edenafk.com shows the new data in about a minute.'
     : 'Cloudflare refused the rebuild (HTTP ' + res.getResponseCode() + '). Check DEPLOY_HOOK_URL.';
   try { SpreadsheetApp.getActive().toast(msg, 'Eden website', 8); } catch (e) { /* run from a trigger */ }
   if (!ok) throw new Error(msg);

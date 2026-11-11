@@ -29,7 +29,7 @@ Season order on the site follows the row order of the `seasons` tab, so add new 
 
 ## How the site is built
 
-The site is a static [Astro](https://astro.build) site, hosted on Cloudflare Pages at edenafk.com.
+The site is a static [Astro](https://astro.build) site, hosted on Cloudflare Pages at [event-rankings.edenafk.com](https://event-rankings.edenafk.com).
 
 - `scripts/fetch-data.mjs` downloads each tab of the published sheet as CSV into `src/data/`. The publish ID is in `sheet.config.json` (or the `SHEET_PUB_ID` environment variable). If a download fails, the copy already in `src/data/` is used.
 - `src/lib/data.ts` turns those CSVs into seasons, rankings, guilds and players.

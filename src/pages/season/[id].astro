@@ -5,7 +5,8 @@ import Scatter from '../../components/Scatter.astro';
 import Rank from '../../components/Rank.astro';
 import Credit from '../../components/Credit.astro';
 import GroupTag from '../../components/GroupTag.astro';
-import { abexStandings, riftStandings } from '../../lib/groups';
+import { abexStandings, riftStandings, alnaStandings } from '../../lib/groups';
+import { alna, alnaFor, ALNA_MIN_POINTS, ALNA_MAX_RANK } from '../../lib/data';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
   fmtInt, fmtM, fmtEss, fmtServer, fmtDate, finished, timeNote, groupById, nameOf, type Season,
@@ -28,6 +29,12 @@ const withEssence = abexRows.filter((r) => r.damage != null && r.essence != null
 const anyFinished = !!aSum && aSum.finished > 0;
 
 const riftRows = season.kind === 'rift' ? riftFor(season.id) : [];
+const alnaRows = season.kind === 'alna' ? alnaFor(season.id) : [];
+const lStand = season.kind === 'alna' ? alnaStandings(season.id) : [];
+const alnaAll = season.kind === 'alna' ? alna.filter((r) => r.seasonId === season.id) : [];
+const alnaBrackets = [...new Set(alnaAll.map((r) => r.bracket))].sort((a, b) => a - b);
+const fmtPts = (r: { points: number | null; rounded: boolean }) => (r.points == null ? '—' : `${r.rounded ? '≈ ' : ''}${fmtInt(r.points)}`);
+const eyebrow = season.kind === 'abex' ? 'AbEx · guild damage' : season.kind === 'alna' ? 'Alna · guild points by bracket' : 'Temporal Rift · player floors';
 const rSum = season.kind === 'rift' ? riftSummary(season.id) : null;
 const aStand = season.kind === 'abex' ? abexStandings(season.id) : [];
 const rStand = season.kind === 'rift' ? riftStandings(season.id) : [];
@@ -37,7 +44,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
 ---
 <Layout title={label} description={season.title}>
   <section class="page-head">
-    <span class="eyebrow">{season.kind === 'abex' ? 'AbEx · guild damage' : 'Temporal Rift · player floors'}</span>
+    <span class="eyebrow">{eyebrow}</span>
     <h1>{label}</h1>
     {season.endDate && <p class="muted">Ended <time datetime={season.endDate}>{fmtDate(season.endDate)}</time></p>}
     {siblings.length > 1 && (
@@ -253,5 +260,106 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
     </>
   )}
 
+  {season.kind === 'alna' && alnaRows.length > 0 && (
+    <>
+      <p class="lede"><a href={guildHref(alnaRows[0].guildId)}><strong>{nameOf(alnaRows[0])}</strong></a> leads overall with <strong>{fmtPts(alnaRows[0])}</strong> points. <strong>{alnaRows.length} guilds</strong> across {alnaBrackets.length} brackets scored more than {fmtInt(ALNA_MIN_POINTS)} points.</p>
+
+      <div class="tiles">
+        <div class="tile"><span class="k">Brackets</span><span class="v">{alnaBrackets.length}</span><span class="s">each ranked separately in game</span></div>
+        <div class="tile"><span class="k">Guilds shown</span><span class="v">{alnaRows.length}</span><span class="s">over {fmtInt(ALNA_MIN_POINTS)} points</span></div>
+        <div class="tile"><span class="k">Top points</span><span class="v">{fmtPts(alnaRows[0])}</span><span class="s">{nameOf(alnaRows[0])}</span></div>
+        <div class="tile"><span class="k">Bracket winners</span><span class="v">{alnaRows.filter((r) => r.bracketRank === 1).length}</span><span class="s">of {alnaBrackets.length} shown</span></div>
+      </div>
+
+      <div class="grid-2">
+        <section class="card" id="top-points">
+          <h2>Top {Math.min(20, alnaRows.length)} by points</h2>
+          <p class="note">Points across all brackets. ≈ marks a score the game rounded, such as 13M.</p>
+          <BarList
+            label={`Top guilds by points in ${label}`}
+            bars={alnaRows.slice(0, 20).map((r) => ({
+              label: nameOf(r), value: r.points as number, display: fmtPts(r), href: guildHref(r.guildId),
+              highlight: r.bracketRank === 1,
+              detail: `#${r.overallRank} overall, #${r.bracketRank} in bracket ${r.bracket}: ${fmtPts(r)} points`,
+            }))}
+          />
+          <p class="note">Gold bars won their bracket.</p>
+        </section>
+        <section class="card" id="brackets">
+          <h2>Brackets</h2>
+          <p class="note">Each bracket's own ranking, as shown in game.</p>
+          <div class="bracket-grid">
+            {alnaBrackets.map((b) => {
+              const rows = alnaRows.filter((r) => r.bracket === b).sort((x, y) => x.bracketRank - y.bracketRank);
+              return (
+                <div class="bracket">
+                  <h3>Bracket {b}</h3>
+                  {rows.length ? (
+                    <ol>
+                      {rows.map((r) => (
+                        <li><Rank value={r.bracketRank} /> <a href={guildHref(r.guildId)}>{nameOf(r)}</a> <span class="muted small">{fmtPts(r)}</span></li>
+                      ))}
+                    </ol>
+                  ) : <p class="muted small">No guild over {fmtInt(ALNA_MIN_POINTS)} points.</p>}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      </div>
+
+      {lStand.length > 0 && (
+        <section class="card" id="groups">
+          <h2>Groups</h2>
+          <p class="note">How each group's guilds placed, ordered by their best guild overall. Groups use each guild's current group.</p>
+          <div class="table-wrap">
+            <table class="rank">
+              <thead><tr><th>Group</th><th class="num">Guilds</th><th>Best guild</th><th class="num"><span class="hide-sm">Bracket wins</span><span class="show-sm">Wins</span></th><th class="num hide-sm">Top 3 finishes</th></tr></thead>
+              <tbody>
+                {lStand.map((g) => (
+                  <tr>
+                    <td><a href={`/group/${g.groupId}/`}>{groupById.get(g.groupId)?.name}</a></td>
+                    <td class="num">{g.guilds}</td>
+                    <td class="wrap-sm"><Rank value={g.best.overallRank} /> <a href={guildHref(g.best.guildId)}>{nameOf(g.best)}</a></td>
+                    <td class="num">{g.bracketWins}</td>
+                    <td class="num hide-sm">{g.podiums}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      <section class="card" id="ranking">
+        <h2>Overall ranking</h2>
+        <p class="note small muted">All brackets ranked together by points. Guilds tied on points in the same bracket keep that bracket's order; ties across brackets share a rank. Only guilds in the top {ALNA_MAX_RANK} with more than {fmtInt(ALNA_MIN_POINTS)} points are shown.</p>
+        <div class="table-wrap tall">
+          <table class="rank">
+            <thead><tr><th class="num">Overall</th><th>Guild</th><th class="num hide-sm">Bracket</th><th class="num">Points</th></tr></thead>
+            <tbody>
+              {alnaRows.map((r) => (
+                <tr>
+                  <td class="num"><Rank value={r.overallRank} /></td>
+                  <td class="wrap-sm"><a href={guildHref(r.guildId)}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}<span class="show-sm sub">Bracket {r.bracket} · #{r.bracketRank}</span></td>
+                  <td class="num hide-sm">{r.bracket} <span class="muted small">(#{r.bracketRank})</span></td>
+                  <td class="num" title={r.rounded ? 'Rounded by the game' : undefined}>{fmtPts(r)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  )}
+
   <p class="small muted">Source: {season.title}{season.sourceUrl && <> · <a href={season.sourceUrl} rel="noopener">{season.sourceUrl.replace(/^https?:\/\//, '')}</a></>}</p>
 </Layout>
+
+<style>
+  .bracket-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: .9rem; }
+  .bracket { background: var(--raised); border: 1px solid var(--line); border-radius: 8px; padding: .7rem .8rem; min-width: 0; }
+  .bracket h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 .4rem; }
+  .bracket ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; font-size: .88rem; }
+  .bracket li { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; min-width: 0; overflow-wrap: anywhere; }
+</style>

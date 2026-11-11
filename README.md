@@ -35,12 +35,14 @@ Guilds are matched by `guild_id` and players by `player_id`, so name changes kee
 
 For AbEx, guilds at the season's `max_damage_m` finished and their time is their finish time; every other guild's time is their last attack.
 
-## Events in the sheet but not on the site yet
+## Alna
 
-**Alna** (`alna_rankings`, `alna_overall`): a guild event played in brackets and scored in points. The site ignores it for now (`SITE_TABS` in `src/lib/data.ts`). When it goes on the site:
-- show a guild only if it is in the season's **overall top 100 and has more than 1,000,000 points**;
-- order by `overall_rank`, which breaks equal-point ties using each bracket's own order;
-- mark scores the game rounded (`points_rounded`, such as 13M).
+**Alna** (`alna_rankings`, `alna_overall`) is a guild event played in brackets and scored in points. On the site:
+- a guild is shown only if it is in the season's **overall top 100 and has more than 1,000,000 points**;
+- the overall ranking uses `overall_rank`, which breaks equal-point ties using each bracket's own order;
+- scores the game rounded (`points_rounded`, such as 13M) are shown with ≈;
+- guild pages show Alna results with gold, silver and bronze for a top-3 finish in the guild's bracket, and Alna counts in group standings;
+- Alna is not featured on the home page or in region standings.
 
 ## How the site is built
 

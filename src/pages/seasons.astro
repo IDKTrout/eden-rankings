@@ -1,12 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Credit from '../components/Credit.astro';
-import { seasons, seasonLabel, abexSummary, riftSummary, fmtM, fmtInt, nameOf, fmtDate } from '../lib/data';
+import { seasons, seasonLabel, abexSummary, riftSummary, alnaFor, fmtM, fmtInt, nameOf, fmtDate } from '../lib/data';
 
 const list = [...seasons].reverse().map((s) => {
   if (s.kind === 'abex') {
     const a = abexSummary(s.id);
     return { s, leader: a ? nameOf(a.leader) : '—', stat: a ? fmtM(a.top) : '—', count: a ? `${a.guilds} guilds` : '' };
+  }
+  if (s.kind === 'alna') {
+    const rows = alnaFor(s.id);
+    const top = rows[0];
+    return { s, leader: top ? nameOf(top) : '—', stat: top?.points != null ? `${top.rounded ? '≈ ' : ''}${fmtInt(top.points)} pts` : '—', count: rows.length ? `${rows.length} guilds over 1M` : '' };
   }
   const r = riftSummary(s.id);
   return { s, leader: r?.top.playerName ?? '—', stat: r ? `Floor ${fmtInt(r.top.floor)}` : '—', count: r ? `${r.players} players` : '' };
@@ -21,7 +26,7 @@ const list = [...seasons].reverse().map((s) => {
   <div class="season-grid">
     {list.map(({ s, leader, stat, count }) => (
       <a class="card season-card" href={`/season/${s.id}/`}>
-        <span class="eyebrow">{s.kind === 'abex' ? 'AbEx · guilds' : 'Temporal Rift · players'}</span>
+        <span class="eyebrow">{s.kind === 'abex' ? 'AbEx · guilds' : s.kind === 'alna' ? 'Alna · guilds' : 'Temporal Rift · players'}</span>
         <h2>{seasonLabel(s)}</h2>
         {s.endDate && <p class="muted small">Ended <time datetime={s.endDate}>{fmtDate(s.endDate)}</time></p>}
         <p><span class="muted">Leader</span> <strong>{leader}</strong></p>

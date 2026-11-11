@@ -4,13 +4,14 @@
 import seasonsCsv from '../data/seasons.csv?raw';
 import abexCsv from '../data/abex_rankings.csv?raw';
 import riftCsv from '../data/rift_rankings.csv?raw';
+import alnaCsv from '../data/alna_rankings.csv?raw';
 import guildsCsv from '../data/guilds.csv?raw';
 import guildNamesCsv from '../data/guild_names.csv?raw';
 import groupsCsv from '../data/groups.csv?raw';
 import regionsCsv from '../data/regions.csv?raw';
 import playersCsv from '../data/players.csv?raw';
 
-export type Kind = 'abex' | 'rift';
+export type Kind = 'abex' | 'rift' | 'alna';
 
 export interface Season {
   id: string;
@@ -44,6 +45,18 @@ export interface AbexRow {
   essenceRank: number | null;
   essence: number | null; // millions
   guildId: string;
+}
+
+export interface AlnaRow {
+  seasonId: string;
+  bracket: number;
+  bracketRank: number;
+  overallRank: number | null;
+  guildName: string;
+  guildId: string;
+  points: number | null;
+  /** The game showed a rounded score (13M) rather than the exact number. */
+  rounded: boolean;
 }
 
 export interface RiftRow {
@@ -135,7 +148,9 @@ function toIsoDate(v: string | undefined) {
 /* ------------------------------------------------------------------ records */
 
 /** Ranking tabs the site shows. Seasons for any other tab (for example Alna) stay in the sheet only. */
-const SITE_TABS = ['abex_rankings', 'rift_rankings'];
+/** Alna is on the site. Build with SHOW_ALNA=0 to leave it out (for example to check something without it). */
+export const SHOW_ALNA = process.env.SHOW_ALNA !== '0';
+const SITE_TABS = ['abex_rankings', 'rift_rankings', ...(SHOW_ALNA ? ['alna_rankings'] : [])];
 
 export const seasons: Season[] = parseCsv(seasonsCsv)
   .filter((r) => r.season_id && SITE_TABS.includes(str(r.data_tab)))
@@ -144,7 +159,7 @@ export const seasons: Season[] = parseCsv(seasonsCsv)
     event: str(r.event),
     number: num(r.season_number),
     title: str(r.title),
-    kind: (r.data_tab === 'rift_rankings' ? 'rift' : 'abex') as Kind,
+    kind: (r.data_tab === 'rift_rankings' ? 'rift' : r.data_tab === 'alna_rankings' ? 'alna' : 'abex') as Kind,
     compiledBy: str(r.compiled_by),
     thanks: str(r.thanks),
     sourceUrl: str(r.source_url),
@@ -187,7 +202,35 @@ export const rift: RiftRow[] = parseCsv(riftCsv)
 const guildNameRows = parseCsv(guildNamesCsv).filter((r) => r.guild_name && r.guild_id);
 
 /** Guild IDs with an AbEx or Temporal Rift result; guilds seen only in events not on the site yet are left out. */
-const rankedGuildIds = new Set([...abex, ...rift].map((r) => r.guildId).filter(Boolean));
+const alnaSeasonIds = new Set(seasons.filter((s) => s.kind === 'alna').map((s) => s.id));
+
+/** Every Alna row of the seasons on the site (empty unless SHOW_ALNA=1). */
+export const alna: AlnaRow[] = parseCsv(alnaCsv)
+  .filter((r) => alnaSeasonIds.has(r.season_id) && r.guild_name)
+  .map((r) => ({
+    seasonId: r.season_id,
+    bracket: num(r.bracket) ?? 0,
+    bracketRank: num(r.rank) ?? 0,
+    overallRank: num(r.overall_rank),
+    guildName: str(r.guild_name),
+    guildId: str(r.guild_id),
+    points: num(r.points),
+    rounded: /^true$/i.test(str(r.points_rounded)),
+  }));
+
+/** Alna site rule: show a guild only if it is in the season's overall top 100 AND has more than 1,000,000 points. */
+export const ALNA_MAX_RANK = 100;
+export const ALNA_MIN_POINTS = 1_000_000;
+export const alnaShown = (r: AlnaRow) => r.overallRank != null && r.overallRank <= ALNA_MAX_RANK && r.points != null && r.points > ALNA_MIN_POINTS;
+
+/** The Alna rows shown for a season, in overall order. */
+export function alnaFor(seasonId: string) {
+  return alna
+    .filter((r) => r.seasonId === seasonId && alnaShown(r))
+    .sort((a, b) => (a.overallRank as number) - (b.overallRank as number) || a.bracket - b.bracket || a.bracketRank - b.bracketRank);
+}
+
+const rankedGuildIds = new Set([...abex, ...rift, ...alna.filter(alnaShown)].map((r) => r.guildId).filter(Boolean));
 
 export const guilds: Guild[] = parseCsv(guildsCsv)
   .filter((r) => r.guild_id && rankedGuildIds.has(str(r.guild_id)))

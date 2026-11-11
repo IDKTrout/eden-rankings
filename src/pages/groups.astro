@@ -2,10 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import GroupTag from '../components/GroupTag.astro';
 import { groups, groupMembers, groupColor, latestOf, seasonLabel, fmtInt } from '../lib/data';
-import { abexStandings, riftStandings } from '../lib/groups';
+import { abexStandings, riftStandings, alnaStandings } from '../lib/groups';
 
 const abexSeason = latestOf('abex');
 const riftSeason = latestOf('rift');
+const alnaSeason = latestOf('alna');
+const lStand = alnaSeason ? alnaStandings(alnaSeason.id) : [];
 const aStand = abexSeason ? abexStandings(abexSeason.id) : [];
 const rStand = riftSeason ? riftStandings(riftSeason.id) : [];
 
@@ -14,6 +16,7 @@ const list = groups.map((g) => ({
   members: groupMembers(g.id),
   abex: aStand.find((s) => s.groupId === g.id),
   rift: rStand.find((s) => s.groupId === g.id),
+  alna: lStand.find((s) => s.groupId === g.id),
 }));
 ---
 <Layout title="Groups" description="Guild groups in the event rankings, such as Eden, Sin, FU and Elements, and how their guilds placed.">
@@ -24,7 +27,7 @@ const list = groups.map((g) => ({
   </section>
 
   <div class="group-grid">
-    {list.map(({ g, members, abex, rift }) => (
+    {list.map(({ g, members, abex, rift, alna: al }) => (
       <a class="card group-card" href={`/group/${encodeURIComponent(g.id)}/`} style={`--c:${groupColor(g.id)}`}>
         <div class="gc-head">
           <h2>{g.name}</h2>
@@ -33,6 +36,7 @@ const list = groups.map((g) => ({
         <p class="muted small">{members.length} {members.length === 1 ? 'guild' : 'guilds'}</p>
         <dl>
           {abexSeason && <div><dt>{seasonLabel(abexSeason)}</dt><dd>{abex ? `${abex.guilds} ranked · best #${abex.best.damageRank} · ${abex.finished} finished` : 'No guild ranked'}</dd></div>}
+          {alnaSeason && <div><dt>{seasonLabel(alnaSeason)}</dt><dd>{al ? `${al.guilds} over 1M · best #${al.best.overallRank} · ${al.bracketWins} bracket ${al.bracketWins === 1 ? 'win' : 'wins'}` : 'No guild over 1M points'}</dd></div>}
           {riftSeason && <div><dt>{seasonLabel(riftSeason)}</dt><dd>{rift ? `${rift.players} ${rift.players === 1 ? 'player' : 'players'} · best floor ${fmtInt(rift.best.floor)}` : 'No player ranked'}</dd></div>}
         </dl>
       </a>

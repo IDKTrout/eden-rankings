@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
 import GroupTag from '../../components/GroupTag.astro';
 import StatusTag from '../../components/StatusTag.astro';
-import { groupOf, regionOf } from '../../lib/data';
+import { groupOf, regionOf, alna, alnaShown } from '../../lib/data';
 import {
   guildIds, guildById, abex, rift, seasonById, seasonLabel, playerById,
   fmtInt, fmtM, fmtEss, fmtServer,
@@ -19,6 +19,7 @@ const guild = guildById.get(id);
 const order = (sid: string) => seasonById.get(sid)?.order ?? 0;
 
 const abexRows = abex.filter((r) => r.guildId === id).sort((a, b) => order(b.seasonId) - order(a.seasonId));
+const alnaRows = alna.filter((r) => r.guildId === id && alnaShown(r)).sort((a, b) => order(b.seasonId) - order(a.seasonId));
 const riftRows = rift.filter((r) => r.guildId === id).sort((a, b) => order(b.seasonId) - order(a.seasonId) || a.rank - b.rank);
 
 const spellings = [...new Set([...(guild?.names ?? []), ...abexRows.map((r) => r.guildName), ...riftRows.map((r) => r.guildName)])];
@@ -104,6 +105,33 @@ const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.lea
       </div>
     ) : <p class="empty-note">No players from this guild in a Temporal Rift ranking yet.</p>}
   </section>
+
+  {alnaRows.length > 0 && (
+    <section class="card" id="alna">
+      <h2>Alna results</h2>
+      <p class="note small muted">Gold, silver and bronze mark a top-3 finish in the guild's bracket. Overall ranks all brackets together.</p>
+      <div class="table-wrap">
+        <table class="rank">
+          <thead><tr><th>Season</th><th class="num">Bracket rank</th><th class="num">Bracket</th><th class="num">Overall</th><th class="hide-sm">Listed as</th><th class="num">Points</th></tr></thead>
+          <tbody>
+            {alnaRows.map((r) => {
+              const s = seasonById.get(r.seasonId);
+              return (
+                <tr>
+                  <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
+                  <td class="num"><Rank value={r.bracketRank} /></td>
+                  <td class="num">{r.bracket}</td>
+                  <td class="num">#{r.overallRank}</td>
+                  <td class="hide-sm">{r.guildName}</td>
+                  <td class="num">{r.points == null ? '—' : `${r.rounded ? '≈ ' : ''}${fmtInt(r.points)}`}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
 
   {guild?.notes && <p class="small muted">{guild.notes}</p>}
 </Layout>

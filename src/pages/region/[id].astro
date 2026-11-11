@@ -15,7 +15,7 @@ const range = regions.find((r) => r.region === region)!;
 const servers = range.first === range.last ? `S${range.first}` : `S${range.first}–S${range.last}`;
 
 // Newest season first.
-const history = [...seasons].reverse().map((s) => ({
+const history = [...seasons].filter((s) => s.kind !== 'alna').reverse().map((s) => ({
   s,
   abex: s.kind === 'abex' ? regionAbex(region, s.id) : null,
   rift: s.kind === 'rift' ? regionRift(region, s.id) : null,

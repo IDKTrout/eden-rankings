@@ -10,7 +10,7 @@ region,first_server,last_server,server_count,notes
 9,,,,
 10,71,71,1,
 11,,,,
-12,,,,
+12,100,100,1,
 13,,,,
 14,,,,
 15,,,,
@@ -36,7 +36,3 @@ region,first_server,last_server,server_count,notes
 35,337,337,1,
 36,338,345,8,Confirmed by IDK_Trout
 37,346,346,1,
-38,,,,
-39,,,,
-40,,,,
-41,,,,

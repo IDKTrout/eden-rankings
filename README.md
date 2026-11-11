@@ -27,6 +27,8 @@ Renamed guilds are combined through `guild_names`: every spelling points at one 
 
 The `seasons` tab lists events in the order they took place, oldest first, so add each new season at the bottom. The site uses that order everywhere; the last AbEx and Temporal Rift rows are the ones featured on the home page.
 
+Each season's `compiled_by` is credited on that season's page, on the home page and in the season list ("Rankings gathered by …"). Anything in `thanks` is shown word for word after it.
+
 For AbEx seasons, `max_damage_m` in the `seasons` tab is the most damage a guild could deal. Guilds at that number finished, and their time is their finish time. Every other guild's time is their last attack.
 
 ## How the site is built

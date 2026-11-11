@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import BarList from '../../components/BarList.astro';
 import Scatter from '../../components/Scatter.astro';
 import Rank from '../../components/Rank.astro';
+import Credit from '../../components/Credit.astro';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
   fmtInt, fmtM, fmtEss, fmtServer, finished, timeNote, type Season,
@@ -41,6 +42,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
         ))}
       </nav>
     )}
+    <Credit season={season} />
   </section>
 
   {aSum && (
@@ -201,5 +203,5 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
     </>
   )}
 
-  <p class="small muted">Source: {season.title}{season.compiledBy && `, compiled by ${season.compiledBy}`}.{season.notes && ` ${season.notes}`}</p>
+  <p class="small muted">Source: {season.title}{season.sourceUrl && <> · <a href={season.sourceUrl} rel="noopener">{season.sourceUrl.replace(/^https?:\/\//, '')}</a></>}</p>
 </Layout>

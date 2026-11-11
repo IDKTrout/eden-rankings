@@ -1,4 +1,5 @@
 ---
+import { compilers } from '../lib/data';
 interface Props {
   title?: string;
   description?: string;
@@ -53,7 +54,7 @@ const nav = [
     </main>
     <footer class="site-foot">
       <div class="wrap">
-        <p>Rankings compiled by Tunarda and transcribed from the in-game boards. Guilds that changed their name are combined under one guild ID; players are matched by player ID.</p>
+        <p>{compilers.length > 0 && <>All rankings on this site were gathered by <strong>{compilers.join(', ')}</strong>, with thanks noted on each season. </>}Guilds that changed their name are combined under one guild ID; players are matched by player ID.</p>
       </div>
     </footer>
   </body>

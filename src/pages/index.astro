@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Rank from '../components/Rank.astro';
+import Credit from '../components/Credit.astro';
 import {
   latestOf, seasonLabel, abexFor, riftFor, abexSummary, riftSummary, seasons, guildIds, players,
   fmtM, fmtInt, guildLabel, finished, timeNote,
@@ -36,6 +37,7 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
           </div>
           <a class="more" href={`/season/${abexSeason.id}/`}>Full ranking →</a>
         </div>
+        <Credit season={abexSeason} compact />
         <p class="muted small">{aSum.finished > 1 ? `${aSum.finished} guilds reached the max damage of ${fmtM(aSum.max)}; those are ranked by finish time.` : aSum.finished === 1 && aSum.fastest ? `Only ${aSum.fastest.guildName} reached the max damage of ${fmtM(aSum.max)}.` : `No guild reached the max damage of ${fmtM(aSum.max)}.`} Bold times are finish times; others are last attacks.</p>
         <table class="rank">
           <thead><tr><th class="num">Rank</th><th>Guild</th><th class="num">Damage</th><th class="num">Finish / last attack</th></tr></thead>
@@ -61,6 +63,7 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
           </div>
           <a class="more" href={`/season/${riftSeason.id}/`}>Full ranking →</a>
         </div>
+        <Credit season={riftSeason} compact />
         <p class="muted small">Top floor {fmtInt(rSum.top.floor)}; floor {fmtInt(rSum.cutoff)} made the top {rSum.players}.</p>
         <table class="rank">
           <thead><tr><th class="num">Rank</th><th>Player</th><th class="num">Floor</th><th>Guild</th></tr></thead>

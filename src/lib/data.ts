@@ -16,6 +16,8 @@ export interface Season {
   title: string;
   kind: Kind;
   compiledBy: string;
+  /** Extra thanks, shown word for word under the credit. */
+  thanks: string;
   sourceUrl: string;
   notes: string;
   /** AbEx only: the most damage a guild can deal (millions). Guilds at this number finished. */
@@ -114,6 +116,7 @@ export const seasons: Season[] = parseCsv(seasonsCsv)
     title: str(r.title),
     kind: (r.data_tab === 'rift_rankings' ? 'rift' : 'abex') as Kind,
     compiledBy: str(r.compiled_by),
+    thanks: str(r.thanks),
     sourceUrl: str(r.source_url),
     notes: str(r.notes),
     maxDamage: num(r.max_damage_m),
@@ -165,6 +168,9 @@ export const guilds: Guild[] = parseCsv(guildsCsv)
 /* ------------------------------------------------------------------ lookups */
 
 export const seasonById = new Map(seasons.map((s) => [s.id, s]));
+
+/** Everyone credited with gathering a season, for the site footer. */
+export const compilers = [...new Set(seasons.map((s) => s.compiledBy).filter(Boolean))];
 export const guildById = new Map(guilds.map((g) => [g.id, g]));
 
 export const seasonLabel = (s: Season) => `${s.event}${s.number != null ? ` S${s.number}` : ''}`;

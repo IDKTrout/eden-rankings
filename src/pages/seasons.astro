@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Credit from '../components/Credit.astro';
 import { seasons, seasonLabel, abexSummary, riftSummary, fmtM, fmtInt } from '../lib/data';
 
 const list = [...seasons].reverse().map((s) => {
@@ -25,6 +26,7 @@ const list = [...seasons].reverse().map((s) => {
         <p><span class="muted">Leader</span> <strong>{leader}</strong></p>
         <p class="stat">{stat}</p>
         <p class="muted small">{count}</p>
+        <Credit season={s} compact />
       </a>
     ))}
   </div>

@@ -1,23 +1,34 @@
 ---
 // Filters rows marked [data-search] as the visitor types into #filter. Also reads ?q= from the address.
+// If the page has a [data-browse] block and a [data-results] block, the browse block (for example
+// Active / Inactive sections) shows while the box is empty, and the single results list shows
+// while searching.
 ---
 <script>
   const input = document.getElementById('filter') as HTMLInputElement | null;
-  const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-search]'));
+  const results = document.querySelector<HTMLElement>('[data-results]');
+  const browse = document.querySelector<HTMLElement>('[data-browse]');
+  const rows = Array.from((results ?? document).querySelectorAll<HTMLElement>('[data-search]'));
   const count = document.getElementById('filter-count');
   const empty = document.getElementById('filter-empty');
   const norm = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '');
   function apply() {
     const q = norm(input?.value.trim() ?? '');
+    if (results && browse) {
+      results.hidden = !q;
+      browse.hidden = !!q;
+    }
     let shown = 0;
     for (const r of rows) {
       const hit = !q || norm(r.dataset.search ?? '').includes(q);
       r.hidden = !hit;
       if (hit) shown++;
     }
-    // Hide a section (e.g. Inactive) when the search leaves none of its rows.
-    for (const sec of document.querySelectorAll<HTMLElement>('[data-filter-section]')) {
-      sec.hidden = !sec.querySelector('[data-search]:not([hidden])');
+    if (!results) {
+      // Hide a section when the search leaves none of its rows.
+      for (const sec of document.querySelectorAll<HTMLElement>('[data-filter-section]')) {
+        sec.hidden = !sec.querySelector('[data-search]:not([hidden])');
+      }
     }
     if (count) count.textContent = q ? `${shown} of ${rows.length}` : `${rows.length}`;
     if (empty) empty.hidden = shown > 0;

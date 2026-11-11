@@ -2,7 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
 import StatusTag from '../../components/StatusTag.astro';
-import { players, playerById, seasonById, seasonLabel, guildLabel, fmtInt, fmtM, fmtServer, finished, timeNote, nameOf } from '../../lib/data';
+import GroupTag from '../../components/GroupTag.astro';
+import { players, playerById, seasonById, seasonLabel, guildLabel, fmtInt, fmtM, fmtServer, finished, timeNote, nameOf, abex } from '../../lib/data';
 
 export function getStaticPaths() {
   return players.map((p) => ({ params: { id: p.id } }));
@@ -12,7 +13,13 @@ const { id } = Astro.params as { id: string };
 const p = playerById.get(id)!;
 const otherNames = p.names.filter((n) => n !== p.name);
 const riftNewest = [...p.rift].reverse();
-const ledNewest = [...p.led].reverse();
+// Guilds this player is tied to: any guild they appear under in a ranking or led in AbEx.
+const tiedGuilds = [...new Set([...p.rift, ...p.led].map((r) => r.guildId).filter(Boolean))];
+const seasonOrder = (sid: string) => seasonById.get(sid)?.order ?? 0;
+// Those guilds' AbEx results, newest season first.
+const guildRecords = abex
+  .filter((r) => tiedGuilds.includes(r.guildId) && r.damageRank != null)
+  .sort((a, b) => seasonOrder(b.seasonId) - seasonOrder(a.seasonId) || (a.damageRank as number) - (b.damageRank as number));
 const best = p.rift.length ? Math.max(...p.rift.map((r) => r.floor)) : null;
 const bestRank = p.rift.length ? Math.min(...p.rift.map((r) => r.rank)) : null;
 const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.server ?? null;
@@ -33,7 +40,7 @@ const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.se
     <div class="tile"><span class="k">Best Rift floor</span><span class="v">{best == null ? '—' : fmtInt(best)}</span></div>
     <div class="tile"><span class="k">Best Rift rank</span><span class="v">{bestRank == null ? '—' : `#${bestRank}`}</span></div>
     <div class="tile"><span class="k">Rift seasons</span><span class="v">{p.rift.length}</span></div>
-    <div class="tile"><span class="k">AbEx seasons as leader</span><span class="v">{p.led.length}</span></div>
+    <div class="tile"><span class="k">Guilds</span><span class="v">{tiedGuilds.length}</span><span class="s">{tiedGuilds.length === 1 ? 'guild' : 'guilds'} in their records</span></div>
   </div>
 
   {riftNewest.length > 0 && (
@@ -61,22 +68,24 @@ const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.se
     </section>
   )}
 
-  {ledNewest.length > 0 && (
-    <section class="card" id="led">
-      <h2>Guilds led in AbEx</h2>
+  {guildRecords.length > 0 && (
+    <section class="card" id="guild-records">
+      <h2>Guild records</h2>
+      <p class="note small muted">AbEx results of every guild this player has been ranked with or led.</p>
       <div class="table-wrap">
         <table class="rank">
-          <thead><tr><th>Season</th><th>Guild</th><th class="num">Damage rank</th><th class="num">Damage</th><th class="num">Finish / last attack</th></tr></thead>
+          <thead><tr><th>Season</th><th>Guild</th><th class="num">Damage rank</th><th class="num">Damage</th><th class="num">Finish / last attack</th><th>Leader</th></tr></thead>
           <tbody>
-            {ledNewest.map((r) => {
+            {guildRecords.map((r) => {
               const s = seasonById.get(r.seasonId);
               return (
                 <tr>
                   <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
-                  <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{nameOf(r)}</a>{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}</td>
+                  <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}</td>
                   <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
                   <td class="num">{fmtM(r.damage)}</td>
                   <td class="num">{r.time ? <span class:list={{ fin: finished(r) }}>{timeNote(r)}</span> : '—'}</td>
+                  <td>{r.leaderId === p.id ? <strong>{r.leaderName || p.name} (this player)</strong> : r.leaderId ? <a href={`/player/${r.leaderId}/`}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
                 </tr>
               );
             })}

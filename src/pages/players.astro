@@ -28,26 +28,48 @@ const sections = [
     <p id="filter-empty" class="empty-note" hidden>No player matches that search.</p>
   </div>
 
-  {sections.map((sec) => (
-    <section class="card" id={sec.id} data-filter-section>
-      <h2>{sec.title} <span class="muted small">{sec.rows.length}</span></h2>
-      <div class="table-wrap">
-        <table class="rank">
-          <thead><tr><th>Player</th><th>Guild</th><th class="num">Best floor</th><th class="num">Best Rift rank</th><th class="num">Player ID</th></tr></thead>
-          <tbody>
-            {sec.rows.map((p) => (
-              <tr data-search={[...p.names, p.id, guildLabel(p.guildId), p.inactive ? 'inactive' : 'active'].join(' ')}>
+  <div data-browse>
+    {sections.map((sec) => (
+      <section class="card" id={sec.id}>
+        <h2>{sec.title} <span class="muted small">{sec.rows.length}</span></h2>
+        <div class="table-wrap">
+          <table class="rank">
+            <thead><tr><th>Player</th><th>Guild</th><th class="num">Best floor</th><th class="num">Best Rift rank</th><th class="num">Player ID</th></tr></thead>
+            <tbody>
+              {sec.rows.map((p) => (
+                <tr>
                 <td><a href={`/player/${p.id}/`}>{p.name}</a><StatusTag inactive={p.inactive} />{p.names.length > 1 && <span class="muted small"> · {p.names.length} names</span>}</td>
                 <td>{p.guildId ? <a href={`/guild/${encodeURIComponent(p.guildId)}/`}>{guildLabel(p.guildId)}</a> : '—'}</td>
                 <td class="num">{p.best == null ? '—' : fmtInt(p.best)}</td>
                 <td class="num">{p.bestRank == null ? '—' : `#${p.bestRank}`}</td>
                 <td class="num muted">{p.id}</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  ))}
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="card" data-results hidden>
+    <h2>Search results</h2>
+    <div class="table-wrap">
+      <table class="rank">
+        <thead><tr><th>Player</th><th>Guild</th><th class="num">Best floor</th><th class="num">Best Rift rank</th><th class="num">Player ID</th></tr></thead>
+        <tbody>
+          {list.map((p) => (
+            <tr data-search={[...p.names, p.id, guildLabel(p.guildId), p.inactive ? 'inactive' : 'active'].join(' ')}>
+                <td><a href={`/player/${p.id}/`}>{p.name}</a><StatusTag inactive={p.inactive} />{p.names.length > 1 && <span class="muted small"> · {p.names.length} names</span>}</td>
+                <td>{p.guildId ? <a href={`/guild/${encodeURIComponent(p.guildId)}/`}>{guildLabel(p.guildId)}</a> : '—'}</td>
+                <td class="num">{p.best == null ? '—' : fmtInt(p.best)}</td>
+                <td class="num">{p.bestRank == null ? '—' : `#${p.bestRank}`}</td>
+                <td class="num muted">{p.id}</td>
+              </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
   <FilterScript />
 </Layout>

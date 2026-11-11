@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import FilterScript from '../components/FilterScript.astro';
+import StatusTag from '../components/StatusTag.astro';
 import { players, guildLabel, fmtInt } from '../lib/data';
 
 const list = players.map((p) => ({
@@ -36,7 +37,7 @@ const sections = [
           <tbody>
             {sec.rows.map((p) => (
               <tr data-search={[...p.names, p.id, guildLabel(p.guildId), p.inactive ? 'inactive' : 'active'].join(' ')}>
-                <td><a href={`/player/${p.id}/`}>{p.name}</a>{p.names.length > 1 && <span class="muted small"> · {p.names.length} names</span>}</td>
+                <td><a href={`/player/${p.id}/`}>{p.name}</a><StatusTag inactive={p.inactive} />{p.names.length > 1 && <span class="muted small"> · {p.names.length} names</span>}</td>
                 <td>{p.guildId ? <a href={`/guild/${encodeURIComponent(p.guildId)}/`}>{guildLabel(p.guildId)}</a> : '—'}</td>
                 <td class="num">{p.best == null ? '—' : fmtInt(p.best)}</td>
                 <td class="num">{p.bestRank == null ? '—' : `#${p.bestRank}`}</td>

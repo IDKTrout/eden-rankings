@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
 import GroupTag from '../../components/GroupTag.astro';
+import StatusTag from '../../components/StatusTag.astro';
 import { regions, seasons, seasonLabel, abex, rift, finished, guildLabel, fmtInt, fmtM, nameOf } from '../../lib/data';
 import { guildsInRegion, playersInRegion, regionAbex, regionRift, guildServer, playerServer } from '../../lib/regions';
 
@@ -88,7 +89,7 @@ const playerRows = playersInRegion(region)
             <tbody>
               {guildRows.map((r) => (
                 <tr>
-                  <td><a href={`/guild/${encodeURIComponent(r.g.id)}/`}>{r.g.name}</a><GroupTag guildId={r.g.id} /></td>
+                  <td><a href={`/guild/${encodeURIComponent(r.g.id)}/`}>{r.g.name}</a><StatusTag inactive={r.g.inactive} /><GroupTag guildId={r.g.id} /></td>
                   <td>{r.server != null ? `S${r.server}` : '—'}</td>
                   <td class="num">{r.best == null ? '—' : <Rank value={r.best} tiers="abex" />}</td>
                   <td class="num">{r.finishes || '—'}</td>
@@ -110,7 +111,7 @@ const playerRows = playersInRegion(region)
             <tbody>
               {playerRows.map(({ p, server, best, bestRank }) => (
                 <tr>
-                  <td><a href={`/player/${p.id}/`}>{p.name}</a></td>
+                  <td><a href={`/player/${p.id}/`}>{p.name}</a><StatusTag inactive={p.inactive} /></td>
                   <td>{server != null ? `S${server}` : '—'}</td>
                   <td class="num">{fmtInt(best)}</td>
                   <td class="num">#{bestRank}</td>

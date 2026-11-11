@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
 import GroupTag from '../../components/GroupTag.astro';
+import StatusTag from '../../components/StatusTag.astro';
 import {
   groups, groupById, groupMembers, seasons, seasonLabel, abex, rift, finished,
   fmtInt, fmtM, fmtServer, nameOf,
@@ -90,7 +91,7 @@ const history = [...seasons].reverse().map((s) => {
         <tbody>
           {memberRows.map((r) => (
             <tr>
-              <td><a href={`/guild/${encodeURIComponent(r.m.id)}/`}>{r.m.name}</a></td>
+              <td><a href={`/guild/${encodeURIComponent(r.m.id)}/`}>{r.m.name}</a><StatusTag inactive={r.m.inactive} /></td>
               <td>{fmtServer(r.server)}</td>
               <td class="num">{r.best == null ? '—' : <Rank value={r.best} tiers="abex" />}</td>
               <td class="num">{r.finishedCount || '—'}</td>

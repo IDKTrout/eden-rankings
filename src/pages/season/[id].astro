@@ -8,7 +8,7 @@ import GroupTag from '../../components/GroupTag.astro';
 import { abexStandings, riftStandings } from '../../lib/groups';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
-  fmtInt, fmtM, fmtEss, fmtServer, finished, timeNote, groupById, type Season,
+  fmtInt, fmtM, fmtEss, fmtServer, finished, timeNote, groupById, nameOf, type Season,
 } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -52,11 +52,11 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
   {aSum && (
     <>
       {aSum.finished > 1 && aSum.fastest ? (
-        <p class="lede"><strong>{aSum.finished} guilds</strong> reached the max damage of <strong>{fmtM(aSum.max)}</strong>. <a href={guildHref(aSum.fastest.guildId)}><strong>{aSum.fastest.guildName}</strong></a> finished first, in <strong>{aSum.fastest.time}</strong>.</p>
+        <p class="lede"><strong>{aSum.finished} guilds</strong> reached the max damage of <strong>{fmtM(aSum.max)}</strong>. <a href={guildHref(aSum.fastest.guildId)}><strong>{nameOf(aSum.fastest)}</strong></a> finished first, in <strong>{aSum.fastest.time}</strong>.</p>
       ) : aSum.finished === 1 && aSum.fastest ? (
-        <p class="lede">Only <a href={guildHref(aSum.fastest.guildId)}><strong>{aSum.fastest.guildName}</strong></a> reached the max damage of <strong>{fmtM(aSum.max)}</strong>, finishing in <strong>{aSum.fastest.time}</strong>.{aSum.nextBest && <> <a href={guildHref(aSum.nextBest.guildId)}>{aSum.nextBest.guildName}</a> came closest at <strong>{fmtM(aSum.nextBest.damage)}</strong>.</>}</p>
+        <p class="lede">Only <a href={guildHref(aSum.fastest.guildId)}><strong>{nameOf(aSum.fastest)}</strong></a> reached the max damage of <strong>{fmtM(aSum.max)}</strong>, finishing in <strong>{aSum.fastest.time}</strong>.{aSum.nextBest && <> <a href={guildHref(aSum.nextBest.guildId)}>{nameOf(aSum.nextBest)}</a> came closest at <strong>{fmtM(aSum.nextBest.damage)}</strong>.</>}</p>
       ) : (
-        <p class="lede">No guild reached the max damage{aSum.maxRecorded && <> of <strong>{fmtM(aSum.max)}</strong></>}. <a href={guildHref(aSum.leader.guildId)}><strong>{aSum.leader.guildName}</strong></a> dealt the most, <strong>{fmtM(aSum.top)}</strong>.</p>
+        <p class="lede">No guild reached the max damage{aSum.maxRecorded && <> of <strong>{fmtM(aSum.max)}</strong></>}. <a href={guildHref(aSum.leader.guildId)}><strong>{nameOf(aSum.leader)}</strong></a> dealt the most, <strong>{fmtM(aSum.top)}</strong>.</p>
       )}
 
       <div class="tiles">
@@ -73,9 +73,9 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
           <BarList
             label={`Top 20 guilds by damage in ${label}`}
             bars={top20.map((r) => ({
-              label: r.guildName, value: r.damage as number, display: fmtInt(r.damage),
+              label: nameOf(r), value: r.damage as number, display: fmtInt(r.damage),
               href: guildHref(r.guildId), highlight: finished(r),
-              detail: `#${r.damageRank} ${r.guildName}: ${fmtM(r.damage)}. ${timeNote(r)}`,
+              detail: `#${r.damageRank} ${nameOf(r)}: ${fmtM(r.damage)}. ${timeNote(r)}`,
             }))}
           />
         </section>
@@ -87,7 +87,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
               label={`Damage against finish or last-attack time for ${timed.length} guilds in ${label}`}
               points={timed.map((r) => ({
                 x: (r.seconds as number) / 3600, y: r.damage as number,
-                label: `#${r.damageRank} ${r.guildName}: ${fmtM(r.damage)}. ${timeNote(r)}`,
+                label: `#${r.damageRank} ${nameOf(r)}: ${fmtM(r.damage)}. ${timeNote(r)}`,
                 highlight: finished(r), href: guildHref(r.guildId),
               }))}
               xTicks={(v) => `${v}h`}
@@ -104,7 +104,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
               label={`Essence against damage for ${withEssence.length} guilds in ${label}`}
               points={withEssence.map((r) => ({
                 x: r.damage as number, y: r.essence as number,
-                label: `${r.guildName}: damage ${fmtM(r.damage)}, essence ${fmtEss(r.essence)}`,
+                label: `${nameOf(r)}: damage ${fmtM(r.damage)}, essence ${fmtEss(r.essence)}`,
                 href: guildHref(r.guildId),
               }))}
               xTicks={(v) => (v === 0 ? '0' : v >= 1e6 ? `${(v / 1e6).toLocaleString('en-US')}T` : `${(v / 1e3).toLocaleString('en-US')}B`)}
@@ -126,7 +126,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
                   <tr>
                     <td><a href={`/group/${g.groupId}/`}>{groupById.get(g.groupId)?.name}</a></td>
                     <td class="num">{g.guilds}</td>
-                    <td><Rank value={g.best.damageRank} tiers="abex" /> <a href={guildHref(g.best.guildId)}>{g.best.guildName}</a></td>
+                    <td><Rank value={g.best.damageRank} tiers="abex" /> <a href={guildHref(g.best.guildId)}>{nameOf(g.best)}</a></td>
                     <td class="num">{g.finished}</td>
                     <td class="num">{fmtM(g.totalDamage)}</td>
                   </tr>
@@ -158,7 +158,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
               {abexRows.map((r) => (
                 <tr>
                   <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
-                  <td><a href={guildHref(r.guildId)}>{r.guildName}</a><GroupTag guildId={r.guildId} /></td>
+                  <td><a href={guildHref(r.guildId)}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}</td>
                   <td>{r.leaderId ? <a href={playerHref(r.leaderId)}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
                   <td>{fmtServer(r.server)}</td>
                   <td class="num">{fmtInt(r.damage)}</td>
@@ -242,7 +242,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
                   <td><a href={playerHref(r.playerId)}>{r.playerName}</a></td>
                   <td class="num">{fmtInt(r.floor)}</td>
                   <td>{fmtServer(r.server)}</td>
-                  <td>{r.guildId ? <><a href={guildHref(r.guildId)}>{guildLabel(r.guildId, r.guildName)}</a><GroupTag guildId={r.guildId} /></> : r.guildName || '—'}</td>
+                  <td>{r.guildId ? <><a href={guildHref(r.guildId)}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}</> : r.guildName || '—'}</td>
                 </tr>
               ))}
             </tbody>

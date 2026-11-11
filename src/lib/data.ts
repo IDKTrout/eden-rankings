@@ -214,6 +214,8 @@ export function finished(r: AbexRow) {
 export const timeNote = (r: AbexRow) => (r.time ? `${finished(r) ? 'Finished' : 'Last attack'} ${r.time}` : '');
 
 export const guildLabel = (id: string, fallback = '') => guildById.get(id)?.name || fallback || id;
+/** A ranking row's guild under its current name (from the guilds tab), falling back to the name listed that season. */
+export const nameOf = (r: { guildId: string; guildName: string }) => guildLabel(r.guildId, r.guildName);
 
 export function abexFor(seasonId: string) {
   return abex

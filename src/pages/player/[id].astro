@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
-import { players, playerById, seasonById, seasonLabel, guildLabel, fmtInt, fmtM, fmtServer, finished, timeNote } from '../../lib/data';
+import { players, playerById, seasonById, seasonLabel, guildLabel, fmtInt, fmtM, fmtServer, finished, timeNote, nameOf } from '../../lib/data';
 
 export function getStaticPaths() {
   return players.map((p) => ({ params: { id: p.id } }));
@@ -72,7 +72,7 @@ const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.se
               return (
                 <tr>
                   <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
-                  <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{r.guildName}</a></td>
+                  <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{nameOf(r)}</a>{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}</td>
                   <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
                   <td class="num">{fmtM(r.damage)}</td>
                   <td class="num">{r.time ? <span class:list={{ fin: finished(r) }}>{timeNote(r)}</span> : '—'}</td>

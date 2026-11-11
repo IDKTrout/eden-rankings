@@ -4,7 +4,7 @@ import Rank from '../../components/Rank.astro';
 import GroupTag from '../../components/GroupTag.astro';
 import {
   groups, groupById, groupMembers, seasons, seasonLabel, abex, rift, finished,
-  fmtInt, fmtM, fmtServer,
+  fmtInt, fmtM, fmtServer, nameOf,
 } from '../../lib/data';
 import { abexStandings, riftStandings, seasonOrder } from '../../lib/groups';
 
@@ -61,7 +61,7 @@ const history = [...seasons].reverse().map((s) => {
                 st && 'guilds' in st ? (
                   <>
                     <td class="num">{st.guilds} {st.guilds === 1 ? 'guild' : 'guilds'}</td>
-                    <td><Rank value={st.best.damageRank} tiers="abex" /> <a href={`/guild/${encodeURIComponent(st.best.guildId)}/`}>{st.best.guildName}</a> <span class="muted small">{fmtM(st.best.damage)}</span></td>
+                    <td><Rank value={st.best.damageRank} tiers="abex" /> <a href={`/guild/${encodeURIComponent(st.best.guildId)}/`}>{nameOf(st.best)}</a> <span class="muted small">{fmtM(st.best.damage)}</span></td>
                     <td class="num">{st.finished}</td>
                   </>
                 ) : <><td class="num muted">—</td><td class="muted">No guild ranked</td><td class="num muted">—</td></>

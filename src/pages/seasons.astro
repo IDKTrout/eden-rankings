@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Credit from '../components/Credit.astro';
-import { seasons, seasonLabel, abexSummary, riftSummary, fmtM, fmtInt } from '../lib/data';
+import { seasons, seasonLabel, abexSummary, riftSummary, fmtM, fmtInt, nameOf } from '../lib/data';
 
 const list = [...seasons].reverse().map((s) => {
   if (s.kind === 'abex') {
     const a = abexSummary(s.id);
-    return { s, leader: a?.leader.guildName ?? '—', stat: a ? fmtM(a.top) : '—', count: a ? `${a.guilds} guilds` : '' };
+    return { s, leader: a ? nameOf(a.leader) : '—', stat: a ? fmtM(a.top) : '—', count: a ? `${a.guilds} guilds` : '' };
   }
   const r = riftSummary(s.id);
   return { s, leader: r?.top.playerName ?? '—', stat: r ? `Floor ${fmtInt(r.top.floor)}` : '—', count: r ? `${r.players} players` : '' };

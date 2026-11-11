@@ -1,4 +1,4 @@
-# Eden Rankings
+# Event Rankings
 
 A website for Eden ranking seasons: AbEx guild damage and Temporal Rift player floors, with pages for every guild and player across seasons.
 

@@ -15,7 +15,7 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
 ---
 <Layout>
   <section class="hero">
-    <span class="eyebrow">Eden rankings archive</span>
+    <span class="eyebrow">Eden event rankings</span>
     <h1>Every ranked guild and player, season by season</h1>
     <p class="lede">AbEx guild damage and Temporal Rift floors, with guild and player histories that follow them through name changes.</p>
     <form class="hero-search" action="/search/" method="get" role="search">
@@ -42,7 +42,7 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
           <tbody>
             {topAbex.map((r) => (
               <tr>
-                <td class="num"><Rank value={r.damageRank} /></td>
+                <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
                 <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{r.guildName}</a></td>
                 <td class="num">{fmtM(r.damage)}</td>
                 <td class="num">{r.time}</td>

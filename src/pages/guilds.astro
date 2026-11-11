@@ -22,7 +22,7 @@ const list = guildIds.map((id) => {
   };
 }).sort((a, b) => (a.best ?? 1e9) - (b.best ?? 1e9) || b.riftPlayers - a.riftPlayers || a.name.localeCompare(b.name));
 ---
-<Layout title="Guilds" description="Every guild in the Eden rankings, with its best AbEx rank and Temporal Rift players.">
+<Layout title="Guilds" description="Every guild in the Eden event rankings, with its best AbEx rank and Temporal Rift players.">
   <section class="page-head">
     <span class="eyebrow">Directory</span>
     <h1>Guilds</h1>

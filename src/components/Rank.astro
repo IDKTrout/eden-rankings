@@ -1,6 +1,22 @@
 ---
-interface Props { value: number | null | undefined }
-const { value } = Astro.props;
-const medal = value != null && value >= 1 && value < 4 ? `medal m${value}` : '';
+// Rank badge. AbEx damage ranks: 1–5 gold, 6–10 silver, 11–50 bronze.
+// Other rankings: top 3 get gold, silver and bronze.
+interface Props {
+  value: number | null | undefined;
+  tiers?: 'abex' | 'top3';
+}
+const { value, tiers = 'top3' } = Astro.props;
+
+function tier(v: number): 'gold' | 'silver' | 'bronze' | '' {
+  if (tiers === 'abex') {
+    if (v >= 1 && v <= 5) return 'gold';
+    if (v >= 6 && v <= 10) return 'silver';
+    if (v >= 11 && v <= 50) return 'bronze';
+    return '';
+  }
+  return v === 1 ? 'gold' : v === 2 ? 'silver' : v === 3 ? 'bronze' : '';
+}
+const t = value == null ? '' : tier(value);
+const label = t ? `Rank ${value}, ${t} tier` : undefined;
 ---
-{value == null ? <span class="muted">—</span> : medal ? <span class={medal}>{value}</span> : <span>{value}</span>}
+{value == null ? <span class="muted">—</span> : t ? <span class={`medal ${t}`} title={label} aria-label={label}>{value}</span> : <span>{value}</span>}

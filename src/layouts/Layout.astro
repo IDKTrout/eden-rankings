@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 const { title, description = 'AbEx guild damage and Temporal Rift floors for Eden, season by season.' } = Astro.props;
-const fullTitle = title ? `${title} · Eden Rankings` : 'Eden Rankings';
+const fullTitle = title ? `${title} · Event Rankings` : 'Event Rankings';
 const path = Astro.url.pathname;
 const nav = [
   { href: '/seasons/', label: 'Seasons', match: ['/seasons', '/season/'] },
@@ -32,7 +32,7 @@ const nav = [
       <div class="wrap head-row">
         <a class="brand" href="/">
           <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><path d="M16 2 28 9v14L16 30 4 23V9z" fill="var(--accent)" /><path d="M16 8l6 3.5v9L16 24l-6-3.5v-9z" fill="var(--surface)" /><path d="M16 12.5l2.5 1.5v4L16 19.5 13.5 18v-4z" fill="var(--accent)" /></svg>
-          <span>Eden Rankings</span>
+          <span>Event Rankings</span>
         </a>
         <nav aria-label="Main">
           {nav.map((n) => (
@@ -160,9 +160,12 @@ const nav = [
   table.rank a:hover { text-decoration: underline; }
 
   .medal { display: inline-grid; place-items: center; min-width: 1.7rem; height: 1.7rem; padding: 0 .3rem; border-radius: 999px; font-weight: 600; font-size: .8rem; }
-  .medal.m1 { background: var(--gold); color: #1d1503; }
-  .medal.m2 { background: var(--silver); color: #10151f; }
-  .medal.m3 { background: var(--bronze); color: #1f0f05; }
+  .medal.gold { background: var(--gold); color: #1d1503; }
+  .medal.silver { background: var(--silver); color: #10151f; }
+  .medal.bronze { background: var(--bronze); color: #1f0f05; }
+  .tier-key { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: .8rem; color: var(--muted); margin: 0; padding: 0; list-style: none; }
+  .tier-key li { display: inline-flex; align-items: center; gap: .4rem; }
+  .tier-key .medal { min-width: 1.1rem; height: 1.1rem; padding: 0; }
 
   .filter { width: 100%; max-width: 420px; padding: .6rem .8rem; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
   .filter::placeholder { color: var(--muted); }

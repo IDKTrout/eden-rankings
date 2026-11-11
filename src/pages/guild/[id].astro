@@ -59,7 +59,7 @@ const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.lea
               return (
                 <tr>
                   <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
-                  <td class="num"><Rank value={r.damageRank} /></td>
+                  <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
                   <td>{r.guildName}</td>
                   <td>{r.leaderId ? <a href={`/player/${r.leaderId}/`}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
                   <td class="num">{fmtM(r.damage)}</td>

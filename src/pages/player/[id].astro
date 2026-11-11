@@ -73,7 +73,7 @@ const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.se
                 <tr>
                   <td><a href={`/season/${r.seasonId}/`}>{s ? seasonLabel(s) : r.seasonId}</a></td>
                   <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{r.guildName}</a></td>
-                  <td class="num"><Rank value={r.damageRank} /></td>
+                  <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
                   <td class="num">{fmtM(r.damage)}</td>
                   <td class="num">{r.time || '—'}</td>
                 </tr>

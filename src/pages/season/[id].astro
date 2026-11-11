@@ -109,6 +109,11 @@ const hours = (s: number) => `${Math.round(s / 3600)}h`;
 
       <section class="card" id="ranking">
         <h2>Full ranking</h2>
+        <ul class="tier-key" aria-label="Rank tiers">
+          <li><span class="medal gold"></span>Gold: ranks 1–5</li>
+          <li><span class="medal silver"></span>Silver: 6–10</li>
+          <li><span class="medal bronze"></span>Bronze: 11–50</li>
+        </ul>
         <div class="table-wrap tall">
           <table class="rank">
             <thead>
@@ -121,7 +126,7 @@ const hours = (s: number) => `${Math.round(s / 3600)}h`;
             <tbody>
               {abexRows.map((r) => (
                 <tr>
-                  <td class="num"><Rank value={r.damageRank} /></td>
+                  <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
                   <td><a href={guildHref(r.guildId)}>{r.guildName}</a></td>
                   <td>{r.leaderId ? <a href={playerHref(r.leaderId)}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
                   <td>{fmtServer(r.server)}</td>

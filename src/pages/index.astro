@@ -4,7 +4,7 @@ import Rank from '../components/Rank.astro';
 import Credit from '../components/Credit.astro';
 import {
   latestOf, seasonLabel, abexFor, riftFor, abexSummary, riftSummary, seasons, guildIds, players,
-  fmtM, fmtInt, guildLabel, finished, timeNote, nameOf,
+  fmtM, fmtInt, guildLabel, finished, timeNote, nameOf, fmtDate,
 } from '../lib/data';
 
 const abexSeason = latestOf('abex');
@@ -34,6 +34,7 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
           <div>
             <span class="eyebrow">Latest AbEx</span>
             <h2 class="display"><a href={`/season/${abexSeason.id}/`}>{seasonLabel(abexSeason)}</a></h2>
+            {abexSeason.endDate && <p class="muted small">Ended {fmtDate(abexSeason.endDate)}</p>}
           </div>
           <a class="more" href={`/season/${abexSeason.id}/`}>Full ranking →</a>
         </div>
@@ -60,6 +61,7 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
           <div>
             <span class="eyebrow">Latest Temporal Rift</span>
             <h2 class="display"><a href={`/season/${riftSeason.id}/`}>{seasonLabel(riftSeason)}</a></h2>
+            {riftSeason.endDate && <p class="muted small">Ended {fmtDate(riftSeason.endDate)}</p>}
           </div>
           <a class="more" href={`/season/${riftSeason.id}/`}>Full ranking →</a>
         </div>

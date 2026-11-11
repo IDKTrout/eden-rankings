@@ -17,7 +17,7 @@ Everything is entered in the Google Sheet **AbEx Guild Rankings**. The site read
 | `regions` | region | `first_server` to `last_server`; a row turns red if it overlaps another |
 | `guild_names` | spelling of a guild name seen in a ranking | maps each spelling to one `guild_id`, which is how renamed guilds are combined |
 | `players` | player | `player_id` is the game's player ID; tick `inactive` for players who stopped |
-| `seasons` | ranking season | oldest first; `max_damage_m` for AbEx, `compiled_by` and `thanks` for credits |
+| `seasons` | ranking season | oldest first; `end_date` (shown as "Ended …"), `max_damage_m` for AbEx, `compiled_by` and `thanks` for credits |
 | `fields` | column | describes every column in every tab |
 | `checks` | — | flags problems automatically; row 2 is green at 0 and red when something needs fixing |
 
@@ -25,7 +25,7 @@ Guilds are matched by `guild_id` and players by `player_id`, so name changes kee
 
 ## Adding a season
 
-1. Add a row to `seasons` at the bottom (events are listed in the order they took place). For AbEx, fill in `max_damage_m`.
+1. Add a row to `seasons` at the bottom (events are listed in the order they took place) with its `end_date`. For AbEx, fill in `max_damage_m`.
 2. Add the ranking rows to `abex_rankings` or `rift_rankings` with the new `season_id`, typing guild names exactly as they appear in the image.
 3. Open the `checks` tab and fix anything it lists:
    - a new guild spelling: add it to `guild_names` (and the guild to `guilds` if it's new);

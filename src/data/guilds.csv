@@ -1,9 +1,9 @@
 guild_id,guild_name,home_server,region,names_seen,abex_seasons,rift_seasons,notes,group_id,inactive
-g007,<NO M≡RCY>,1,1,<NO M≡RCY>,2,1,,,FALSE
+30060,<NO M≡RCY>,1,1,<NO M≡RCY>,2,1,,,FALSE
 g027,Astra,4,2,Astra,2,0,,,FALSE
 g012,✨Wonderland✨,5,3,✨Wonderland✨,2,0,,,FALSE
 g160,Дети Гаранта,6,3,Дети Гаранта,1,0,,,FALSE
-g146,SUPERNOVA,7,4,SUPERNOVA,2,1,,,FALSE
+31616,SUPERNOVA,7,4,SUPERNOVA,2,1,,,FALSE
 g161,Песочница,7,4,Песочница,2,0,,,FALSE
 g024,Animal Kingdom,9,4,Animal Kingdom,2,0,,,FALSE
 32398,Eden:Road2Heaven,10,4,Eden:Road2Heaven / RoadtoHeaven,2,1,,eden,FALSE
@@ -19,7 +19,7 @@ g025,ANIMOSITY,18,6,ANIMOSITY,2,1,,,FALSE
 g032,Bees,30,6,Bees,2,0,,,FALSE
 g018,Æternum,33,7,Aeternum / Æternum,2,1,,,FALSE
 g119,Quality Hotpot,37,7,Quality Hotpot,2,0,,,FALSE
-g123,Re:,44,8,Re:,2,1,,,FALSE
+41733,Re:,44,8,Re:,2,1,,,FALSE
 g156,Wicked Serene,45,,Wicked Serene,2,0,,,FALSE
 g040,Bundes Bros 🔥,49,,Bundes Bros 🔥,1,0,,,FALSE
 g095,great Nazarick,58,,great Nazarick,2,0,,,FALSE
@@ -51,7 +51,7 @@ g006,°•♡Nemesis♡•°,159,16,*°Nemesis°* / °•♡Nemesis♡•°,2,0,
 g054,Deepwoken,160,16,Deepwoken,2,0,,,FALSE
 g030,Banshee,163,17,Banshee,2,1,,,FALSE
 g096,Haze,170,17,Haze,2,0,,,FALSE
-g086,FATE,171,17,FATE / FATE | Banshee,2,0,,,FALSE
+93890,FATE,171,17,FATE / FATE | Banshee,2,0,,,FALSE
 g108,Najiris,174,,Najiris,2,0,,,FALSE
 95973,Eden: JUSTICE#,177,18,Eden: JUSTICE#,2,0,,eden,FALSE
 96092,Eden: VURK MAFIA,178,18,Eden: VURK MAFIA,2,1,,eden,FALSE
@@ -61,8 +61,7 @@ g117,OneVictory,189,19,OneVictory,2,0,,,FALSE
 103262,Eden: Aokaze,200,20,Eden: Aokaze,2,0,,eden,FALSE
 105738,Eden: Drakonis,204,20,Eden: Drakonis,2,0,,eden,FALSE
 106180,Eden: Vyraxus,208,20,Eden: Vyraxus,2,0,,eden,FALSE
-g013,🌕Element: Sun🌕,210,20,🌕Element: Sun🌕,1,0,,elts,FALSE
-g015,🔥Swetty Sun🔥,210,20,🔥Swetty Sun🔥,1,0,,,FALSE
+107196,🌕Element: Sun🌕,210,20,🌕Element: Sun🌕 / 🔥Swetty Sun🔥,2,0,,elts,FALSE
 107859,Eden: Aurelion,210,20,Eden: Aurelion,2,1,,eden,FALSE
 g112,NovaChrono,211,20,NovaChrono,1,0,,,FALSE
 127295,Knights of RHOK.,214,21,Knights of RHOK / Knights of RHOK.,2,1,,,FALSE
@@ -96,7 +95,7 @@ g041,BurnHub,278,,BurnHub,2,1,,,FALSE
 g145,STΛNDyourGRΘUND,281,,STΛNDyourGRΘUND,1,0,,,FALSE
 g083,Elysium,282,,Elysium,1,0,,,FALSE
 g140,Sin: Wrath 🔥,286,,Sin: Wrath 🔥,2,0,,sin,FALSE
-g138,Sin: Pride,287,,Sin: Pride,2,1,,sin,FALSE
+143337,Sin: Pride,287,,Sin: Pride,2,1,,sin,FALSE
 g162,Пыточная,289,29,Пыточная,2,0,,,FALSE
 g081,Element:Oblivion,291,30,Element:Oblivion,1,0,,elts,FALSE
 g017,AdySSS,292,30,AdySSS,2,1,,,FALSE

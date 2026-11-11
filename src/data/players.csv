@@ -1,20 +1,20 @@
 player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
-30028,JasonBourne,g007,JasonBourne,1,,FALSE
-34173,duy197,g007,duy197,1,,FALSE
-42352,Genesis,g007,Genesis,1,,FALSE
-44843,Tunarda,g007,Tunarda,1,,FALSE
-45119,StandUp,g007,StandUp,1,,FALSE
+30028,JasonBourne,30060,JasonBourne,1,,FALSE
+34173,duy197,30060,duy197,1,,FALSE
+42352,Genesis,30060,Genesis,1,,FALSE
+44843,Tunarda,30060,Tunarda,1,,FALSE
+45119,StandUp,30060,StandUp,1,,FALSE
 72113,Lestro,g027,Lestro,0,,FALSE
 140904,Демиург,g012,Демиург,0,,FALSE
 155411,Manax,g160,Manax,0,,FALSE
-176674,SCORCHED ‡,g146,SCORCHED ‡,1,,FALSE
+176674,SCORCHED ‡,31616,SCORCHED ‡,1,,FALSE
 178533,девочка кошка,g161,девочка кошка,0,,FALSE
-183149,eeee,g146,eeee,1,,FALSE
-185223,SantafeVN,g146,SantafeVN,1,,FALSE
-186159,팅코,g146,팅코,1,,FALSE
-189532,Riserlan,g146,Riserlan,1,,FALSE
+183149,eeee,31616,eeee,1,,FALSE
+185223,SantafeVN,31616,SantafeVN,1,,FALSE
+186159,팅코,31616,팅코,1,,FALSE
+189532,Riserlan,31616,Riserlan,1,,FALSE
 202390,TheWhiteMask,67247,TheWhiteMask,0,,FALSE
-203967,Grandpa Joe,g146,Grandpa Joe,1,,FALSE
+203967,Grandpa Joe,31616,Grandpa Joe,1,,FALSE
 206605,maco,g024,maco,0,,FALSE
 215757,MEL,32398,MEL,1,,FALSE
 218336,Dare Black,32398,Dare Black,1,,FALSE
@@ -30,9 +30,9 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 498601,SaiLus,g018,SaiLus,1,,FALSE
 543253,Jelee,g119,Jelee,0,,FALSE
 578212,Emperor King,g156,Emperor King,0,,FALSE
-582165,Ayaki,g123,Ayaki,1,,FALSE
-589063,OXIR_,g123,OXIR_,0,,TRUE
-616944,daddy 🍑,g123,daddy 🍑,1,,FALSE
+582165,Ayaki,41733,Ayaki,1,,FALSE
+589063,OXIR_,41733,OXIR_,0,,TRUE
+616944,daddy 🍑,41733,daddy 🍑,1,,FALSE
 887180,SSSilver,g095,SSSilver,0,,FALSE
 938806,〖ARRØW〗,g089,〖ARRØW〗,0,,FALSE
 1125292,25-й Баам,49391,25-й Баам,0,,FALSE
@@ -64,7 +64,7 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 3400953,ChaosMonkey,g030,ChaosMonkey,0,,FALSE
 3501216,Kagatsu,g030,Kagatsu,1,,FALSE
 3613145,akane,g096,akane,0,,FALSE
-3643459,Kennison,g086,Kennison,0,,FALSE
+3643459,Kennison,93890,Kennison,0,,FALSE
 3698609,Anarsil,g108,Anarsil,0,,FALSE
 3740730,Nonzi93,96092,Nonzi93,1,,FALSE
 3890888,aetium,96092,aetium,1,,FALSE
@@ -77,7 +77,7 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 4224801,Мазюка,103262,Мазюка,0,,FALSE
 4299449,Sorin,105738,Sorin,0,,FALSE
 4438829,Scripted,106180,Scripted,0,,FALSE
-4442707,Элиора,g013,Элиора,0,,FALSE
+4442707,Элиора,107196,Элиора,0,,FALSE
 4502765,Malignant.,107859,Malignant.,0,,FALSE
 4581357,Malignant.,107859,Malignant.,1,,FALSE
 4698062,Sir Jazz,107859,Sir Jazz,1,,FALSE
@@ -115,11 +115,11 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 6366645,Alina K,g114,Alina K,1,,FALSE
 6386457,EntyK,g041,EntyK,0,,FALSE
 6392586,dirtrabbits,g041,dirtrabbits,1,,FALSE
-6446198,Napoleon,g138,Napoleon,1,,FALSE
+6446198,Napoleon,143337,Napoleon,1,,FALSE
 6519915,Sofia,g140,Sofia,0,,FALSE
-6545046,SpookyCat,g138,SpookyCat,1,,FALSE
-6577298,Cyruss,g138,Cyruss,1,,FALSE
-6641200,糊塗塌客,g138,糊塗塌客,1,,FALSE
+6545046,SpookyCat,143337,SpookyCat,1,,FALSE
+6577298,Cyruss,143337,Cyruss,1,,FALSE
+6641200,糊塗塌客,143337,糊塗塌客,1,,FALSE
 6726342,ЗабытыйВсеми,g162,ЗабытыйВсеми,0,,FALSE
 6786424,Warlord,g081,Warlord,0,,FALSE
 6813108,CAiii,g017,CAiii,1,,FALSE

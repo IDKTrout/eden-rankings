@@ -8,7 +8,7 @@ import GroupTag from '../../components/GroupTag.astro';
 import { abexStandings, riftStandings } from '../../lib/groups';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
-  fmtInt, fmtM, fmtEss, fmtServer, finished, timeNote, groupById, nameOf, type Season,
+  fmtInt, fmtM, fmtEss, fmtServer, fmtDate, finished, timeNote, groupById, nameOf, type Season,
 } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -39,6 +39,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
   <section class="page-head">
     <span class="eyebrow">{season.kind === 'abex' ? 'AbEx · guild damage' : 'Temporal Rift · player floors'}</span>
     <h1>{label}</h1>
+    {season.endDate && <p class="muted">Ended <time datetime={season.endDate}>{fmtDate(season.endDate)}</time></p>}
     {siblings.length > 1 && (
       <nav class="chips" aria-label="Other seasons">
         {siblings.map((s) => (

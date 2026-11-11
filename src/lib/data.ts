@@ -23,6 +23,8 @@ export interface Season {
   thanks: string;
   sourceUrl: string;
   notes: string;
+  /** Day the event ended (YYYY-MM-DD), or '' if not filled in. */
+  endDate: string;
   /** AbEx only: the most damage a guild can deal (millions). Guilds at this number finished. */
   maxDamage: number | null;
   /** Position in the seasons tab; the tab lists events oldest first. */
@@ -121,6 +123,14 @@ const num = (v: string | undefined): number | null => {
   return Number.isFinite(n) ? n : null;
 };
 const str = (v: string | undefined) => (v ?? '').trim();
+/** Reads a date cell (normally YYYY-MM-DD) and returns YYYY-MM-DD, or '' if blank or unreadable. */
+function toIsoDate(v: string | undefined) {
+  const s = str(v);
+  if (!s) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const d = new Date(s);
+  return Number.isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
+}
 
 /* ------------------------------------------------------------------ records */
 
@@ -136,6 +146,7 @@ export const seasons: Season[] = parseCsv(seasonsCsv)
     thanks: str(r.thanks),
     sourceUrl: str(r.source_url),
     notes: str(r.notes),
+    endDate: toIsoDate(r.end_date),
     maxDamage: num(r.max_damage_m),
     order: i,
   }));
@@ -363,6 +374,12 @@ export const fmtInt = (v: number | null | undefined) => (v == null ? '—' : int
 export const fmtM = (v: number | null | undefined) => (v == null ? '—' : `${intFmt.format(v)}M`);
 export const fmtEss = (v: number | null | undefined) => (v == null ? '—' : `${decFmt.format(v)}M`);
 /** "S204 · R20" when the server's region is known, otherwise "S204". */
+/** "Nov 10, 2026" from YYYY-MM-DD (read as a calendar day, not shifted by time zone). */
+export const fmtDate = (iso: string) => {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(Date.UTC(y, m - 1, d));
+};
 export const fmtServer = (v: number | null | undefined) => {
   if (v == null) return '—';
   const region = regionOf(v);

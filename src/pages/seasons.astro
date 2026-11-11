@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Credit from '../components/Credit.astro';
-import { seasons, seasonLabel, abexSummary, riftSummary, fmtM, fmtInt, nameOf } from '../lib/data';
+import { seasons, seasonLabel, abexSummary, riftSummary, fmtM, fmtInt, nameOf, fmtDate } from '../lib/data';
 
 const list = [...seasons].reverse().map((s) => {
   if (s.kind === 'abex') {
@@ -23,6 +23,7 @@ const list = [...seasons].reverse().map((s) => {
       <a class="card season-card" href={`/season/${s.id}/`}>
         <span class="eyebrow">{s.kind === 'abex' ? 'AbEx · guilds' : 'Temporal Rift · players'}</span>
         <h2>{seasonLabel(s)}</h2>
+        {s.endDate && <p class="muted small">Ended <time datetime={s.endDate}>{fmtDate(s.endDate)}</time></p>}
         <p><span class="muted">Leader</span> <strong>{leader}</strong></p>
         <p class="stat">{stat}</p>
         <p class="muted small">{count}</p>

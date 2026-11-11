@@ -3,7 +3,7 @@ interface Props {
   title?: string;
   description?: string;
 }
-const { title, description = 'AbEx guild damage and Temporal Rift floors for Eden, season by season.' } = Astro.props;
+const { title, description = 'Rankings for every AFK Arena Companions event: guild and player results, season by season.' } = Astro.props;
 const fullTitle = title ? `${title} · Event Rankings` : 'Event Rankings';
 const path = Astro.url.pathname;
 const nav = [
@@ -21,6 +21,10 @@ const nav = [
     <meta name="description" content={description} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Event Rankings" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta name="twitter:card" content="summary" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

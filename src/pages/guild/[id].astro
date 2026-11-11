@@ -29,7 +29,7 @@ const isGameId = !/^g\d+$/.test(id);
 // Leaders seen, newest first.
 const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.leaderId, r])).values()];
 ---
-<Layout title={name} description={`${name}: AbEx results and Temporal Rift players across Eden seasons.`}>
+<Layout title={name} description={`${name}: AbEx results and Temporal Rift players across every season.`}>
   <section class="page-head">
     <span class="eyebrow">Guild</span>
     <h1>{name}</h1>

@@ -16,7 +16,7 @@ const best = p.rift.length ? Math.max(...p.rift.map((r) => r.floor)) : null;
 const bestRank = p.rift.length ? Math.min(...p.rift.map((r) => r.rank)) : null;
 const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.server ?? null;
 ---
-<Layout title={p.name} description={`${p.name}: Temporal Rift floors and guilds across Eden seasons.`}>
+<Layout title={p.name} description={`${p.name}: Temporal Rift floors and guilds across every season.`}>
   <section class="page-head">
     <span class="eyebrow">Player</span>
     <h1>{p.name}</h1>

@@ -1,5 +1,5 @@
 guild_id,guild_name,home_server,region,names_seen,abex_seasons,rift_seasons,notes,group_id
-g007,<NO M≡RCY>,1,,<NO M≡RCY>,2,1,,
+g007,<NO M≡RCY>,1,1,<NO M≡RCY>,2,1,,
 g027,Astra,4,,Astra,2,0,,
 g012,✨Wonderland✨,5,,✨Wonderland✨,2,0,,
 g160,Дети Гаранта,6,,Дети Гаранта,1,0,,
@@ -107,8 +107,8 @@ g073,Element: Chill 🧊,299,31,Element: Chill 🧊,1,0,,elts
 g076,Element: Fire 🔥,301,31,Element: Fire 🔥,2,0,,elts
 g082,Element:Surprise,303,31,Element:Surprise,1,0,,elts
 g072,Element: Chaos,304,31,Element: Chaos,2,0,,elts
-g078,Element: Radiant,306,,Element: Radiant,1,0,,elts
-g125,RevolutionR,306,,RevolutionR,1,0,,
+g078,Element: Radiant,306,32,Element: Radiant,1,0,,elts
+g125,RevolutionR,306,32,RevolutionR,1,0,,
 g137,Sin: Greed,307,,Sin: Greed,2,1,,sin
 g133,ShadowDanger,309,,ShadowDanger,1,0,,
 g130,Sea Wales 🌊,315,,Sea Wales 🌊,2,0,,
@@ -125,7 +125,7 @@ g045,Classic Comp,334,,Classic Comp / Classic×Comp,1,1,,
 g153,ViCi,339,36,ViCi,1,1,,
 166704,Eden: Vorpal,340,36,Eden: Vorpal,1,0,,eden
 167921,Eden: ANTI,343,36,[AEGIS] Anti / Eden: ANTI,1,1,,eden
-g077,Element: LOCO,346,,Element: LOCO,1,0,,elts
+g077,Element: LOCO,346,37,Element: LOCO,1,0,,elts
 g075,Element: Eclipse,350,,Element: Eclipse,1,1,,elts
 g134,Shiver,353,,Shiver,1,1,,
 g144,Storm-Light,357,,Storm-Light,1,1,,storm

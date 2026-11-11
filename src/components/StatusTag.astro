@@ -1,0 +1,15 @@
+---
+// "Inactive" marker for guilds and players ticked inactive in the sheet.
+interface Props { inactive?: boolean }
+const { inactive = false } = Astro.props;
+---
+{inactive && <span class="status-tag" title="Marked inactive">Inactive</span>}
+
+<style>
+  .status-tag {
+    display: inline-block; vertical-align: 1px; margin-left: .4rem;
+    font-size: .68rem; font-weight: 600; letter-spacing: .03em; line-height: 1;
+    padding: .2rem .4rem; border-radius: 4px; white-space: nowrap;
+    color: var(--muted); background: var(--raised); border: 1px dashed var(--line);
+  }
+</style>

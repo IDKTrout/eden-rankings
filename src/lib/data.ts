@@ -8,6 +8,7 @@ import guildsCsv from '../data/guilds.csv?raw';
 import guildNamesCsv from '../data/guild_names.csv?raw';
 import groupsCsv from '../data/groups.csv?raw';
 import regionsCsv from '../data/regions.csv?raw';
+import playersCsv from '../data/players.csv?raw';
 
 export type Kind = 'abex' | 'rift';
 
@@ -67,6 +68,8 @@ export interface Guild {
   id: string;
   name: string;
   groupId: string;
+  /** Ticked as inactive in the guilds tab. */
+  inactive: boolean;
   homeServer: number | null;
   names: string[];
   notes: string;
@@ -79,6 +82,8 @@ export interface Player {
   guildId: string; // most recent guild
   rift: RiftRow[];
   led: AbexRow[];
+  /** Ticked as inactive in the players tab. */
+  inactive: boolean;
 }
 
 /* ------------------------------------------------------------------ CSV */
@@ -173,6 +178,7 @@ export const guilds: Guild[] = parseCsv(guildsCsv)
     id: str(r.guild_id),
     name: str(r.guild_name),
     groupId: str(r.group_id),
+    inactive: /^true$/i.test(str(r.inactive)),
     homeServer: num(r.home_server),
     names: guildNameRows.filter((n) => n.guild_id === r.guild_id).map((n) => n.guild_name),
     notes: str(r.notes),
@@ -251,12 +257,17 @@ export function riftFor(seasonId: string) {
   return rift.filter((r) => r.seasonId === seasonId).sort((a, b) => a.rank - b.rank);
 }
 
+/** Player IDs ticked as inactive in the players tab. */
+const inactivePlayers = new Set(
+  parseCsv(playersCsv).filter((r) => /^true$/i.test(str(r.inactive))).map((r) => str(r.player_id).replace(/,/g, '')),
+);
+
 /** Players, built from every ranking row that carries a player ID. Later seasons win for name and guild. */
 export const players: Player[] = (() => {
   const map = new Map<string, Player>();
   const get = (id: string) => {
     let p = map.get(id);
-    if (!p) { p = { id, name: '', names: [], guildId: '', rift: [], led: [] }; map.set(id, p); }
+    if (!p) { p = { id, name: '', names: [], guildId: '', rift: [], led: [], inactive: inactivePlayers.has(id) }; map.set(id, p); }
     return p;
   };
   const order = (sid: string) => seasonById.get(sid)?.order ?? 0;

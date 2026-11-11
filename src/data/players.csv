@@ -13,7 +13,7 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 185223,SantafeVN,g146,SantafeVN,1,,FALSE
 186159,팅코,g146,팅코,1,,FALSE
 189532,Riserlan,g146,Riserlan,1,,FALSE
-202390,TheWhiteMask,67247,TheWhiteMask,0,,FALSE
+202390,TheWhiteMask,g131,TheWhiteMask,0,,FALSE
 203967,Grandpa Joe,g146,Grandpa Joe,1,,FALSE
 206605,maco,g024,maco,0,,FALSE
 215757,MEL,32398,MEL,1,,FALSE
@@ -31,7 +31,7 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 543253,Jelee,g119,Jelee,0,,FALSE
 578212,Emperor King,g156,Emperor King,0,,FALSE
 582165,Ayaki,g123,Ayaki,1,,FALSE
-589063,OXIR_,g123,OXIR_,0,,TRUE
+589063,OXIR_,g123,OXIR_,0,,FALSE
 616944,daddy 🍑,g123,daddy 🍑,1,,FALSE
 887180,SSSilver,g095,SSSilver,0,,FALSE
 938806,〖ARRØW〗,g089,〖ARRØW〗,0,,FALSE
@@ -39,18 +39,18 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 1160425,寶貝妳聽我解釋,51888,寶貝妳聽我解釋,1,,FALSE
 1240340,UhmoaSuxi,49391,UhmoaSuxi,1,,FALSE
 1260890,Windy,g047,Windy,0,,FALSE
-1319976,P@nge@,51888,P@nge@,1,,TRUE
+1319976,P@nge@,51888,P@nge@,1,,FALSE
 1330429,호랑,51888,호랑,1,,FALSE
 1363900,Astra,51888,Astra,0,,FALSE
 1569054,Paps,g093,Paps,0,,FALSE
 1695638,iperx,61928,iperx,1,,FALSE
 1738856,CrownGoober,61928,CrownGoober,1,,FALSE
 1765340,Mycro,61928,Mycro,1,,FALSE
-1871679,TooSlow,61928,TooSlow,1,,TRUE
+1871679,TooSlow,61928,TooSlow,1,,FALSE
 2019004,ChillTimber,65749,ChilliTimber / ChillTimber,1,,FALSE
-2241799,Lelouch,67247,Lelouch,1,,FALSE
+2241799,Lelouch,g131,Lelouch,1,,FALSE
 2325225,Timoha,g053,Timoha,0,,FALSE
-2479303,Pew Pew ⚡,74875,Pew Pew ⚡,1,,TRUE
+2479303,Pew Pew ⚡,74875,Pew Pew ⚡,1,,FALSE
 2483716,VALKYRIEQWN,74875,VALKYRIEQWN,0,,FALSE
 2551215,J202,g039,J202,0,,FALSE
 2585734,Lya,g008,Lya,0,,FALSE
@@ -70,7 +70,7 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 3890888,aetium,96092,aetium,1,,FALSE
 3924106,Slayerum,96092,Slayerum,0,,FALSE
 3945397,pshu,95973,pshu,0,,FALSE
-3984850,Ronzzz,100371,Ronzzz,0,,TRUE
+3984850,Ronzzz,100371,Ronzzz,0,,FALSE
 3993213,I54,g117,I54,0,,FALSE
 4080540,Wrench,100371,Wrench,1,,FALSE
 4156326,Kaia,100371,Kaia,1,,FALSE
@@ -130,7 +130,6 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 7103294,Onimaru,g076,Onimaru,0,,FALSE
 7167680,Samael,g082,Samael,0,,FALSE
 7168501,qqs4ne,g072,qqs4ne,0,,FALSE
-7225182,AM,g078,AM,0,,FALSE
 7331429,Kelebrian,g137,Kelebrian,1,,FALSE
 7341686,Jeezy,g137,Jeezy,1,,FALSE
 7378117,Feather,g137,Han Islat / Feather,1,,FALSE
@@ -203,6 +202,7 @@ player_id,player_name,guild_id,names_seen,rift_seasons,notes,inactive
 9098064,GaLø,g148,GaLø,0,,FALSE
 9120823,Dr.MoSTaFa,g031,Dr.MoSTaFa,0,,FALSE
 9168548,lost ♡ signal,g113,lost ♡ signal,0,,FALSE
+72225182,AM,g078,AM,0,,FALSE
 ,,,,,,FALSE
 ,,,,,,FALSE
 ,,,,,,FALSE

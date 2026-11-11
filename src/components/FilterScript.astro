@@ -15,6 +15,10 @@
       r.hidden = !hit;
       if (hit) shown++;
     }
+    // Hide a section (e.g. Inactive) when the search leaves none of its rows.
+    for (const sec of document.querySelectorAll<HTMLElement>('[data-filter-section]')) {
+      sec.hidden = !sec.querySelector('[data-search]:not([hidden])');
+    }
     if (count) count.textContent = q ? `${shown} of ${rows.length}` : `${rows.length}`;
     if (empty) empty.hidden = shown > 0;
   }

@@ -1,16 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import FilterScript from '../components/FilterScript.astro';
+import StatusTag from '../components/StatusTag.astro';
 import { guildIds, guildById, abex, rift, players, guildLabel, groupOf } from '../lib/data';
 
 const guildEntries = guildIds.map((id) => {
   const g = guildById.get(id);
   const names = [...new Set([...(g?.names ?? []), ...abex.filter((r) => r.guildId === id).map((r) => r.guildName), ...rift.filter((r) => r.guildId === id).map((r) => r.guildName)])];
   const name = g?.name || names[0] || id;
-  return { kind: 'Guild', name, others: names.filter((n) => n !== name), href: `/guild/${encodeURIComponent(id)}/`, search: [...names, name, id, groupOf(id)?.name ?? '', groupOf(id)?.short ?? ''].join(' '), sub: groupOf(id) ? `${groupOf(id)!.name} group` : '' };
+  return { kind: 'Guild', inactive: g?.inactive ?? false, name, others: names.filter((n) => n !== name), href: `/guild/${encodeURIComponent(id)}/`, search: [...names, name, id, groupOf(id)?.name ?? '', groupOf(id)?.short ?? ''].join(' '), sub: groupOf(id) ? `${groupOf(id)!.name} group` : '' };
 });
 const playerEntries = players.map((p) => ({
-  kind: 'Player', name: p.name, others: p.names.filter((n) => n !== p.name), href: `/player/${p.id}/`,
+  kind: 'Player', inactive: p.inactive, name: p.name, others: p.names.filter((n) => n !== p.name), href: `/player/${p.id}/`,
   search: [...p.names, p.id].join(' '), sub: p.guildId ? guildLabel(p.guildId) : '',
 }));
 const entries = [...guildEntries, ...playerEntries].sort((a, b) => a.name.localeCompare(b.name));
@@ -29,6 +30,7 @@ const entries = [...guildEntries, ...playerEntries].sort((a, b) => a.name.locale
         <li data-search={e.search}>
           <a href={e.href}>{e.name}</a>
           <span class="chip">{e.kind}</span>
+          <StatusTag inactive={e.inactive} />
           {'sub' in e && e.sub && <span class="muted small">{e.sub}</span>}
           {e.others.length > 0 && <span class="muted small">also {e.others.join(', ')}</span>}
         </li>

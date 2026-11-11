@@ -21,8 +21,19 @@ const list = guildIds.map((id) => {
     best: Number.isFinite(best) ? best : null,
     riftPlayers: rr.length,
     bestFloor: rr.length ? Math.max(...rr.map((r) => r.floor)) : null,
+    inactive: g?.inactive ?? false,
   };
 }).sort((a, b) => (a.best ?? 1e9) - (b.best ?? 1e9) || b.riftPlayers - a.riftPlayers || a.name.localeCompare(b.name));
+
+const sections = [
+  { id: 'active', title: 'Active', rows: list.filter((g) => !g.inactive) },
+  { id: 'inactive', title: 'Inactive', rows: list.filter((g) => g.inactive) },
+].filter((s) => s.rows.length > 0);
+const search = (g: (typeof list)[number]) => [
+  ...g.names, g.name, g.server != null ? `s${g.server}` : '',
+  regionOf(g.server) != null ? `r${regionOf(g.server)} region ${regionOf(g.server)}` : '',
+  g.id, groupOf(g.id)?.name ?? '', groupOf(g.id)?.short ?? '', g.inactive ? 'inactive' : 'active',
+].join(' ');
 ---
 <Layout title="Guilds" description="Every guild in the event rankings, with its best AbEx rank and Temporal Rift players.">
   <section class="page-head">
@@ -30,26 +41,33 @@ const list = guildIds.map((id) => {
     <h1>Guilds</h1>
     <p class="muted">Every guild seen in a ranking, sorted by best AbEx damage rank. Search finds old names too.</p>
   </section>
+
   <div class="card">
     <label class="small muted" for="filter">Search guilds (<span id="filter-count">{list.length}</span>)</label>
     <input id="filter" class="filter" type="search" placeholder="Guild name, old name, group, server or region" autocomplete="off" />
-    <div class="table-wrap">
-      <table class="rank">
-        <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
-        <tbody>
-          {list.map((g) => (
-            <tr data-search={[...g.names, g.name, g.server != null ? `s${g.server}` : '', regionOf(g.server) != null ? `r${regionOf(g.server)} region ${regionOf(g.server)}` : '', g.id, groupOf(g.id)?.name ?? '', groupOf(g.id)?.short ?? ''].join(' ')}>
-              <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a><GroupTag guildId={g.id} />{g.names.length > 1 && <span class="muted small"> · {g.names.length} names</span>}</td>
-              <td>{fmtServer(g.server)}</td>
-              <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>
-              <td class="num">{g.riftPlayers || '—'}</td>
-              <td class="num">{g.bestFloor == null ? '—' : fmtInt(g.bestFloor)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
     <p id="filter-empty" class="empty-note" hidden>No guild matches that search.</p>
   </div>
+
+  {sections.map((sec) => (
+    <section class="card" id={sec.id} data-filter-section>
+      <h2>{sec.title} <span class="muted small">{sec.rows.length}</span></h2>
+      <div class="table-wrap">
+        <table class="rank">
+          <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
+          <tbody>
+            {sec.rows.map((g) => (
+              <tr data-search={search(g)}>
+                <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a><GroupTag guildId={g.id} />{g.names.length > 1 && <span class="muted small"> · {g.names.length} names</span>}</td>
+                <td>{fmtServer(g.server)}</td>
+                <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>
+                <td class="num">{g.riftPlayers || '—'}</td>
+                <td class="num">{g.bestFloor == null ? '—' : fmtInt(g.bestFloor)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
   <FilterScript />
 </Layout>

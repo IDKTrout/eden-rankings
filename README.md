@@ -15,7 +15,7 @@ All rankings are entered in the Google Sheet **AbEx Guild Rankings**. The site r
 | `guild_names` | spelling of a guild name seen in a ranking | `guild_name` → `guild_id` |
 | `regions` | region (a range of servers) | `region`; `first_server` to `last_server` |
 | `groups` | group of guilds (Eden, Sin, FU, Elements, Storm) | `group_id`; each guild picks its group in `guilds.group_id`; `color` sets its hex color on the site |
-| `players` | player | `player_id` (the game's player ID) |
+| `players` | player | `player_id` (the game's player ID); tick `inactive` for players who stopped |
 | `fields` | column | describes every column above |
 
 Renamed guilds are combined through `guild_names`: every spelling points at one `guild_id`. Players are matched by `player_id`, so name changes combine automatically.

@@ -33,7 +33,7 @@ g105,M I N T,83,,M I N T,1,0,,,FALSE
 61928,FU: Fates Hand,91,,Fates Hand / FU: Fates Hand,2,1,,fu,FALSE
 g005,『$HADOW GARDEN』,92,,『$HADOW GARDEN』,1,0,,,FALSE
 65749,30Days,97,,30Days,2,1,,,FALSE
-67247,Eden: 6,100,12,Sequoia / Eden: 6,2,1,,eden,FALSE
+g131,Sequoia,100,,Sequoia / Eden: 6,2,1,,,FALSE
 g053,™Deagle™,110,,Deagle™ / ™Deagle™,2,0,,,FALSE
 g011,✨ THE RAVENS ✨,113,,✨ THE RAVENS ✨,1,0,,,FALSE
 74875,FU: Valhalla Inn,121,,FU: Valhalla Inn / Inn Of Valhalla,2,1,,fu,FALSE
@@ -105,7 +105,7 @@ g071,Element: ÆTHER,296,,Element: ÆTHER,1,0,,elts,FALSE
 g101,jp.GG,296,,jp.GG,1,0,,,FALSE
 g073,Element: Chill 🧊,299,31,Element: Chill 🧊,1,0,,elts,FALSE
 g076,Element: Fire 🔥,301,31,Element: Fire 🔥,2,0,,elts,FALSE
-g082,Element:Surprise,303,31,Element:Surprise,1,0,,elts,TRUE
+g082,Element:Surprise,303,31,Element:Surprise,1,0,,elts,FALSE
 g072,Element: Chaos,304,31,Element: Chaos,2,0,,elts,FALSE
 g078,Element: Radiant,306,32,Element: Radiant,1,0,,elts,FALSE
 g125,RevolutionR,306,32,RevolutionR,1,0,,,FALSE
@@ -133,10 +133,10 @@ g044,ChillOut,363,,ChillOut,1,1,,,FALSE
 g152,Vanguard Elite,379,,Vanguard Elite,1,1,,,FALSE
 g135,SilentFootsteps,380,,SilentFootstep / SilentFootsteps,1,1,,,FALSE
 g080,Element: YinYang,386,,Element: YinYang,1,0,,elts,FALSE
-g094,Golden Empire,387,,Golden Empire,1,0,,,TRUE
+g094,Golden Empire,387,,Golden Empire,1,0,,,FALSE
 g079,Element: Spirit,388,,Element: Spirit,1,0,,elts,FALSE
 g111,NIGHTMARE,389,,NIGHTMARE,1,0,,,FALSE
-g074,Element: Curse,390,,Element: Curse,1,0,,elts,TRUE
+g074,Element: Curse,390,,Element: Curse,1,0,,elts,FALSE
 g158,Wraith's Haunt,393,,Wraith's Haunt,1,0,,,FALSE
 g136,Sin: Goon,394,,Sin: Goon,1,0,,sin,FALSE
 g099,Hood2Hood,395,,Hood2Hood,1,0,,,FALSE

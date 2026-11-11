@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
+import StatusTag from '../../components/StatusTag.astro';
 import { players, playerById, seasonById, seasonLabel, guildLabel, fmtInt, fmtM, fmtServer, finished, timeNote, nameOf } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -19,7 +20,7 @@ const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.se
 <Layout title={p.name} description={`${p.name}: Temporal Rift floors and guilds across every season.`}>
   <section class="page-head">
     <span class="eyebrow">Player</span>
-    <h1>{p.name}</h1>
+    <h1>{p.name}<StatusTag inactive={p.inactive} /></h1>
     <div class="chips">
       <span class="chip">Player ID {p.id}</span>
       {server != null && <span class="chip">Server {fmtServer(server)}</span>}

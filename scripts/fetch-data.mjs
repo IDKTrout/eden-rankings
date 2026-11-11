@@ -48,7 +48,8 @@ for (const [tab, gid] of Object.entries(TABS)) {
   try {
     const res = await fetch(url, { redirect: 'follow' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
+    // Google sends CRLF line endings; store LF so a rerun only shows real data changes.
+    const text = (await res.text()).replace(/\r\n?/g, '\n');
     if (text.trimStart().startsWith('<')) throw new Error('got a web page instead of CSV (is the sheet published?)');
     await writeFile(file, text);
     console.log(`[data] ${tab}: ${text.split('\n').length - 1} rows`);

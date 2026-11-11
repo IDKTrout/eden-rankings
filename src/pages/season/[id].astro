@@ -24,7 +24,6 @@ const abexRows = season.kind === 'abex' ? abexFor(season.id) : [];
 const aSum = season.kind === 'abex' ? abexSummary(season.id) : null;
 const ranked = abexRows.filter((r) => r.damageRank != null && r.damage != null);
 const top20 = ranked.slice(0, 20);
-const timed = ranked.filter((r) => r.seconds != null);
 const withEssence = abexRows.filter((r) => r.damage != null && r.essence != null);
 const anyFinished = !!aSum && aSum.finished > 0;
 
@@ -87,23 +86,6 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
             }))}
           />
         </section>
-        {timed.length > 1 && (
-          <section class="card" id="damage-time">
-            <h2>Damage and time</h2>
-            <p class="note">Each dot is a guild. Up: damage in millions. Across: hours into the event. Gold dots reached the max damage, so their time is when they finished. Blue dots did not finish, so their time is their last attack. Select a dot to open the guild.</p>
-            <Scatter
-              label={`Damage against finish or last-attack time for ${timed.length} guilds in ${label}`}
-              points={timed.map((r) => ({
-                x: (r.seconds as number) / 3600, y: r.damage as number,
-                label: `#${r.damageRank} ${nameOf(r)}: ${fmtM(r.damage)}. ${timeNote(r)}`,
-                highlight: finished(r), href: guildHref(r.guildId),
-              }))}
-              xTicks={(v) => `${v}h`}
-              yTicks={(v) => (v === 0 ? '0' : v >= 1e6 ? `${(v / 1e6).toLocaleString('en-US')}T` : `${(v / 1e3).toLocaleString('en-US')}B`)}
-            />
-            <p class="note">On the up axis, 1T is 1,000,000M and 500B is 500,000M.</p>
-          </section>
-        )}
         {withEssence.length > 1 && (
           <section class="card" id="damage-essence">
             <h2>Damage and essence</h2>

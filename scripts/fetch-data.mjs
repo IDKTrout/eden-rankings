@@ -45,7 +45,8 @@ for (const [tab, gid] of Object.entries(TABS)) {
     if (!(await exists(file))) failed++;
     continue;
   }
-  const url = `https://docs.google.com/spreadsheets/d/e/${id}/pub?gid=${gid}&single=true&output=csv`;
+  // The timestamp asks Google for a fresh copy instead of a cached one that can be minutes old.
+  const url = `https://docs.google.com/spreadsheets/d/e/${id}/pub?gid=${gid}&single=true&output=csv&t=${Date.now()}`;
   try {
     const res = await fetch(url, { redirect: 'follow' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

@@ -36,7 +36,7 @@ For AbEx seasons, `max_damage_m` in the `seasons` tab is the most damage a guild
 
 The site is a static [Astro](https://astro.build) site, hosted on Cloudflare Pages at [event-rankings.edenafk.com](https://event-rankings.edenafk.com).
 
-- `scripts/fetch-data.mjs` downloads each tab of the published sheet as CSV into `src/data/`. The publish ID is in `sheet.config.json` (or the `SHEET_PUB_ID` environment variable). If a download fails, the copy already in `src/data/` is used.
+- `scripts/fetch-data.mjs` downloads each tab of the published sheet as CSV into `src/data/`. Cloudflare builds from the copy saved in the repository; only the GitHub job below downloads new data, so what is committed is exactly what goes live. The publish ID is in `sheet.config.json` (or the `SHEET_PUB_ID` environment variable). If a download fails, the copy already in `src/data/` is used.
 - `src/lib/data.ts` turns those CSVs into seasons, rankings, guilds and players.
 - `src/pages/` holds the pages: home, `/seasons/`, `/season/<season_id>/`, `/guilds/`, `/guild/<guild_id>/`, `/players/`, `/player/<player_id>/` and `/search/`.
 - `.github/workflows/refresh-data.yml` downloads the sheet every 3 hours and commits any change to `src/data/`, which makes Cloudflare rebuild the site. To update right away, open the repository's **Actions** tab, pick **Refresh sheet data** and press **Run workflow**.
@@ -48,7 +48,8 @@ The site is a static [Astro](https://astro.build) site, hosted on Cloudflare Pag
 npm install
 npm run data      # download the latest sheet data
 npm run dev       # preview at http://localhost:4321
-npm run build     # download data and build into dist/
+npm run build     # build into dist/ from the saved data in src/data/
+npm run build:fresh  # download the latest sheet data, then build
 ```
 
 ## Cloudflare settings

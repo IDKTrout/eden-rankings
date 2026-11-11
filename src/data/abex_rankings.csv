@@ -7,7 +7,7 @@ abex-s4,5,FATE | Banshee,Kennison,3643459,171,"3,840,000",177:47:57,"640,077",5,
 abex-s4,6,Knights of RHOK,RHOK,4819780,214,"3,840,000",182:28:49,"656,929",4,171.16,g103,Knights of RHOK.
 abex-s4,7,Re:,OXIR_,589063,44,"3,840,000",187:33:52,"675,232",8,164.11,g123,Re:
 abex-s4,8,Fʀeeedom:NewDawn,〖ARRØW〗,938806,252,"3,840,000",212:56:39,"766,599",10,159.80,g089,Fʀeeedom:NewDawn
-abex-s4,9,FU: Maid Café,Astra,1363900,77,"3,840,000",213:15:20,"767,720",6,166.93,g090,FU: Maid Café
+abex-s4,9,FU: Maid Café,Astra,1363900,77,"3,840,000",213:15:20,"767,720",6,166.93,51888,FU: Maid Café
 abex-s4,10,Blackbird,Nικα,5936555,67,"3,840,000",215:20:29,"775,229",12,155.73,g034,Blackbird
 abex-s4,11,FU: Fates Hand,iperx,1695638,91,"3,840,000",217:27:19,"782,839",26,138.99,g087,FU: Fates Hand
 abex-s4,12,30Days,ChilliTimber,2019004,97,"3,840,000",221:56:17,"798,977",25,140.38,g016,30Days
@@ -121,7 +121,7 @@ abex-test-s4,1,Re:,,,44,"6,400,000",239:18:37,"861,517",,,g123,Re:
 abex-test-s4,2,Eden:Road2Heaven,,,10,"6,032,892",263:06:14,"947,174",,,32398,Eden:Road2Heaven
 abex-test-s4,3,SUPERNOVA,,,7,"5,854,568",260:16:50,"937,010",,,g146,SUPERNOVA
 abex-test-s4,4,FATE,,,171,"5,163,781",261:49:56,"942,596",,,g086,FATE
-abex-test-s4,5,Maid ♡ Cafe,,,77,"4,969,767",261:03:04,"939,784",,,g090,FU: Maid Café
+abex-test-s4,5,Maid ♡ Cafe,,,77,"4,969,767",261:03:04,"939,784",,,51888,FU: Maid Café
 abex-test-s4,6,Knights of RHOK.,,,214,"4,887,163",259:30:44,"934,244",,,g103,Knights of RHOK.
 abex-test-s4,7,30Days,,,97,"4,870,604",263:09:35,"947,375",,,g016,30Days
 abex-test-s4,8,Fates Hand,,,91,"4,867,596",263:17:06,"947,826",,,g087,FU: Fates Hand

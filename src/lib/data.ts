@@ -134,8 +134,11 @@ function toIsoDate(v: string | undefined) {
 
 /* ------------------------------------------------------------------ records */
 
+/** Ranking tabs the site shows. Seasons for any other tab (for example Alna) stay in the sheet only. */
+const SITE_TABS = ['abex_rankings', 'rift_rankings'];
+
 export const seasons: Season[] = parseCsv(seasonsCsv)
-  .filter((r) => r.season_id)
+  .filter((r) => r.season_id && SITE_TABS.includes(str(r.data_tab)))
   .map((r, i) => ({
     id: r.season_id,
     event: str(r.event),
@@ -183,8 +186,11 @@ export const rift: RiftRow[] = parseCsv(riftCsv)
 
 const guildNameRows = parseCsv(guildNamesCsv).filter((r) => r.guild_name && r.guild_id);
 
+/** Guild IDs with an AbEx or Temporal Rift result; guilds seen only in events not on the site yet are left out. */
+const rankedGuildIds = new Set([...abex, ...rift].map((r) => r.guildId).filter(Boolean));
+
 export const guilds: Guild[] = parseCsv(guildsCsv)
-  .filter((r) => r.guild_id)
+  .filter((r) => r.guild_id && rankedGuildIds.has(str(r.guild_id)))
   .map((r) => ({
     id: str(r.guild_id),
     name: str(r.guild_name),

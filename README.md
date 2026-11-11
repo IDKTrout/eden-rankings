@@ -25,7 +25,9 @@ Renamed guilds are combined through `guild_names`: every spelling points at one 
 3. Add any new player ID to `players`.
 4. Add a row to `seasons`.
 
-Season order on the site follows the row order of the `seasons` tab, so add new seasons at the bottom. A season whose event name contains "Test" is never featured on the home page.
+The `seasons` tab lists events in the order they took place, oldest first, so add each new season at the bottom. The site uses that order everywhere; the last AbEx and Temporal Rift rows are the ones featured on the home page.
+
+For AbEx seasons, `max_damage_m` in the `seasons` tab is the most damage a guild could deal. Guilds at that number finished, and their time is their finish time. Every other guild's time is their last attack.
 
 ## How the site is built
 

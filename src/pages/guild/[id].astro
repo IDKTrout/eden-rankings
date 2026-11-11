@@ -4,6 +4,7 @@ import Rank from '../../components/Rank.astro';
 import {
   guildIds, guildById, abex, rift, seasonById, seasonLabel, playerById,
   fmtInt, fmtM, fmtEss, fmtServer,
+  finished, timeNote,
 } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -52,7 +53,7 @@ const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.lea
     {abexRows.length ? (
       <div class="table-wrap">
         <table class="rank">
-          <thead><tr><th>Season</th><th class="num">Rank</th><th>Listed as</th><th>Leader</th><th class="num">Damage</th><th class="num">Time</th><th class="num">Essence</th></tr></thead>
+          <thead><tr><th>Season</th><th class="num">Rank</th><th>Listed as</th><th>Leader</th><th class="num">Damage</th><th class="num">Finish / last attack</th><th class="num">Essence</th></tr></thead>
           <tbody>
             {abexRows.map((r) => {
               const s = seasonById.get(r.seasonId);
@@ -63,7 +64,7 @@ const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.lea
                   <td>{r.guildName}</td>
                   <td>{r.leaderId ? <a href={`/player/${r.leaderId}/`}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
                   <td class="num">{fmtM(r.damage)}</td>
-                  <td class="num">{r.time || '—'}</td>
+                  <td class="num">{r.time ? <span class:list={{ fin: finished(r) }}>{timeNote(r)}</span> : '—'}</td>
                   <td class="num">{r.essence == null ? '—' : `${fmtEss(r.essence)} (#${r.essenceRank})`}</td>
                 </tr>
               );

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Rank from '../components/Rank.astro';
 import {
   latestOf, seasonLabel, abexFor, riftFor, abexSummary, riftSummary, seasons, guildIds, players,
-  fmtM, fmtInt, guildLabel,
+  fmtM, fmtInt, guildLabel, finished, timeNote,
 } from '../lib/data';
 
 const abexSeason = latestOf('abex');
@@ -36,16 +36,16 @@ const topRift = riftSeason ? riftFor(riftSeason.id).slice(0, 10) : [];
           </div>
           <a class="more" href={`/season/${abexSeason.id}/`}>Full ranking →</a>
         </div>
-        <p class="muted small">{aSum.capped > 1 ? `${aSum.capped} guilds reached ${fmtM(aSum.top)}; ranked by time taken.` : `${aSum.leader.guildName} led with ${fmtM(aSum.top)}.`}</p>
+        <p class="muted small">{aSum.finished > 1 ? `${aSum.finished} guilds reached the max damage of ${fmtM(aSum.max)}; those are ranked by finish time.` : aSum.finished === 1 && aSum.fastest ? `Only ${aSum.fastest.guildName} reached the max damage of ${fmtM(aSum.max)}.` : `No guild reached the max damage of ${fmtM(aSum.max)}.`} Bold times are finish times; others are last attacks.</p>
         <table class="rank">
-          <thead><tr><th class="num">Rank</th><th>Guild</th><th class="num">Damage</th><th class="num">Time</th></tr></thead>
+          <thead><tr><th class="num">Rank</th><th>Guild</th><th class="num">Damage</th><th class="num">Finish / last attack</th></tr></thead>
           <tbody>
             {topAbex.map((r) => (
               <tr>
                 <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
                 <td><a href={`/guild/${encodeURIComponent(r.guildId)}/`}>{r.guildName}</a></td>
                 <td class="num">{fmtM(r.damage)}</td>
-                <td class="num">{r.time}</td>
+                <td class="num"><span class:list={{ fin: finished(r) }} title={timeNote(r)}>{r.time || '—'}</span></td>
               </tr>
             ))}
           </tbody>

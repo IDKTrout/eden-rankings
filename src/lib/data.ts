@@ -18,6 +18,9 @@ export interface Season {
   compiledBy: string;
   sourceUrl: string;
   notes: string;
+  /** AbEx only: the most damage a guild can deal (millions). Guilds at this number finished. */
+  maxDamage: number | null;
+  /** Position in the seasons tab; the tab lists events oldest first. */
   order: number;
 }
 
@@ -113,6 +116,7 @@ export const seasons: Season[] = parseCsv(seasonsCsv)
     compiledBy: str(r.compiled_by),
     sourceUrl: str(r.source_url),
     notes: str(r.notes),
+    maxDamage: num(r.max_damage_m),
     order: i,
   }));
 
@@ -165,11 +169,25 @@ export const guildById = new Map(guilds.map((g) => [g.id, g]));
 
 export const seasonLabel = (s: Season) => `${s.event}${s.number != null ? ` S${s.number}` : ''}`;
 export const seasonsOf = (kind: Kind) => seasons.filter((s) => s.kind === kind);
-/** Newest season of a kind, preferring live seasons over test-server ones (an event name containing "Test"). */
-export const latestOf = (kind: Kind) => {
-  const all = seasonsOf(kind);
-  return all.filter((s) => !/\btest\b/i.test(s.event)).at(-1) ?? all.at(-1);
-};
+/** Newest season of a kind: the seasons tab lists events in the order they took place. */
+export const latestOf = (kind: Kind) => seasonsOf(kind).at(-1);
+
+/** The damage that counts as finishing an AbEx season: its max damage, or the top damage dealt if the max isn't recorded. */
+export function finishLine(seasonId: string) {
+  const s = seasonById.get(seasonId);
+  if (s?.maxDamage != null) return s.maxDamage;
+  const dealt = abex.filter((r) => r.seasonId === seasonId && r.damage != null).map((r) => r.damage as number);
+  return dealt.length ? Math.max(...dealt) : null;
+}
+
+/** True when an AbEx row reached its season's max damage. Its time is then a finish time; otherwise it is the time of the last attack. */
+export function finished(r: AbexRow) {
+  const line = finishLine(r.seasonId);
+  return line != null && r.damage != null && r.damage >= line;
+}
+
+/** "Finished 143:02:53" or "Last attack 263:57:49". */
+export const timeNote = (r: AbexRow) => (r.time ? `${finished(r) ? 'Finished' : 'Last attack'} ${r.time}` : '');
 
 export const guildLabel = (id: string, fallback = '') => guildById.get(id)?.name || fallback || id;
 
@@ -234,16 +252,24 @@ export function abexSummary(seasonId: string) {
   const mid = Math.floor(damages.length / 2);
   const median = damages.length % 2 ? damages[mid] : (damages[mid - 1] + damages[mid]) / 2;
   const top = damages[damages.length - 1];
-  const reached = rows.filter((r) => r.damage === top);
-  const fastest = [...reached].sort((a, b) => (a.seconds ?? Infinity) - (b.seconds ?? Infinity))[0];
+  const max = finishLine(seasonId) ?? top;
+  const done = rows.filter((r) => (r.damage as number) >= max);
+  const fastest = [...done].sort((a, b) => (a.seconds ?? Infinity) - (b.seconds ?? Infinity))[0] ?? null;
+  const notDone = rows.filter((r) => (r.damage as number) < max);
   return {
     guilds: rows.length,
     leader: rows[0],
     second: rows[1] ?? null,
+    /** Highest damage any guild dealt. */
     top,
+    /** The season's max damage (the finish line). */
+    max,
+    maxRecorded: seasonById.get(seasonId)?.maxDamage != null,
     median,
-    capped: reached.length,
+    finished: done.length,
     fastest,
+    /** Best guild that did not finish, if any guilds finished. */
+    nextBest: done.length ? notDone[0] ?? null : null,
     hasEssence: abexFor(seasonId).some((r) => r.essence != null),
   };
 }

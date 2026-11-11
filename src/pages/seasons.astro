@@ -11,7 +11,7 @@ const list = [...seasons].reverse().map((s) => {
   return { s, leader: r?.top.playerName ?? '—', stat: r ? `Floor ${fmtInt(r.top.floor)}` : '—', count: r ? `${r.players} players` : '' };
 });
 ---
-<Layout title="Seasons" description="Every AbEx and Temporal Rift ranking season in the Eden event rankings.">
+<Layout title="Seasons" description="Every AbEx and Temporal Rift ranking season in the event rankings.">
   <section class="page-head">
     <span class="eyebrow">Archive</span>
     <h1>Seasons</h1>

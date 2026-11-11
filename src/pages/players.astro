@@ -9,7 +9,7 @@ const list = players.map((p) => ({
   bestRank: p.rift.length ? Math.min(...p.rift.map((r) => r.rank)) : null,
 })).sort((a, b) => (b.best ?? -1) - (a.best ?? -1) || a.name.localeCompare(b.name));
 ---
-<Layout title="Players" description="Every player in the Eden event rankings, with their best Temporal Rift floor and guild.">
+<Layout title="Players" description="Every player in the event rankings, with their best Temporal Rift floor and guild.">
   <section class="page-head">
     <span class="eyebrow">Directory</span>
     <h1>Players</h1>

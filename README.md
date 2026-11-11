@@ -38,7 +38,7 @@ For AbEx, guilds at the season's `max_damage_m` finished and their time is their
 ## Alna
 
 **Alna** (`alna_rankings`, `alna_overall`) is a guild event played in brackets and scored in points. On the site:
-- a guild is shown only if it is in the season's **overall top 100 and has more than 1,000,000 points**;
+- a guild is shown if it finished **top 3 in its bracket**, or if it is in the season's **overall top 100 and has more than 1,000,000 points**;
 - the overall ranking uses `overall_rank`, which breaks equal-point ties using each bracket's own order;
 - scores the game rounded (`points_rounded`, such as 13M) are shown with ≈;
 - guild pages show Alna results with gold, silver and bronze for a top-3 finish in the guild's bracket, and Alna counts in group standings;

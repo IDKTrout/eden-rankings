@@ -69,7 +69,7 @@ const history = [...seasons].reverse().map((s) => {
                     <td><Rank value={st.best.overallRank} /> <a href={`/guild/${encodeURIComponent(st.best.guildId)}/`}>{nameOf(st.best)}</a> <span class="muted small">{st.best.rounded ? '≈ ' : ''}{fmtInt(st.best.points)} pts</span></td>
                     <td class="num">{st.bracketWins} bracket {st.bracketWins === 1 ? 'win' : 'wins'}</td>
                   </>
-                ) : <><td class="num muted">—</td><td class="muted">No guild over 1M points</td><td class="num muted">—</td></>
+                ) : <><td class="num muted">—</td><td class="muted">No guild shown</td><td class="num muted">—</td></>
               ) : kind === 'abex' ? (
                 st && 'guilds' in st && 'finished' in st ? (
                   <>
@@ -92,7 +92,7 @@ const history = [...seasons].reverse().map((s) => {
         </tbody>
       </table>
     </div>
-    <p class="note small muted">AbEx: guilds that reached the season's max damage. Alna: guilds that won their bracket; only guilds over 1M points count.</p>
+    <p class="note small muted">AbEx: guilds that reached the season's max damage. Alna: guilds that won their bracket.</p>
   </section>
 
   <section class="card" id="members">

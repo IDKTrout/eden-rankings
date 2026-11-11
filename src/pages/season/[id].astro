@@ -6,7 +6,7 @@ import Rank from '../../components/Rank.astro';
 import Credit from '../../components/Credit.astro';
 import GroupTag from '../../components/GroupTag.astro';
 import { abexStandings, riftStandings, alnaStandings } from '../../lib/groups';
-import { alna, alnaFor, ALNA_MIN_POINTS, ALNA_MAX_RANK } from '../../lib/data';
+import { alna, alnaFor, ALNA_MIN_POINTS, ALNA_MAX_RANK, ALNA_BRACKET_TOP } from '../../lib/data';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
   fmtInt, fmtM, fmtEss, fmtServer, fmtDate, finished, timeNote, groupById, nameOf, type Season,
@@ -262,11 +262,11 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
 
   {season.kind === 'alna' && alnaRows.length > 0 && (
     <>
-      <p class="lede"><a href={guildHref(alnaRows[0].guildId)}><strong>{nameOf(alnaRows[0])}</strong></a> leads overall with <strong>{fmtPts(alnaRows[0])}</strong> points. <strong>{alnaRows.length} guilds</strong> across {alnaBrackets.length} brackets scored more than {fmtInt(ALNA_MIN_POINTS)} points.</p>
+      <p class="lede"><a href={guildHref(alnaRows[0].guildId)}><strong>{nameOf(alnaRows[0])}</strong></a> leads overall with <strong>{fmtPts(alnaRows[0])}</strong> points, across <strong>{alnaBrackets.length} brackets</strong>.</p>
 
       <div class="tiles">
         <div class="tile"><span class="k">Brackets</span><span class="v">{alnaBrackets.length}</span><span class="s">each ranked separately in game</span></div>
-        <div class="tile"><span class="k">Guilds shown</span><span class="v">{alnaRows.length}</span><span class="s">over {fmtInt(ALNA_MIN_POINTS)} points</span></div>
+        <div class="tile"><span class="k">Guilds shown</span><span class="v">{alnaRows.length}</span><span class="s">bracket top {ALNA_BRACKET_TOP}, or top {ALNA_MAX_RANK} over {fmtInt(ALNA_MIN_POINTS)} points</span></div>
         <div class="tile"><span class="k">Top points</span><span class="v">{fmtPts(alnaRows[0])}</span><span class="s">{nameOf(alnaRows[0])}</span></div>
         <div class="tile"><span class="k">Bracket winners</span><span class="v">{alnaRows.filter((r) => r.bracketRank === 1).length}</span><span class="s">of {alnaBrackets.length} shown</span></div>
       </div>
@@ -300,7 +300,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
                         <li><Rank value={r.bracketRank} /> <a href={guildHref(r.guildId)}>{nameOf(r)}</a> <span class="muted small">{fmtPts(r)}</span></li>
                       ))}
                     </ol>
-                  ) : <p class="muted small">No guild over {fmtInt(ALNA_MIN_POINTS)} points.</p>}
+                  ) : <p class="muted small">No guild shown.</p>}
                 </div>
               );
             })}
@@ -333,7 +333,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
 
       <section class="card" id="ranking">
         <h2>Overall ranking</h2>
-        <p class="note small muted">All brackets ranked together by points. Guilds tied on points in the same bracket keep that bracket's order; ties across brackets share a rank. Only guilds in the top {ALNA_MAX_RANK} with more than {fmtInt(ALNA_MIN_POINTS)} points are shown.</p>
+        <p class="note small muted">All brackets ranked together by points. Guilds tied on points in the same bracket keep that bracket's order; ties across brackets share a rank. Shown: every bracket's top {ALNA_BRACKET_TOP}, plus any guild in the overall top {ALNA_MAX_RANK} with more than {fmtInt(ALNA_MIN_POINTS)} points.</p>
         <div class="table-wrap tall">
           <table class="rank">
             <thead><tr><th class="num">Overall</th><th>Guild</th><th class="num hide-sm">Bracket</th><th class="num">Points</th></tr></thead>

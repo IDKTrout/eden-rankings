@@ -57,7 +57,7 @@ export interface AlnaStanding {
   best: AlnaRow;
 }
 
-/** How each group's guilds did in an Alna season (only the guilds the site shows: top 100, over 1M points). */
+/** How each group's guilds did in an Alna season (only the guilds the site shows). */
 export function alnaStandings(seasonId: string): AlnaStanding[] {
   const rows = alnaFor(seasonId);
   return groups

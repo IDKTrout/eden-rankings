@@ -218,10 +218,13 @@ export const alna: AlnaRow[] = parseCsv(alnaCsv)
     rounded: /^true$/i.test(str(r.points_rounded)),
   }));
 
-/** Alna site rule: show a guild only if it is in the season's overall top 100 AND has more than 1,000,000 points. */
+/** Alna site rule: show a guild if it finished top 3 in its bracket, or if it is in the season's overall top 100 AND has more than 1,000,000 points. */
 export const ALNA_MAX_RANK = 100;
 export const ALNA_MIN_POINTS = 1_000_000;
-export const alnaShown = (r: AlnaRow) => r.overallRank != null && r.overallRank <= ALNA_MAX_RANK && r.points != null && r.points > ALNA_MIN_POINTS;
+export const ALNA_BRACKET_TOP = 3;
+export const alnaShown = (r: AlnaRow) =>
+  (r.bracketRank >= 1 && r.bracketRank <= ALNA_BRACKET_TOP) ||
+  (r.overallRank != null && r.overallRank <= ALNA_MAX_RANK && r.points != null && r.points > ALNA_MIN_POINTS);
 
 /** The Alna rows shown for a season, in overall order. */
 export function alnaFor(seasonId: string) {

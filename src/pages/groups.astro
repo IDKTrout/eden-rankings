@@ -36,7 +36,7 @@ const list = groups.map((g) => ({
         <p class="muted small">{members.length} {members.length === 1 ? 'guild' : 'guilds'}</p>
         <dl>
           {abexSeason && <div><dt>{seasonLabel(abexSeason)}</dt><dd>{abex ? `${abex.guilds} ranked · best #${abex.best.damageRank} · ${abex.finished} finished` : 'No guild ranked'}</dd></div>}
-          {alnaSeason && <div><dt>{seasonLabel(alnaSeason)}</dt><dd>{al ? `${al.guilds} over 1M · best #${al.best.overallRank} · ${al.bracketWins} bracket ${al.bracketWins === 1 ? 'win' : 'wins'}` : 'No guild over 1M points'}</dd></div>}
+          {alnaSeason && <div><dt>{seasonLabel(alnaSeason)}</dt><dd>{al ? `${al.guilds} shown · best #${al.best.overallRank} · ${al.bracketWins} bracket ${al.bracketWins === 1 ? 'win' : 'wins'}` : 'No guild shown'}</dd></div>}
           {riftSeason && <div><dt>{seasonLabel(riftSeason)}</dt><dd>{rift ? `${rift.players} ${rift.players === 1 ? 'player' : 'players'} · best floor ${fmtInt(rift.best.floor)}` : 'No player ranked'}</dd></div>}
         </dl>
       </a>

@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Rank from '../../components/Rank.astro';
+import GroupTag from '../../components/GroupTag.astro';
+import { regions, seasons, seasonLabel, abex, rift, finished, guildLabel, fmtInt, fmtM, nameOf } from '../../lib/data';
+import { guildsInRegion, playersInRegion, regionAbex, regionRift, guildServer, playerServer } from '../../lib/regions';
+
+export function getStaticPaths() {
+  return regions.map((r) => ({ params: { id: String(r.region) } }));
+}
+
+const region = Number(Astro.params.id);
+const range = regions.find((r) => r.region === region)!;
+const servers = range.first === range.last ? `S${range.first}` : `S${range.first}–S${range.last}`;
+
+// Newest season first.
+const history = [...seasons].reverse().map((s) => ({
+  s,
+  abex: s.kind === 'abex' ? regionAbex(region, s.id) : null,
+  rift: s.kind === 'rift' ? regionRift(region, s.id) : null,
+}));
+
+const guildRows = guildsInRegion(region).map((g) => {
+  const a = abex.filter((r) => r.guildId === g.id && r.damageRank != null);
+  const rr = rift.filter((r) => r.guildId === g.id);
+  return {
+    g,
+    server: guildServer(g.id),
+    best: a.length ? Math.min(...a.map((r) => r.damageRank as number)) : null,
+    finishes: a.filter(finished).length,
+    riftPlayers: rr.length,
+  };
+}).sort((a, b) => (a.best ?? 1e9) - (b.best ?? 1e9) || b.riftPlayers - a.riftPlayers || a.g.name.localeCompare(b.g.name));
+
+const playerRows = playersInRegion(region)
+  .filter((p) => p.rift.length > 0)
+  .map((p) => ({
+    p,
+    server: playerServer(p),
+    best: Math.max(...p.rift.map((r) => r.floor)),
+    bestRank: Math.min(...p.rift.map((r) => r.rank)),
+  }))
+  .sort((a, b) => b.best - a.best || a.bestRank - b.bestRank);
+---
+<Layout title={`Region ${region}`} description={`Region ${region} (${servers}): its guilds and players and how they placed in every AbEx and Temporal Rift season.`}>
+  <section class="page-head">
+    <span class="eyebrow">Region</span>
+    <h1>Region {region}</h1>
+    <div class="chips"><span class="chip">Servers {servers}</span><span class="chip">{range.last - range.first + 1} {range.last === range.first ? 'server' : 'servers'}</span></div>
+  </section>
+
+  <section class="card" id="seasons">
+    <h2>Season by season</h2>
+    <div class="table-wrap">
+      <table class="rank">
+        <thead><tr><th>Season</th><th class="num">Ranked</th><th>Best result</th><th class="num">Finished</th></tr></thead>
+        <tbody>
+          {history.map(({ s, abex: a, rift: r }) => (
+            <tr>
+              <td><a href={`/season/${s.id}/`}>{seasonLabel(s)}</a></td>
+              {s.kind === 'abex' ? (a ? (
+                <>
+                  <td class="num">{a.guilds} {a.guilds === 1 ? 'guild' : 'guilds'}</td>
+                  <td><Rank value={a.best.damageRank} tiers="abex" /> <a href={`/guild/${encodeURIComponent(a.best.guildId)}/`}>{nameOf(a.best)}</a> <span class="muted small">{fmtM(a.best.damage)}</span></td>
+                  <td class="num">{a.finished}</td>
+                </>
+              ) : <><td class="num muted">—</td><td class="muted">No guild ranked</td><td class="num muted">—</td></>) : (r ? (
+                <>
+                  <td class="num">{r.players} {r.players === 1 ? 'player' : 'players'}</td>
+                  <td><Rank value={r.best.rank} /> <a href={`/player/${r.best.playerId}/`}>{r.best.playerName}</a> <span class="muted small">floor {fmtInt(r.best.floor)}</span></td>
+                  <td class="num muted">—</td>
+                </>
+              ) : <><td class="num muted">—</td><td class="muted">No player ranked</td><td class="num muted">—</td></>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="note small muted">Uses the server listed on each ranking row. Finished counts AbEx guilds that reached the season's max damage.</p>
+  </section>
+
+  <section class="card" id="guilds">
+      <h2>Guilds</h2>
+      {guildRows.length ? (
+        <div class="table-wrap">
+          <table class="rank">
+            <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Finishes</th><th class="num">Rift players</th></tr></thead>
+            <tbody>
+              {guildRows.map((r) => (
+                <tr>
+                  <td><a href={`/guild/${encodeURIComponent(r.g.id)}/`}>{r.g.name}</a><GroupTag guildId={r.g.id} /></td>
+                  <td>{r.server != null ? `S${r.server}` : '—'}</td>
+                  <td class="num">{r.best == null ? '—' : <Rank value={r.best} tiers="abex" />}</td>
+                  <td class="num">{r.finishes || '—'}</td>
+                  <td class="num">{r.riftPlayers || '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : <p class="empty-note">No ranked guild is on these servers yet.</p>}
+    </section>
+
+    <section class="card" id="players">
+      <h2>Temporal Rift players</h2>
+      {playerRows.length ? (
+        <div class="table-wrap">
+          <table class="rank">
+            <thead><tr><th>Player</th><th>Server</th><th class="num">Best floor</th><th class="num">Best rank</th><th>Guild</th></tr></thead>
+            <tbody>
+              {playerRows.map(({ p, server, best, bestRank }) => (
+                <tr>
+                  <td><a href={`/player/${p.id}/`}>{p.name}</a></td>
+                  <td>{server != null ? `S${server}` : '—'}</td>
+                  <td class="num">{fmtInt(best)}</td>
+                  <td class="num">#{bestRank}</td>
+                  <td>{p.guildId ? <a href={`/guild/${encodeURIComponent(p.guildId)}/`}>{guildLabel(p.guildId)}</a> : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : <p class="empty-note">No Temporal Rift player is on these servers yet.</p>}
+    </section>
+</Layout>

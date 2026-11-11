@@ -3,11 +3,11 @@ g007,<NO M≡RCY>,1,,<NO M≡RCY>,2,1,,
 g027,Astra,4,,Astra,2,0,,
 g012,✨Wonderland✨,5,,✨Wonderland✨,2,0,,
 g160,Дети Гаранта,6,,Дети Гаранта,1,0,,
-g146,SUPERNOVA,7,,SUPERNOVA,2,1,,
-g161,Песочница,7,,Песочница,2,0,,
-g024,Animal Kingdom,9,,Animal Kingdom,2,0,,
-32398,Eden:Road2Heaven,10,,Eden:Road2Heaven / RoadtoHeaven,2,1,,eden
-g085,Era of Gods,10,,Era of Gods,1,0,,
+g146,SUPERNOVA,7,4,SUPERNOVA,2,1,,
+g161,Песочница,7,4,Песочница,2,0,,
+g024,Animal Kingdom,9,4,Animal Kingdom,2,0,,
+32398,Eden:Road2Heaven,10,4,Eden:Road2Heaven / RoadtoHeaven,2,1,,eden
+g085,Era of Gods,10,4,Era of Gods,1,0,,
 g033,Berceni,11,,Berceni,2,0,,
 g155,WawesCompany,11,,WawesCompany,1,0,,
 g163,ロワン愛好会,11,,ロワン愛好会,2,0,,
@@ -25,7 +25,7 @@ g040,Bundes Bros 🔥,49,,Bundes Bros 🔥,1,0,,
 g095,great Nazarick,58,,great Nazarick,2,0,,
 g142,Snow Dream ❄️,66,,Snow Dream ❄️,1,0,,
 g034,Blackbird,67,,Blackbird,2,0,,
-49391,Eden: Moon Sword,71,,Eden: Moon Sword / Moon Sword,2,1,,eden
+49391,Eden: Moon Sword,71,10,Eden: Moon Sword / Moon Sword,2,1,,eden
 g047,COVENANT,74,,COVENANT,2,0,,
 51888,FU: Maid Café,77,,FU: Maid Café / Maid ♡ Cafe,2,1,,fu
 g093,Golden Dawn 🌅,83,,Golden Dawn 🌅,1,0,,
@@ -53,8 +53,8 @@ g030,Banshee,163,,Banshee,2,1,,
 g096,Haze,170,,Haze,2,0,,
 g086,FATE,171,,FATE / FATE | Banshee,2,0,,
 g108,Najiris,174,,Najiris,2,0,,
-95973,Eden: JUSTICE#,177,,Eden: JUSTICE#,2,0,,eden
-96092,Eden: VURK MAFIA,178,,Eden: VURK MAFIA,2,1,,eden
+95973,Eden: JUSTICE#,177,18,Eden: JUSTICE#,2,0,,eden
+96092,Eden: VURK MAFIA,178,18,Eden: VURK MAFIA,2,1,,eden
 g058,DivineCult⭐,187,,DivineCult⭐,1,0,,
 g117,OneVictory,189,,OneVictory,2,0,,
 100371,Regalia,190,,Regalia,2,1,,
@@ -121,10 +121,10 @@ g097,Heartbreakers,331,,Heartbreakers,1,0,,
 g043,Celestial Flash,332,,Celestial Flash,1,0,,
 g154,Virtus,332,,Virtus,1,1,,
 g045,Classic Comp,334,,Classic Comp / Classic×Comp,1,1,,
-165967,Eden: Prodigy,338,,[AEGIS] Eclipse / Eden: Prodigy,1,0,,eden
-g153,ViCi,339,,ViCi,1,1,,
-166704,Eden: Vorpal,340,,Eden: Vorpal,1,0,,eden
-167921,Eden: ANTI,343,,[AEGIS] Anti / Eden: ANTI,1,1,,eden
+165967,Eden: Prodigy,338,36,[AEGIS] Eclipse / Eden: Prodigy,1,0,,eden
+g153,ViCi,339,36,ViCi,1,1,,
+166704,Eden: Vorpal,340,36,Eden: Vorpal,1,0,,eden
+167921,Eden: ANTI,343,36,[AEGIS] Anti / Eden: ANTI,1,1,,eden
 g077,Element: LOCO,346,,Element: LOCO,1,0,,elts
 g075,Element: Eclipse,350,,Element: Eclipse,1,1,,elts
 g134,Shiver,353,,Shiver,1,1,,

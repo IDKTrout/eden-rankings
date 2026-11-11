@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { regions, regionsListed, latestOf, seasonLabel, fmtInt, nameOf } from '../lib/data';
+import { guildsInRegion, playersInRegion, regionAbex, regionRift } from '../lib/regions';
+
+const abexSeason = latestOf('abex');
+const riftSeason = latestOf('rift');
+
+const list = regions.map((r) => ({
+  r,
+  guilds: guildsInRegion(r.region).length,
+  players: playersInRegion(r.region).length,
+  abex: abexSeason ? regionAbex(r.region, abexSeason.id) : null,
+  rift: riftSeason ? regionRift(r.region, riftSeason.id) : null,
+}));
+const range = (a: number, b: number) => (a === b ? `S${a}` : `S${a}–S${b}`);
+---
+<Layout title="Regions" description="Eden regions, the servers each one covers, and how their guilds and players placed.">
+  <section class="page-head">
+    <span class="eyebrow">Directory</span>
+    <h1>Regions</h1>
+    <p class="muted">Each region groups a range of servers. {regions.length} of {regionsListed} regions have their servers listed so far; the rest appear here once their servers are added.</p>
+  </section>
+
+  {list.length === 0 ? (
+    <p class="empty-note">No region has servers listed yet.</p>
+  ) : (
+    <div class="region-grid">
+      {list.map(({ r, guilds, players, abex, rift }) => (
+        <a class="card region-card" href={`/region/${r.region}/`}>
+          <div class="rc-head">
+            <h2>Region {r.region}</h2>
+            <span class="chip">{range(r.first, r.last)}</span>
+          </div>
+          <p class="muted small">{guilds} {guilds === 1 ? 'guild' : 'guilds'} · {players} {players === 1 ? 'player' : 'players'}</p>
+          <dl>
+            {abexSeason && <div><dt>{seasonLabel(abexSeason)}</dt><dd>{abex ? `${abex.guilds} ranked · best #${abex.best.damageRank} ${nameOf(abex.best)}` : 'No guild ranked'}</dd></div>}
+            {riftSeason && <div><dt>{seasonLabel(riftSeason)}</dt><dd>{rift ? `${rift.players} ${rift.players === 1 ? 'player' : 'players'} · best floor ${fmtInt(rift.best.floor)}` : 'No player ranked'}</dd></div>}
+          </dl>
+        </a>
+      ))}
+    </div>
+  )}
+</Layout>
+
+<style>
+  .region-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--gap); }
+  .region-card { text-decoration: none; gap: .5rem; transition: border-color .15s; }
+  .region-card:hover { border-color: var(--accent); color: inherit; }
+  .rc-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; flex-wrap: wrap; }
+  .rc-head h2 { font-family: var(--font-display); font-size: 1.4rem; }
+  dl { margin: 0; display: flex; flex-direction: column; gap: .35rem; }
+  dt { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  dd { margin: 0; font-size: .9rem; overflow-wrap: anywhere; }
+</style>

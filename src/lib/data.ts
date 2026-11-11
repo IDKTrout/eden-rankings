@@ -183,9 +183,13 @@ export const groups: Group[] = parseCsv(groupsCsv)
   .map((r) => ({ id: str(r.group_id), name: str(r.group_name) || str(r.group_id), short: str(r.short_name) || str(r.group_name), color: /^#[0-9a-f]{6}$/i.test(str(r.color)) ? str(r.color) : '', notes: str(r.notes) }));
 
 /** Regions group servers together: every server from first to last belongs to the region. */
-export const regions = parseCsv(regionsCsv)
+const regionRows = parseCsv(regionsCsv).filter((r) => r.region);
+/** How many regions the regions tab lists, including ones whose servers aren't filled in yet. */
+export const regionsListed = regionRows.length;
+export const regions = regionRows
   .map((r) => ({ region: num(r.region), first: num(r.first_server), last: num(r.last_server) }))
-  .filter((r): r is { region: number; first: number; last: number } => r.region != null && r.first != null && r.last != null);
+  .filter((r): r is { region: number; first: number; last: number } => r.region != null && r.first != null && r.last != null)
+  .sort((a, b) => a.region - b.region);
 
 /** The region a server belongs to, or null if no region in the regions tab covers it. */
 export const regionOf = (server: number | null | undefined) =>

@@ -1,4 +1,4 @@
 season_id,event,season_number,title,data_tab,entry_count,compiled_by,source_url,notes,max_damage_m,thanks
 abex-test-s4,AbEx Test,4,All Top Damage AbEx Test S4,abex_rankings,100,Tunarda (id: 44843),,Guild damage ranking only. No leader or essence columns in the source.,"6,400,000",
 rift-s2,Temporal Rift,2,"Temporal Rift Season 2, Top 100",rift_rankings,100,Tunarda (id: 44843),,Player ranking by highest floor reached.,,
-abex-s4,AbEx,4,Top 100 Guilds AbEx S4,abex_rankings,118,Tunarda (id: 44843),https://t.me/NoMercyNo1,Guild ranking. Essence-only guilds have no damage_rank.,"3,840,000",Thanks to Mr.Penguin (id: 8800965) for help compiling.
+abex-s4,AbEx,4,Top 100 Guilds AbEx S4,abex_rankings,118,Tunarda (id: 44843),https://t.me/NoMercyNo1,Guild ranking. Thanks to Mr.Penguin (id: 8800965) for help compiling. Essence-only guilds have no damage_rank.,"3,840,000",Thanks to Mr.Penguin (id: 8800965) for help compiling.

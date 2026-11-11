@@ -1,0 +1,107 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Rank from '../../components/Rank.astro';
+import GroupTag from '../../components/GroupTag.astro';
+import {
+  groups, groupById, groupMembers, seasons, seasonLabel, abex, rift, finished,
+  fmtInt, fmtM, fmtServer,
+} from '../../lib/data';
+import { abexStandings, riftStandings, seasonOrder } from '../../lib/groups';
+
+export function getStaticPaths() {
+  return groups.map((g) => ({ params: { id: g.id } }));
+}
+
+const { id } = Astro.params as { id: string };
+const group = groupById.get(id)!;
+const members = groupMembers(id);
+
+const memberRows = members.map((m) => {
+  const a = abex.filter((r) => r.guildId === m.id && r.damageRank != null);
+  const rr = rift.filter((r) => r.guildId === m.id);
+  const latest = [...a].sort((x, y) => seasonOrder(y.seasonId) - seasonOrder(x.seasonId))[0];
+  const best = a.length ? Math.min(...a.map((r) => r.damageRank as number)) : null;
+  return {
+    m,
+    server: m.homeServer ?? latest?.server ?? null,
+    best,
+    finishedCount: a.filter(finished).length,
+    riftPlayers: rr.length,
+    bestFloor: rr.length ? Math.max(...rr.map((r) => r.floor)) : null,
+  };
+}).sort((a, b) => (a.best ?? 1e9) - (b.best ?? 1e9) || b.riftPlayers - a.riftPlayers || a.m.name.localeCompare(b.m.name));
+
+// Newest season first.
+const history = [...seasons].reverse().map((s) => {
+  if (s.kind === 'abex') {
+    const st = abexStandings(s.id).find((x) => x.groupId === id);
+    return { s, kind: 'abex' as const, st };
+  }
+  const st = riftStandings(s.id).find((x) => x.groupId === id);
+  return { s, kind: 'rift' as const, st };
+});
+---
+<Layout title={`${group.name} group`} description={`${group.name}: ${members.length} guilds and how they placed in every AbEx and Temporal Rift season.`}>
+  <section class="page-head">
+    <span class="eyebrow">Group</span>
+    <h1>{group.name} <GroupTag groupId={group.id} /></h1>
+    <p class="muted">{members.length} {members.length === 1 ? 'guild' : 'guilds'}. Results use each guild's current group, including seasons where it was listed under another name.</p>
+  </section>
+
+  <section class="card" id="seasons">
+    <h2>Season by season</h2>
+    <div class="table-wrap">
+      <table class="rank">
+        <thead><tr><th>Season</th><th class="num">Ranked</th><th>Best result</th><th class="num">Finished</th></tr></thead>
+        <tbody>
+          {history.map(({ s, kind, st }) => (
+            <tr>
+              <td><a href={`/season/${s.id}/`}>{seasonLabel(s)}</a></td>
+              {kind === 'abex' ? (
+                st && 'guilds' in st ? (
+                  <>
+                    <td class="num">{st.guilds} {st.guilds === 1 ? 'guild' : 'guilds'}</td>
+                    <td><Rank value={st.best.damageRank} tiers="abex" /> <a href={`/guild/${encodeURIComponent(st.best.guildId)}/`}>{st.best.guildName}</a> <span class="muted small">{fmtM(st.best.damage)}</span></td>
+                    <td class="num">{st.finished}</td>
+                  </>
+                ) : <><td class="num muted">—</td><td class="muted">No guild ranked</td><td class="num muted">—</td></>
+              ) : (
+                st && 'players' in st ? (
+                  <>
+                    <td class="num">{st.players} {st.players === 1 ? 'player' : 'players'}</td>
+                    <td><Rank value={st.best.rank} /> <a href={`/player/${st.best.playerId}/`}>{st.best.playerName}</a> <span class="muted small">floor {fmtInt(st.best.floor)}</span></td>
+                    <td class="num muted">—</td>
+                  </>
+                ) : <><td class="num muted">—</td><td class="muted">No player ranked</td><td class="num muted">—</td></>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="note small muted">Finished counts AbEx guilds that reached the season's max damage.</p>
+  </section>
+
+  <section class="card" id="members">
+    <h2>Guilds</h2>
+    <div class="table-wrap">
+      <table class="rank">
+        <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">AbEx finishes</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
+        <tbody>
+          {memberRows.map((r) => (
+            <tr>
+              <td><a href={`/guild/${encodeURIComponent(r.m.id)}/`}>{r.m.name}</a></td>
+              <td>{fmtServer(r.server)}</td>
+              <td class="num">{r.best == null ? '—' : <Rank value={r.best} tiers="abex" />}</td>
+              <td class="num">{r.finishedCount || '—'}</td>
+              <td class="num">{r.riftPlayers || '—'}</td>
+              <td class="num">{r.bestFloor == null ? '—' : fmtInt(r.bestFloor)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {group.notes && <p class="small muted">{group.notes}</p>}
+</Layout>

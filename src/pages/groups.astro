@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GroupTag from '../components/GroupTag.astro';
+import { groups, groupMembers, latestOf, seasonLabel, fmtInt } from '../lib/data';
+import { abexStandings, riftStandings } from '../lib/groups';
+
+const abexSeason = latestOf('abex');
+const riftSeason = latestOf('rift');
+const aStand = abexSeason ? abexStandings(abexSeason.id) : [];
+const rStand = riftSeason ? riftStandings(riftSeason.id) : [];
+
+const list = groups.map((g) => ({
+  g,
+  members: groupMembers(g.id),
+  abex: aStand.find((s) => s.groupId === g.id),
+  rift: rStand.find((s) => s.groupId === g.id),
+}));
+---
+<Layout title="Groups" description="Guild groups in the event rankings, such as Eden, Sin, FU and Elements, and how their guilds placed.">
+  <section class="page-head">
+    <span class="eyebrow">Directory</span>
+    <h1>Groups</h1>
+    <p class="muted">Families of guilds that share a name, like Eden, Sin, FU and Elements. Results use each guild's current group.</p>
+  </section>
+
+  <div class="group-grid">
+    {list.map(({ g, members, abex, rift }) => (
+      <a class="card group-card" href={`/group/${encodeURIComponent(g.id)}/`}>
+        <div class="gc-head">
+          <h2>{g.name}</h2>
+          <GroupTag groupId={g.id} link={false} />
+        </div>
+        <p class="muted small">{members.length} {members.length === 1 ? 'guild' : 'guilds'}</p>
+        <dl>
+          {abexSeason && <div><dt>{seasonLabel(abexSeason)}</dt><dd>{abex ? `${abex.guilds} ranked · best #${abex.best.damageRank} · ${abex.finished} finished` : 'No guild ranked'}</dd></div>}
+          {riftSeason && <div><dt>{seasonLabel(riftSeason)}</dt><dd>{rift ? `${rift.players} ${rift.players === 1 ? 'player' : 'players'} · best floor ${fmtInt(rift.best.floor)}` : 'No player ranked'}</dd></div>}
+        </dl>
+      </a>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--gap); }
+  .group-card { text-decoration: none; gap: .5rem; transition: border-color .15s; }
+  .group-card:hover { border-color: var(--accent); color: inherit; }
+  .gc-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .gc-head h2 { font-family: var(--font-display); font-size: 1.45rem; }
+  dl { margin: 0; display: flex; flex-direction: column; gap: .35rem; }
+  dt { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  dd { margin: 0; font-size: .9rem; font-variant-numeric: tabular-nums; }
+</style>

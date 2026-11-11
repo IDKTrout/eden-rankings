@@ -1,13 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import FilterScript from '../components/FilterScript.astro';
-import { guildIds, guildById, abex, rift, players, guildLabel } from '../lib/data';
+import { guildIds, guildById, abex, rift, players, guildLabel, groupOf } from '../lib/data';
 
 const guildEntries = guildIds.map((id) => {
   const g = guildById.get(id);
   const names = [...new Set([...(g?.names ?? []), ...abex.filter((r) => r.guildId === id).map((r) => r.guildName), ...rift.filter((r) => r.guildId === id).map((r) => r.guildName)])];
   const name = g?.name || names[0] || id;
-  return { kind: 'Guild', name, others: names.filter((n) => n !== name), href: `/guild/${encodeURIComponent(id)}/`, search: [...names, name, id].join(' ') };
+  return { kind: 'Guild', name, others: names.filter((n) => n !== name), href: `/guild/${encodeURIComponent(id)}/`, search: [...names, name, id, groupOf(id)?.name ?? '', groupOf(id)?.short ?? ''].join(' '), sub: groupOf(id) ? `${groupOf(id)!.name} group` : '' };
 });
 const playerEntries = players.map((p) => ({
   kind: 'Player', name: p.name, others: p.names.filter((n) => n !== p.name), href: `/player/${p.id}/`,

@@ -17,6 +17,7 @@ const TABS = {
   guilds: 4,
   guild_names: 6,
   players: 5,
+  groups: 7,
 };
 
 async function publishId() {

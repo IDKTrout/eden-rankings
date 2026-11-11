@@ -4,9 +4,11 @@ import BarList from '../../components/BarList.astro';
 import Scatter from '../../components/Scatter.astro';
 import Rank from '../../components/Rank.astro';
 import Credit from '../../components/Credit.astro';
+import GroupTag from '../../components/GroupTag.astro';
+import { abexStandings, riftStandings } from '../../lib/groups';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
-  fmtInt, fmtM, fmtEss, fmtServer, finished, timeNote, type Season,
+  fmtInt, fmtM, fmtEss, fmtServer, finished, timeNote, groupById, type Season,
 } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -27,6 +29,8 @@ const anyFinished = !!aSum && aSum.finished > 0;
 
 const riftRows = season.kind === 'rift' ? riftFor(season.id) : [];
 const rSum = season.kind === 'rift' ? riftSummary(season.id) : null;
+const aStand = season.kind === 'abex' ? abexStandings(season.id) : [];
+const rStand = season.kind === 'rift' ? riftStandings(season.id) : [];
 
 const guildHref = (id: string) => (id ? `/guild/${encodeURIComponent(id)}/` : undefined);
 const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : undefined);
@@ -110,6 +114,29 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
         )}
       </div>
 
+      {aStand.length > 0 && (
+        <section class="card" id="groups">
+          <h2>Groups</h2>
+          <p class="note">How each group's guilds placed this season, ordered by their best guild. Groups use each guild's current group.</p>
+          <div class="table-wrap">
+            <table class="rank">
+              <thead><tr><th>Group</th><th class="num">Guilds ranked</th><th>Best guild</th><th class="num">Finished</th><th class="num">Total damage</th></tr></thead>
+              <tbody>
+                {aStand.map((g) => (
+                  <tr>
+                    <td><a href={`/group/${g.groupId}/`}>{groupById.get(g.groupId)?.name}</a></td>
+                    <td class="num">{g.guilds}</td>
+                    <td><Rank value={g.best.damageRank} tiers="abex" /> <a href={guildHref(g.best.guildId)}>{g.best.guildName}</a></td>
+                    <td class="num">{g.finished}</td>
+                    <td class="num">{fmtM(g.totalDamage)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
       <section class="card" id="ranking">
         <h2>Full ranking</h2>
         <p class="note small muted">Bold times are when a guild finished (reached the max damage). Other times are the guild's last attack.</p>
@@ -131,7 +158,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
               {abexRows.map((r) => (
                 <tr>
                   <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
-                  <td><a href={guildHref(r.guildId)}>{r.guildName}</a></td>
+                  <td><a href={guildHref(r.guildId)}>{r.guildName}</a><GroupTag guildId={r.guildId} /></td>
                   <td>{r.leaderId ? <a href={playerHref(r.leaderId)}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
                   <td>{fmtServer(r.server)}</td>
                   <td class="num">{fmtInt(r.damage)}</td>
@@ -181,6 +208,28 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
         </section>
       </div>
 
+      {rStand.length > 0 && (
+        <section class="card" id="groups">
+          <h2>Groups</h2>
+          <p class="note">Players in this ranking from each group's guilds. Groups use each guild's current group.</p>
+          <div class="table-wrap">
+            <table class="rank">
+              <thead><tr><th>Group</th><th class="num">Players</th><th>Best player</th><th class="num">Floor</th></tr></thead>
+              <tbody>
+                {rStand.map((g) => (
+                  <tr>
+                    <td><a href={`/group/${g.groupId}/`}>{groupById.get(g.groupId)?.name}</a></td>
+                    <td class="num">{g.players}</td>
+                    <td><Rank value={g.best.rank} /> <a href={playerHref(g.best.playerId)}>{g.best.playerName}</a></td>
+                    <td class="num">{fmtInt(g.best.floor)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
       <section class="card" id="ranking">
         <h2>Full ranking</h2>
         <div class="table-wrap tall">
@@ -193,7 +242,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
                   <td><a href={playerHref(r.playerId)}>{r.playerName}</a></td>
                   <td class="num">{fmtInt(r.floor)}</td>
                   <td>{fmtServer(r.server)}</td>
-                  <td>{r.guildId ? <a href={guildHref(r.guildId)}>{guildLabel(r.guildId, r.guildName)}</a> : r.guildName || '—'}</td>
+                  <td>{r.guildId ? <><a href={guildHref(r.guildId)}>{guildLabel(r.guildId, r.guildName)}</a><GroupTag guildId={r.guildId} /></> : r.guildName || '—'}</td>
                 </tr>
               ))}
             </tbody>

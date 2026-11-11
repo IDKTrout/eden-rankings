@@ -6,6 +6,7 @@ import abexCsv from '../data/abex_rankings.csv?raw';
 import riftCsv from '../data/rift_rankings.csv?raw';
 import guildsCsv from '../data/guilds.csv?raw';
 import guildNamesCsv from '../data/guild_names.csv?raw';
+import groupsCsv from '../data/groups.csv?raw';
 
 export type Kind = 'abex' | 'rift';
 
@@ -52,9 +53,17 @@ export interface RiftRow {
   guildId: string;
 }
 
+export interface Group {
+  id: string;
+  name: string;
+  short: string;
+  notes: string;
+}
+
 export interface Guild {
   id: string;
   name: string;
+  groupId: string;
   homeServer: number | null;
   names: string[];
   notes: string;
@@ -160,10 +169,15 @@ export const guilds: Guild[] = parseCsv(guildsCsv)
   .map((r) => ({
     id: str(r.guild_id),
     name: str(r.guild_name),
+    groupId: str(r.group_id),
     homeServer: num(r.home_server),
     names: guildNameRows.filter((n) => n.guild_id === r.guild_id).map((n) => n.guild_name),
     notes: str(r.notes),
   }));
+
+export const groups: Group[] = parseCsv(groupsCsv)
+  .filter((r) => r.group_id)
+  .map((r) => ({ id: str(r.group_id), name: str(r.group_name) || str(r.group_id), short: str(r.short_name) || str(r.group_name), notes: str(r.notes) }));
 
 /* ------------------------------------------------------------------ lookups */
 
@@ -172,6 +186,10 @@ export const seasonById = new Map(seasons.map((s) => [s.id, s]));
 /** Everyone credited with gathering a season, for the site footer. */
 export const compilers = [...new Set(seasons.map((s) => s.compiledBy).filter(Boolean))];
 export const guildById = new Map(guilds.map((g) => [g.id, g]));
+export const groupById = new Map(groups.map((g) => [g.id, g]));
+/** The group a guild belongs to now, if any. */
+export const groupOf = (guildId: string) => groupById.get(guildById.get(guildId)?.groupId ?? '');
+export const groupMembers = (groupId: string) => guilds.filter((g) => g.groupId === groupId);
 
 export const seasonLabel = (s: Season) => `${s.event}${s.number != null ? ` S${s.number}` : ''}`;
 export const seasonsOf = (kind: Kind) => seasons.filter((s) => s.kind === kind);

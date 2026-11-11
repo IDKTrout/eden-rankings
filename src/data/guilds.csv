@@ -1,6 +1,6 @@
 guild_id,guild_name,home_server,region,names_seen,abex_seasons,rift_seasons,notes,group_id,inactive
 30060,<NO M≡RCY>,1,1,<NO M≡RCY>,2,1,,,FALSE
-g027,Astra,4,2,Astra,2,0,,,FALSE
+30465,Astra,4,2,Astra,2,0,,,FALSE
 g012,✨Wonderland✨,5,3,✨Wonderland✨,2,0,,,FALSE
 g160,Дети Гаранта,6,3,Дети Гаранта,1,0,,,FALSE
 31616,SUPERNOVA,7,4,SUPERNOVA,2,1,,,FALSE
@@ -11,20 +11,20 @@ g085,Era of Gods,10,4,Era of Gods,1,0,,,FALSE
 g033,Berceni,11,5,Berceni,2,0,,,FALSE
 g155,WawesCompany,11,5,WawesCompany,1,0,,,FALSE
 g163,ロワン愛好会,11,5,ロワン愛好会,2,0,,,FALSE
-g010,✧ AWAKEN ✧,13,5,✧ AWAKEN ✧,1,0,,,FALSE
+33430,✧ AWAKEN ✧,13,5,✧ AWAKEN ✧ / ✦AWAKEN✦,1,0,,,FALSE
 g023,Amagen,13,5,Amagen,1,0,,,FALSE
 g035,BlackList,13,5,BlackList,2,0,,,FALSE
 g106,Meta Achievers,15,6,Meta Achievers,2,0,,,FALSE
 g025,ANIMOSITY,18,6,ANIMOSITY,2,1,,,FALSE
 g032,Bees,30,6,Bees,2,0,,,FALSE
-g018,Æternum,33,7,Aeternum / Æternum,2,1,,,FALSE
+38766,Æternum,33,7,Aeternum / Æternum,2,1,,,FALSE
 g119,Quality Hotpot,37,7,Quality Hotpot,2,0,,,FALSE
 41733,Re:,44,8,Re:,2,1,,,FALSE
-g156,Wicked Serene,45,,Wicked Serene,2,0,,,FALSE
-g040,Bundes Bros 🔥,49,,Bundes Bros 🔥,1,0,,,FALSE
-g095,great Nazarick,58,,great Nazarick,2,0,,,FALSE
-g142,Snow Dream ❄️,66,,Snow Dream ❄️,1,0,,,FALSE
-g034,Blackbird,67,,Blackbird,2,0,,,FALSE
+g156,Wicked Serene,45,8,Wicked Serene,2,0,,,FALSE
+g040,Bundes Bros 🔥,49,8,Bundes Bros 🔥,1,0,,,FALSE
+g095,great Nazarick,58,9,great Nazarick,2,0,,,FALSE
+g142,Snow Dream ❄️,66,9,Snow Dream ❄️,1,0,,,FALSE
+51083,Blackbird,67,9,Blackbird,2,0,,,FALSE
 49391,Eden: Moon Sword,71,10,Eden: Moon Sword / Moon Sword,2,1,,eden,FALSE
 g047,COVENANT,74,10,COVENANT,2,0,,,FALSE
 51888,FU: Maid Café,77,10,FU: Maid Café / Maid ♡ Cafe,2,1,,fu,FALSE
@@ -47,7 +47,7 @@ g118,Pandora,146,15,Pandora,1,0,,,FALSE
 g029,Bankai,147,15,Bankai,1,0,,,FALSE
 g026,Arcane Aegis,150,16,Arcane Aegis,2,0,,,FALSE
 g021,Alliance AFK,158,16,Alliance AFK,2,0,,,FALSE
-g006,°•♡Nemesis♡•°,159,16,*°Nemesis°* / °•♡Nemesis♡•°,2,0,,,FALSE
+88281,°•♡Nemesis♡•°,159,16,*°Nemesis°* / °•♡Nemesis♡•°,2,0,,,FALSE
 g054,Deepwoken,160,16,Deepwoken,2,0,,,FALSE
 g030,Banshee,163,17,Banshee,2,1,,,FALSE
 g096,Haze,170,17,Haze,2,0,,,FALSE
@@ -79,13 +79,13 @@ g056,DiamondDogs,241,23,DiamondDogs,1,0,,,FALSE
 g002,¿ ArcNesis ₹,244,,¿ ArcNesis ₹ / ArcNesis / ΣArcNesis₹,2,1,,,FALSE
 g157,wonderland✨,245,,wonderland✨,2,0,,,FALSE
 g036,Blood Moon,252,,Blood Moon / BloodMoon,1,1,,,FALSE
-g089,Fʀeeedom:NewDawn,252,,Fʀeeedom:NewDawn,1,0,,,FALSE
+132292,Fʀeeedom:NewDawn,252,,Fʀeeedom:NewDawn / Fʀeeδσm:NeωDaωη,1,0,,,FALSE
 g014,💎FREEDOM💎,253,,💎FREEDOM💎 / FREEDOM,1,1,,,FALSE
 g042,CAPYBARA,253,,CAPYBARA,1,0,,,FALSE
 g051,dArkAngels,257,,dArkAngels,2,0,,,FALSE
 g057,Divine Warriors,261,,Divine Warriors,1,0,,,FALSE
 g120,REVELATION,262,,R3VELAT10N / REVELATION,2,1,,,FALSE
-g128,S.T.A.R.S.,263,,S.T.A.R.S / S.T.A.R.S.,2,1,,,FALSE
+135252,S.T.A.R.S.,263,,S.T.A.R.S / S.T.A.R.S.,2,1,,,FALSE
 g009,○●OLYMP●○,265,,○●OLYMP●○,1,0,,,FALSE
 g001,-GameOfThrones-,271,,-GameOfThrones-,1,0,,,FALSE
 g139,Sin: Wollust,271,,Sin: Wollust,1,0,,sin,FALSE
@@ -98,20 +98,20 @@ g140,Sin: Wrath 🔥,286,,Sin: Wrath 🔥,2,0,,sin,FALSE
 143337,Sin: Pride,287,,Sin: Pride,2,1,,sin,FALSE
 g162,Пыточная,289,29,Пыточная,2,0,,,FALSE
 g081,Element:Oblivion,291,30,Element:Oblivion,1,0,,elts,FALSE
-g017,AdySSS,292,30,AdySSS,2,1,,,FALSE
+147375,AdySSS,292,30,AdySSS,2,1,,,FALSE
 g147,Synopsys,293,30,Synopsys,1,0,,,FALSE
 g071,Element: ÆTHER,296,30,Element: ÆTHER,1,0,,elts,FALSE
 g101,jp.GG,296,30,jp.GG,1,0,,,FALSE
 g073,Element: Chill 🧊,299,31,Element: Chill 🧊,1,0,,elts,FALSE
 g076,Element: Fire 🔥,301,31,Element: Fire 🔥,2,0,,elts,FALSE
 g082,Element:Surprise,303,31,Element:Surprise,1,0,,elts,TRUE
-g072,Element: Chaos,304,31,Element: Chaos,2,0,,elts,FALSE
+154280,Element: Chaos,304,31,Element: Chaos,2,0,,elts,FALSE
 g078,Element: Radiant,306,32,Element: Radiant,1,0,,elts,FALSE
 g125,RevolutionR,306,32,RevolutionR,1,0,,,FALSE
-g137,Sin: Greed,307,,Sin: Greed,2,1,,sin,FALSE
+155501,Sin: Greed,307,,Sin: Greed,2,1,,sin,FALSE
 g133,ShadowDanger,309,,ShadowDanger,1,0,,,FALSE
 g130,Sea Wales 🌊,315,,Sea Wales 🌊,2,0,,,FALSE
-g143,STAR⭐,320,,STAR / STAR ⭐ / STAR⭐,2,1,,,FALSE
+159989,STAR⭐,320,,STAR / STAR ⭐ / STAR⭐,2,1,,,FALSE
 g126,ReZero-EvolutioN,323,,ReZero-EvolutioN,1,0,,,FALSE
 g127,ReZero-ZeroRe,326,,ReZero-ZeroRe,1,0,,,FALSE
 g049,Element: Tavern,327,,Crimson Tavern / Element: Tavern,2,1,,elts,FALSE
@@ -138,14 +138,14 @@ g111,NIGHTMARE,389,42,NIGHTMARE,1,0,,,FALSE
 g074,Element: Curse,390,42,Element: Curse,1,0,,elts,TRUE
 g158,Wraith's Haunt,393,42,Wraith's Haunt,1,0,,,FALSE
 g136,Sin: Goon,394,43,Sin: Goon,1,0,,sin,FALSE
-g099,Hood2Hood,395,,Hood2Hood,1,0,,,FALSE
-g028,AXIOM,396,,AXIOM,1,0,,,FALSE
-g150,The Legion,398,,The Legion,1,0,,,FALSE
-g107,Mythic Yappers,399,,Mythic Yappers,1,0,,,FALSE
-g159,Zipper,400,,Zipper,1,0,,,FALSE
-g104,Lazuli,401,,Lazuli,1,0,,,FALSE
-g148,Taverna do GaL0,402,,Taverna do GaL0,1,0,,,FALSE
-g031,Be Free,403,,Be Free,1,0,,,FALSE
+g099,Hood2Hood,395,43,Hood2Hood,1,0,,,FALSE
+g028,AXIOM,396,43,AXIOM,1,0,,,FALSE
+g150,The Legion,398,43,The Legion,1,0,,,FALSE
+g107,Mythic Yappers,399,43,Mythic Yappers,1,0,,,FALSE
+g159,Zipper,400,43,Zipper,1,0,,,FALSE
+g104,Lazuli,401,43,Lazuli,1,0,,,FALSE
+g148,Taverna do GaL0,402,43,Taverna do GaL0,1,0,,,FALSE
+g031,Be Free,403,43,Be Free,1,0,,,FALSE
 g113,Nullframe,405,,Nullframe,1,0,,,FALSE
 g022,AM3,,,AM3,0,1,,,FALSE
 g038,Blue Sea,,,Blue Sea,0,1,,,FALSE
@@ -160,21 +160,21 @@ g109,NEPHILIM,,,NEPHILIM,0,1,,,FALSE
 g115,OLYMP 2.0,,,OLYMP 2.0,0,1,,,FALSE
 g116,Olympus,,,Olympus,0,1,,,FALSE
 g129,Sanctuary+1,,,Sanctuary+1,0,1,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
+g164,Russian Kitty,,,Russian Kitty,0,0,First seen in Alna S2.,,FALSE
+g165,CrowsNest,,,CrowsNest,0,0,First seen in Alna S2.,,FALSE
+g166,Goat🔥,,,Goat🔥,0,0,First seen in Alna S2.,,FALSE
+g167,RedGarden,,,RedGarden,0,0,First seen in Alna S2.,,FALSE
+g168,sabotage🇩🇪,,,sabotage🇩🇪,0,0,First seen in Alna S2.,,FALSE
+g169,pour nouveau,,,pour nouveau,0,0,First seen in Alna S2.,,FALSE
+g170,snow and ice,,,snow and ice,0,0,First seen in Alna S2.,,FALSE
+g171,VINTAGE,,,VINTAGE,0,0,First seen in Alna S2.,,FALSE
+g172,Swordhaven,,,Swordhaven,0,0,First seen in Alna S2.,,FALSE
+g173,Cherry🍒,,,Cherry🍒,0,0,First seen in Alna S2.,,FALSE
+g174,Hard Legion,,,Hard Legion,0,0,First seen in Alna S2.,,FALSE
+g175,KingRage,,,KingRage,0,0,First seen in Alna S2.,,FALSE
+g176,OverLords Z,,,OverLords Z,0,0,First seen in Alna S2.,,FALSE
+g177,Тайфун,,,Тайфун,0,0,First seen in Alna S2.,,FALSE
+g178,back garden5,,,back garden5,0,0,First seen in Alna S2.,,FALSE
 ,,,,,,,,,FALSE
 ,,,,,,,,,FALSE
 ,,,,,,,,,FALSE

@@ -6,9 +6,9 @@ region,first_server,last_server,server_count,notes
 5,11,14,4,Confirmed by Malignant.
 6,15,30,16,Confirmed by Malignant.
 7,31,43,13,Confirmed by Malignant.
-8,44,44,1,
-9,70,70,1,
-10,71,82,12,Confirmed by Malignant.
+8,44,56,13,Logic
+9,57,69,13,Confirmed by SAO
+10,70,82,13,Confirmed by Malignant.
 11,83,95,13,Confirmed by Malignant.
 12,100,100,1,
 13,,,,
@@ -41,4 +41,5 @@ region,first_server,last_server,server_count,notes
 40,370,377,8,Confirmed by Malignant.
 41,378,378,1,
 42,386,393,8,Confirmed by Malignant.
-43,394,394,1,
+43,394,403,10,Confirmed by SAO
+44,404,404,1,

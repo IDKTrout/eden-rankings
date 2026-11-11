@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import GroupTag from '../components/GroupTag.astro';
-import { groups, groupMembers, latestOf, seasonLabel, fmtInt } from '../lib/data';
+import { groups, groupMembers, groupColor, latestOf, seasonLabel, fmtInt } from '../lib/data';
 import { abexStandings, riftStandings } from '../lib/groups';
 
 const abexSeason = latestOf('abex');
@@ -25,7 +25,7 @@ const list = groups.map((g) => ({
 
   <div class="group-grid">
     {list.map(({ g, members, abex, rift }) => (
-      <a class="card group-card" href={`/group/${encodeURIComponent(g.id)}/`}>
+      <a class="card group-card" href={`/group/${encodeURIComponent(g.id)}/`} style={`--c:${groupColor(g.id)}`}>
         <div class="gc-head">
           <h2>{g.name}</h2>
           <GroupTag groupId={g.id} link={false} />
@@ -42,8 +42,8 @@ const list = groups.map((g) => ({
 
 <style>
   .group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--gap); }
-  .group-card { text-decoration: none; gap: .5rem; transition: border-color .15s; }
-  .group-card:hover { border-color: var(--accent); color: inherit; }
+  .group-card { text-decoration: none; gap: .5rem; transition: border-color .15s; border-top: 4px solid var(--c); }
+  .group-card:hover { border-color: var(--accent); border-top-color: var(--c); color: inherit; }
   .gc-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
   .gc-head h2 { font-family: var(--font-display); font-size: 1.45rem; }
   dl { margin: 0; display: flex; flex-direction: column; gap: .35rem; }

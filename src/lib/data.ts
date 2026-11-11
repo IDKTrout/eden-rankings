@@ -57,6 +57,8 @@ export interface Group {
   id: string;
   name: string;
   short: string;
+  /** Hex color from the groups tab (#RRGGBB), or '' to use an automatic color. */
+  color: string;
   notes: string;
 }
 
@@ -177,7 +179,7 @@ export const guilds: Guild[] = parseCsv(guildsCsv)
 
 export const groups: Group[] = parseCsv(groupsCsv)
   .filter((r) => r.group_id)
-  .map((r) => ({ id: str(r.group_id), name: str(r.group_name) || str(r.group_id), short: str(r.short_name) || str(r.group_name), notes: str(r.notes) }));
+  .map((r) => ({ id: str(r.group_id), name: str(r.group_name) || str(r.group_id), short: str(r.short_name) || str(r.group_name), color: /^#[0-9a-f]{6}$/i.test(str(r.color)) ? str(r.color) : '', notes: str(r.notes) }));
 
 /* ------------------------------------------------------------------ lookups */
 
@@ -189,6 +191,14 @@ export const guildById = new Map(guilds.map((g) => [g.id, g]));
 export const groupById = new Map(groups.map((g) => [g.id, g]));
 /** The group a guild belongs to now, if any. */
 export const groupOf = (guildId: string) => groupById.get(guildById.get(guildId)?.groupId ?? '');
+/** A group's color: its hex code from the sheet, or an automatic one by its position in the groups tab. */
+export function groupColor(groupId: string) {
+  const g = groupById.get(groupId);
+  if (g?.color) return g.color;
+  const hues = [150, 2, 215, 275, 190, 35, 320, 95];
+  const i = Math.max(0, groups.findIndex((x) => x.id === groupId));
+  return `hsl(${hues[i % hues.length]} 55% 45%)`;
+}
 export const groupMembers = (groupId: string) => guilds.filter((g) => g.groupId === groupId);
 
 export const seasonLabel = (s: Season) => `${s.event}${s.number != null ? ` S${s.number}` : ''}`;

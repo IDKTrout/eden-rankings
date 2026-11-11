@@ -1,6 +1,6 @@
 ---
-// Small tag naming a guild's group, linking to the group page.
-import { groups, groupById, groupOf } from '../lib/data';
+// Small tag naming a guild's group, in the group's color from the groups tab.
+import { groupById, groupOf, groupColor } from '../lib/data';
 interface Props {
   guildId?: string;
   groupId?: string;
@@ -10,13 +10,11 @@ interface Props {
 }
 const { guildId, groupId, full = false, link = true } = Astro.props;
 const group = groupId ? groupById.get(groupId) : guildId ? groupOf(guildId) : undefined;
-// Each group gets its own hue, in the order the groups tab lists them.
-const hues = [150, 2, 215, 275, 35, 190, 320, 95];
-const hue = group ? hues[groups.findIndex((g) => g.id === group.id) % hues.length] : 0;
+const style = group ? `--c:${groupColor(group.id)}` : '';
 ---
 {group && (link
-  ? <a class="gtag" href={`/group/${encodeURIComponent(group.id)}/`} style={`--h:${hue}`} title={`${group.name} group`}>{full ? group.name : group.short}</a>
-  : <span class="gtag" style={`--h:${hue}`}>{full ? group.name : group.short}</span>
+  ? <a class="gtag" href={`/group/${encodeURIComponent(group.id)}/`} style={style} title={`${group.name} group`}>{full ? group.name : group.short}</a>
+  : <span class="gtag" style={style}>{full ? group.name : group.short}</span>
 )}
 
 <style>
@@ -24,11 +22,9 @@ const hue = group ? hues[groups.findIndex((g) => g.id === group.id) % hues.lengt
     display: inline-block; vertical-align: 1px; margin-left: .4rem;
     font-size: .68rem; font-weight: 600; letter-spacing: .03em; line-height: 1;
     padding: .2rem .4rem; border-radius: 4px; text-decoration: none; white-space: nowrap;
-    color: hsl(var(--h) 55% 30%); background: hsl(var(--h) 55% 92%); border: 1px solid hsl(var(--h) 45% 80%);
+    color: color-mix(in srgb, var(--c) 72%, var(--ink));
+    background: color-mix(in srgb, var(--c) 14%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--c) 45%, var(--surface));
   }
-  .gtag:hover { color: hsl(var(--h) 60% 22%); text-decoration: none; }
-  @media (prefers-color-scheme: dark) {
-    .gtag { color: hsl(var(--h) 70% 78%); background: hsl(var(--h) 35% 18%); border-color: hsl(var(--h) 35% 30%); }
-    .gtag:hover { color: hsl(var(--h) 80% 88%); }
-  }
+  .gtag:hover { color: var(--ink); text-decoration: none; }
 </style>

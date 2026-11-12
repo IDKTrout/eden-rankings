@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Admin" description="Editor area for Event Rankings." noindex>
+  <section class="page-head">
+    <span class="eyebrow">Editors only</span>
+    <h1>Admin</h1>
+    <p class="muted">Add and fix seasons, results, guilds and players. Changes go into the database right away and are recorded in the change log. The public site still builds from the Google Sheet until the switch-over, so edits here don't show on the site yet.</p>
+  </section>
+  <div id="admin" class="admin">
+    <noscript><p>The admin area needs JavaScript.</p></noscript>
+  </div>
+</Layout>
+
+<script>
+  import '../admin/app';
+</script>
+
+<style is:global>
+  .admin { display: flex; flex-direction: column; gap: 1rem; }
+  .admin .row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .6rem; }
+  .admin .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .6rem; }
+  .admin .fld, .dlg .fld { display: flex; flex-direction: column; gap: .25rem; min-width: 0; }
+  .admin label, .dlg label, .dlg .lbl { font-size: .8rem; font-weight: 600; color: var(--muted); }
+  .admin label.inline, .dlg label.inline { display: inline-flex; align-items: center; gap: .4rem; font-weight: 500; color: var(--ink); }
+  .admin .hint, .dlg .hint { font-size: .75rem; color: var(--muted); }
+  .admin input:not([type=checkbox]), .admin select, .admin textarea,
+  .dlg input:not([type=checkbox]), .dlg select, .dlg textarea {
+    font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: .5rem .65rem; min-width: 0; width: 100%;
+  }
+  .admin textarea { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; }
+  .admin input.narrow { width: 9rem; padding: .3rem .5rem; }
+  .admin .filter { max-width: 360px; }
+  .btn { font: inherit; font-weight: 600; cursor: pointer; border: 1px solid transparent; border-radius: 8px; padding: .5rem .9rem; background: var(--accent); color: #1d1503; }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:disabled { opacity: .55; cursor: progress; }
+  .btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+  .btn.danger { background: #c0392b; color: #fff; }
+  .btn.small { padding: .25rem .6rem; font-size: .8rem; }
+  .status { font-size: .85rem; min-height: 1.2em; }
+  .status.ok { color: var(--good); }
+  .status.err { color: #e05a4a; }
+  .who { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .6rem; }
+  .tabs { display: flex; flex-wrap: wrap; gap: .3rem; border-bottom: 1px solid var(--line); }
+  .tab { font: inherit; font-weight: 500; background: none; border: 0; border-bottom: 2px solid transparent; padding: .5rem .8rem; color: var(--muted); cursor: pointer; }
+  .tab[aria-selected=true] { color: var(--ink); border-bottom-color: var(--accent); }
+  .panel { display: flex; flex-direction: column; gap: 1rem; }
+  .signin { max-width: 380px; }
+  .uid { display: block; padding: .5rem .7rem; background: var(--raised); border: 1px solid var(--line); border-radius: 8px; overflow-wrap: anywhere; }
+  .add summary { cursor: pointer; font-weight: 600; }
+  .add[open] summary { margin-bottom: .5rem; }
+  .cols { margin: 0; padding-left: 1.4rem; font-size: .85rem; columns: 2; }
+  .spellings { margin: 0; padding-left: 1.2rem; font-size: .88rem; }
+  .admin td.wrapcell { white-space: normal; min-width: 16rem; font-size: .8rem; overflow-wrap: anywhere; }
+  .dlg { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); padding: 0; width: min(640px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
+  .dlg::backdrop { background: rgb(0 0 0 / .55); }
+  .dlg-body { display: flex; flex-direction: column; gap: .75rem; padding: 1.1rem 1.25rem; }
+  .dlg .row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: flex-end; }
+  .dlg .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: .6rem; }
+  .dlg details summary { cursor: pointer; font-weight: 600; font-size: .85rem; }
+</style>

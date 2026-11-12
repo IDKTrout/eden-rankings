@@ -4,8 +4,9 @@ import Logo from '../components/Logo.astro';
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
-const { title, description = 'Rankings for every AFK Arena Companions event: guild and player results, season by season.' } = Astro.props;
+const { title, noindex = false, description ='Rankings for every AFK Arena Companions event: guild and player results, season by season.' } = Astro.props;
 const fullTitle = title ? `${title} · Event Rankings` : 'Event Rankings';
 const path = Astro.url.pathname;
 const nav = [
@@ -23,6 +24,7 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content="Event Rankings" />

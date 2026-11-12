@@ -32,18 +32,18 @@ g093,Golden Dawn 🌅,83,11,Golden Dawn 🌅,1,0,,,FALSE
 g105,M I N T,83,11,M I N T,1,0,,,FALSE
 61928,FU: Fates Hand,91,11,Fates Hand / FU: Fates Hand,2,1,,fu,FALSE
 g005,『$HADOW GARDEN』,92,11,『$HADOW GARDEN』,1,0,,,FALSE
-65749,30Days,97,,30Days,2,1,,,FALSE
-67247,Eden: 6,100,12,Sequoia / Eden: 6,2,1,,eden,FALSE
-g053,™Deagle™,110,,Deagle™ / ™Deagle™,2,0,,,FALSE
-g011,✨ THE RAVENS ✨,113,,✨ THE RAVENS ✨,1,0,,,FALSE
-74875,FU: Valhalla Inn,121,,FU: Valhalla Inn / Inn Of Valhalla,2,1,,fu,FALSE
-g008,✨ ALLIANCE ✨,127,,⋄ ALLIANCE ⋄ / ✨ ALLIANCE ✨,2,0,,,FALSE
-g039,BrightArcana,129,,BrightArcana,2,0,,,FALSE
+65749,30Days,97,12,30Days,2,1,,,FALSE
+67247,Eden: 6,100,12,Sequoia / Eden: 6 / 6,2,1,,eden,FALSE
+g053,™Deagle™,110,13,Deagle™ / ™Deagle™,2,0,,,FALSE
+g011,✨ THE RAVENS ✨,113,13,✨ THE RAVENS ✨,1,0,,,FALSE
+74875,FU: Valhalla Inn,121,13,FU: Valhalla Inn / Inn Of Valhalla,2,1,,fu,FALSE
+g008,✨ ALLIANCE ✨,127,14,⋄ ALLIANCE ⋄ / ✨ ALLIANCE ✨,2,0,,,FALSE
+g039,BrightArcana,129,14,BrightArcana,2,0,,,FALSE
 g088,Forest 🌳,136,15,Forest 🌳,1,0,,,FALSE
 g019,Aftermath,141,15,Aftermath,1,0,,,FALSE
 g122,Rank One,143,15,Rank One,2,1,,,FALSE
 g020,AKATSUKI,146,15,AKATSUKI,1,0,,,FALSE
-g118,Pandora,146,15,Pandora,1,0,,,FALSE
+g118,ELTS: Pandora,146,15,Pandora / ELTS: Pandora,1,0,,elts,FALSE
 g029,Bankai,147,15,Bankai,1,0,,,FALSE
 g026,Arcane Aegis,150,16,Arcane Aegis,2,0,,,FALSE
 g021,Alliance AFK,158,16,Alliance AFK,2,0,,,FALSE
@@ -84,7 +84,7 @@ g014,💎FREEDOM💎,253,,💎FREEDOM💎 / FREEDOM,1,1,,,FALSE
 g042,CAPYBARA,253,,CAPYBARA,1,0,,,FALSE
 g051,dArkAngels,257,,dArkAngels,2,0,,,FALSE
 g057,Divine Warriors,261,,Divine Warriors,1,0,,,FALSE
-g120,REVELATION,262,,R3VELAT10N / REVELATION,2,1,,,FALSE
+g120,RΞVΞLΛTION,262,,R3VELAT10N / REVELATION / RΞVΞLΛTION,2,1,,,FALSE
 135252,S.T.A.R.S.,263,,S.T.A.R.S / S.T.A.R.S.,2,1,,,FALSE
 g009,○●OLYMP●○,265,,○●OLYMP●○,1,0,,,FALSE
 g001,-GameOfThrones-,271,,-GameOfThrones-,1,0,,,FALSE
@@ -105,7 +105,7 @@ g101,jp.GG,296,30,jp.GG,1,0,,,FALSE
 g073,Element: Chill 🧊,299,31,Element: Chill 🧊,1,0,,elts,FALSE
 g076,Element: Fire 🔥,301,31,Element: Fire 🔥,2,0,,elts,FALSE
 g082,Element:Surprise,303,31,Element:Surprise,1,0,,elts,TRUE
-154280,Element: Chaos,304,31,Element: Chaos,2,0,,elts,FALSE
+154280,Element: Chaøs,304,31,Element: Chaos / Element: Chaøs,2,0,,elts,FALSE
 g078,Element: Radiant,306,32,Element: Radiant,1,0,,elts,FALSE
 g125,RevolutionR,306,32,RevolutionR,1,0,,,FALSE
 155501,Sin: Greed,307,,Sin: Greed,2,1,,sin,FALSE
@@ -124,11 +124,11 @@ g045,Classic Comp,334,,Classic Comp / Classic×Comp,1,1,,,FALSE
 g153,ViCi,339,36,ViCi,1,1,,,FALSE
 166704,Eden: Vorpal,340,36,Eden: Vorpal,1,0,,eden,FALSE
 167921,Eden: ANTI,343,36,[AEGIS] Anti / Eden: ANTI,1,1,,eden,FALSE
-g077,Element: LOCO,346,37,Element: LOCO,1,0,,elts,FALSE
+g077,ELTS: LOCO,346,37,Element: LOCO / ELTS: LOCO,1,0,,elts,FALSE
 g075,Element: Eclipse,350,,Element: Eclipse,1,1,,elts,FALSE
 g134,Shiver,353,,Shiver,1,1,,,FALSE
-g144,Storm-Light,357,,Storm-Light,1,1,,storm,FALSE
-g044,ChillOut,363,,ChillOut,1,1,,,FALSE
+g144,Storm - Light,357,,Storm-Light / Storm - Light,1,1,,storm,FALSE
+g044,ELTS: ChillOut,363,,ChillOut / ELTS: ChillOut,1,1,,elts,FALSE
 g152,Vanguard Elite,379,,Vanguard Elite,1,1,,,FALSE
 g135,SilentFootsteps,380,,SilentFootstep / SilentFootsteps,1,1,,,FALSE
 g080,Element: YinYang,386,42,Element: YinYang,1,0,,elts,FALSE
@@ -137,13 +137,13 @@ g079,Element: Spirit,388,42,Element: Spirit,1,0,,elts,FALSE
 g111,NIGHTMARE,389,42,NIGHTMARE,1,0,,,FALSE
 g074,Element: Curse,390,42,Element: Curse,1,0,,elts,TRUE
 g158,Wraith's Haunt,393,42,Wraith's Haunt,1,0,,,FALSE
-g136,Sin: Goon,394,43,Sin: Goon,1,0,,sin,FALSE
+g136,R43: Sin:Goon,394,43,Sin: Goon / R43: Sin:Goon,1,0,,sin,FALSE
 g099,Hood2Hood,395,43,Hood2Hood,1,0,,,FALSE
 g028,AXIOM,396,43,AXIOM,1,0,,,FALSE
 g150,The Legion,398,43,The Legion,1,0,,,FALSE
 g107,Mythic Yappers,399,43,Mythic Yappers,1,0,,,FALSE
 g159,Zipper,400,43,Zipper,1,0,,,FALSE
-g104,Lazuli,401,43,Lazuli,1,0,,,FALSE
+g104,R43: Lazuli,401,43,Lazuli / R43: Lazuli,1,0,,,FALSE
 g148,Taverna do GaL0,402,43,Taverna do GaL0,1,0,,,FALSE
 g031,Be Free,403,43,Be Free,1,0,,,FALSE
 g113,Nullframe,405,,Nullframe,1,0,,,FALSE
@@ -175,92 +175,92 @@ g175,KingRage,,,KingRage,0,0,First seen in Alna S2.,,FALSE
 g176,OverLords Z,,,OverLords Z,0,0,First seen in Alna S2.,,FALSE
 g177,Тайфун,,,Тайфун,0,0,First seen in Alna S2.,,FALSE
 g178,back garden5,,,back garden5,0,0,First seen in Alna S2.,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
-,,,,,,,,,FALSE
+g179,Empanadas,,,Empanadas,0,0,,,FALSE
+g180,Карасики,,,Карасики,0,0,,,FALSE
+g181,Shadow Breaker,,,Shadow Breaker,0,0,,,FALSE
+g182,TripleWipe,,,TripleWipe,0,0,,,FALSE
+g183,Shiva's Guard,,,Shiva's Guard,0,0,,,FALSE
+g184,lantern corps,,,lantern corps,0,0,,,FALSE
+g185,Кладбище,,,Кладбище,0,0,,,FALSE
+g186,O R D E R,,,O R D E R,0,0,,,FALSE
+g187,Олип,,,Олип,0,0,,,FALSE
+,,,,,,,,,FALSE
+g189,Divine Legion,,,Divine Legion,0,0,,,FALSE
+g190,• HISPANIA •,,,• HISPANIA •,0,0,,,FALSE
+g191,Lost Knight,,,Lost Knight,0,0,,,FALSE
+g192,Element: Kinship,,,Element: Kinship,0,0,,elts,FALSE
+g193,AbstractSpace,,,AbstractSpace,0,0,,,FALSE
+g194,Full Crown,,,Full Crown,0,0,,,FALSE
+g195,NekoGIRL's,,,NekoGIRL's,0,0,,,FALSE
+g196,Returnee,,,Returnee,0,0,,,FALSE
+g197,•ASTER•,,,•ASTER•,0,0,,,FALSE
+g198,TheRevenge2026,,,TheRevenge2026,0,0,,,FALSE
+g199,Mad Zone,,,Mad Zone,0,0,,,FALSE
+g200,abcdefg,,,abcdefg,0,0,,,FALSE
+g201,Angels' Revenge,,,Angels' Revenge,0,0,,,FALSE
+g202,EclipesX,,,EclipesX,0,0,,,FALSE
+g203,Mary_Shroom,,,Mary_Shroom,0,0,,,FALSE
+g204,Dream hunters,,,Dream hunters,0,0,,,FALSE
+g205,OVERLORDS™,,,OVERLORDS™,0,0,,,FALSE
+g206,Enemy of society,,,Enemy of society,0,0,,,FALSE
+g207,da guild,,,da guild,0,0,,,FALSE
+g208,Demonic Dawn,,,Demonic Dawn,0,0,,,FALSE
+g209,N1ghtW1ngs,,,N1ghtW1ngs,0,0,,,FALSE
+g210,MilkPopi,,,MilkPopi,0,0,,,FALSE
+g211,RAKUZAN,,,RAKUZAN,0,0,,,FALSE
+g212,SKTeam,,,SKTeam,0,0,,,FALSE
+g213,Ignite,,,Ignite,0,0,,,FALSE
+g214,ELTS: Garganta,,,ELTS: Garganta,0,0,,elts,FALSE
+g215,BlackForest,,,BlackForest,0,0,,,FALSE
+g216,Vua Trò Chơi 👾,,,Vua Trò Chơi 👾,0,0,,,FALSE
+g217,Naked,,,Naked,0,0,,,FALSE
+g218,JACKPOTTTT!!,,,JACKPOTTTT!!,0,0,,,FALSE
+g219,Storm ~ Arcadia,,,Storm ~ Arcadia,0,0,,storm,FALSE
+g220,Liquid Guild,,,Liquid Guild,0,0,,,FALSE
+g221,Dark Eclipse,,,Dark Eclipse,0,0,,,FALSE
+g222,FOG,,,FOG,0,0,,,FALSE
+g223,weeeee,,,weeeee,0,0,,,FALSE
+g224,MUS,,,MUS,0,0,,,FALSE
+g225,legens,,,legens,0,0,,,FALSE
+g226,HeavenSeven,,,HeavenSeven,0,0,,,FALSE
+g227,Bromies,,,Bromies,0,0,,,FALSE
+g228,hạo thiên tông,,,hạo thiên tông,0,0,,,FALSE
+g229,ConstellationSS,,,ConstellationSS,0,0,,,FALSE
+g230,Eden: ☆NYX☆,,,Eden: ☆NYX☆,0,0,,eden,FALSE
+g231,Storm - [cuneiform],,,Storm - [cuneiform],0,0,,storm,FALSE
+g232,BFD,,,BFD,0,0,,,FALSE
+g233,İmperial Dragons,,,İmperial Dragons,0,0,,,FALSE
+g234,satanic,,,satanic,0,0,,,FALSE
+g235,The Shadow Realm,,,The Shadow Realm,0,0,,,FALSE
+g236,R43: Lazurite,,,R43: Lazurite,0,0,,,FALSE
+g237,Eclipse✧,,,Eclipse✧,0,0,,,FALSE
+g238,World Alliance,,,World Alliance,0,0,,,FALSE
+g239,Raftely,,,Raftely,0,0,,,FALSE
+g240,ZΞN,,,ZΞN,0,0,,,FALSE
+g241,casual gamers,,,casual gamers,0,0,,,FALSE
+g242,Westmarch,,,Westmarch,0,0,,,FALSE
+g243,Fame and Honor,,,Fame and Honor,0,0,,,FALSE
+g244,SALVATORE,,,SALVATORE,0,0,,,FALSE
+g245,|Aincrad|,,,|Aincrad|,0,0,,,FALSE
+g246,IDon'tCare,,,IDon'tCare,0,0,,,FALSE
+g247,magnet,,,magnet,0,0,,,FALSE
+g248,NEW CAPYBARA,,,NEW CAPYBARA,0,0,,,FALSE
+g249,Eden: Vespers,,,Eden: Vespers,0,0,,eden,FALSE
+g250,KATANA,,,KATANA,0,0,,,FALSE
+g251,ГлавПромТорг,,,ГлавПромТорг,0,0,,,FALSE
+g252,Underground,,,Underground,0,0,,,FALSE
+g253,R43: Sin:Lust,,,R43: Sin:Lust,0,0,,sin,FALSE
+g254,Dobrinya,,,Dobrinya,0,0,,,FALSE
+g255,🇷🇺Russia🇷🇺,,,🇷🇺Russia🇷🇺,0,0,,,FALSE
+g256,T.A.T.Y,,,T.A.T.Y,0,0,,,FALSE
+g257,Испытания судьбы,,,Испытания судьбы,0,0,,,FALSE
+g258,The Nazarick,,,The Nazarick,0,0,,,FALSE
+g259,POWERSEEKERS,,,POWERSEEKERS,0,0,,,FALSE
+g260,mineminemine,,,mineminemine,0,0,,,FALSE
+g261,ポンポネスコ,,,ポンポネスコ,0,0,,,FALSE
+g262,A,,,A,0,0,,,FALSE
+g263,United Guild,,,United Guild,0,0,,,FALSE
+g264,Zero Wing,,,Zero Wing,0,0,,,FALSE
 ,,,,,,,,,FALSE
 ,,,,,,,,,FALSE
 ,,,,,,,,,FALSE

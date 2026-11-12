@@ -10,9 +10,9 @@ region,first_server,last_server,server_count,notes
 9,57,69,13,Confirmed by SAO
 10,70,82,13,Confirmed by Malignant.
 11,83,95,13,Confirmed by Malignant.
-12,100,100,1,
-13,,,,
-14,134,134,1,
+12,96,108,13,Logic
+13,109,121,13,Logic
+14,122,134,13,Logic
 15,135,147,13,Confirmed by Malignant.
 16,148,160,13,Confirmed by Malignant.
 17,161,173,13,Confirmed by Malignant.

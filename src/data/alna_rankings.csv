@@ -1,160 +1,160 @@
 season_id,bracket,rank,guild_name,points,points_rounded,guild_id,current_guild_name,overall_rank
 alna-s2,1,1,Knights of RHOK.,"13,000,000",TRUE,127295,Knights of RHOK.,1
 alna-s2,1,2,Sin: Pride,"13,000,000",TRUE,143337,Sin: Pride,2
-alna-s2,4,1,SUPERNOVA,"11,000,000",TRUE,31616,SUPERNOVA,3
-alna-s2,3,1,Sin: Greed,"10,000,000",TRUE,155501,Sin: Greed,4
-alna-s2,5,1,✦AWAKEN✦,"10,000,000",TRUE,33430,✧ AWAKEN ✧,4
-alna-s2,3,2,Element: Radiant,"8,963,165",FALSE,g078,Element: Radiant,6
-alna-s2,3,3,Fʀeeδσm:NeωDaωη,"8,728,540",FALSE,132292,Fʀeeedom:NewDawn,7
-alna-s2,4,2,FU: Maid Café,"8,651,330",FALSE,51888,FU: Maid Café,8
-alna-s2,1,3,Eden: Aurelion,"8,604,365",FALSE,107859,Eden: Aurelion,9
-alna-s2,2,1,<NO M≡RCY>,"8,097,015",FALSE,30060,<NO M≡RCY>,10
-alna-s2,5,2,ANIMOSITY,"4,864,290",FALSE,g025,ANIMOSITY,11
-alna-s2,2,2,Astra,"4,678,330",FALSE,30465,Astra,12
-alna-s2,2,3,Deepwoken,"4,523,605",FALSE,g054,Deepwoken,13
-alna-s2,4,3,Celestial Flash,"3,464,960",FALSE,g043,Celestial Flash,14
-alna-s2,5,3,Dark Inquisition,"2,347,365",FALSE,g050,Dark Inquisition,15
-alna-s2,1,4,Russian Kitty,"805,105",FALSE,g164,Russian Kitty,16
-alna-s2,5,4,OverLords Z,"559,580",FALSE,g176,OverLords Z,17
-alna-s2,1,5,CrowsNest,"481,635",FALSE,g165,CrowsNest,18
-alna-s2,5,5,Тайфун,"427,840",FALSE,g177,Тайфун,19
-alna-s2,4,4,Cherry🍒,"361,270",FALSE,g173,Cherry🍒,20
-alna-s2,1,6,Goat🔥,"340,885",FALSE,g166,Goat🔥,21
-alna-s2,3,4,snow and ice,"280,040",FALSE,g170,snow and ice,22
-alna-s2,3,5,VINTAGE,"273,450",FALSE,g171,VINTAGE,23
-alna-s2,4,5,Hard Legion,"266,880",FALSE,g174,Hard Legion,24
-alna-s2,4,6,KingRage,"257,875",FALSE,g175,KingRage,25
-alna-s2,2,4,RedGarden,"249,720",FALSE,g167,RedGarden,26
-alna-s2,5,6,back garden5,"237,165",FALSE,g178,back garden5,27
-alna-s2,2,5,sabotage🇩🇪,"223,915",FALSE,g168,sabotage🇩🇪,28
-alna-s2,2,6,pour nouveau,"189,310",FALSE,g169,pour nouveau,29
-alna-s2,3,6,Swordhaven,"135,900",FALSE,g172,Swordhaven,30
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
-,,,,,FALSE,,,
+alna-s2,4,1,SUPERNOVA,"11,000,000",TRUE,31616,SUPERNOVA,4
+alna-s2,3,1,Sin: Greed,"10,000,000",TRUE,155501,Sin: Greed,6
+alna-s2,5,1,✦AWAKEN✦,"10,000,000",TRUE,33430,✧ AWAKEN ✧,6
+alna-s2,3,2,Element: Radiant,"8,963,165",FALSE,g078,Element: Radiant,12
+alna-s2,3,3,Fʀeeδσm:NeωDaωη,"8,728,540",FALSE,132292,Fʀeeedom:NewDawn,13
+alna-s2,4,2,FU: Maid Café,"8,651,330",FALSE,51888,FU: Maid Café,14
+alna-s2,1,3,Eden: Aurelion,"8,604,365",FALSE,107859,Eden: Aurelion,15
+alna-s2,2,1,<NO M≡RCY>,"8,097,015",FALSE,30060,<NO M≡RCY>,18
+alna-s2,5,2,ANIMOSITY,"4,864,290",FALSE,g025,ANIMOSITY,40
+alna-s2,2,2,Astra,"4,678,330",FALSE,30465,Astra,45
+alna-s2,2,3,Deepwoken,"4,523,605",FALSE,g054,Deepwoken,48
+alna-s2,4,3,Celestial Flash,"3,464,960",FALSE,g043,Celestial Flash,61
+alna-s2,5,3,Dark Inquisition,"2,347,365",FALSE,g050,Dark Inquisition,69
+alna-s2,1,4,Russian Kitty,"805,105",FALSE,g164,Russian Kitty,80
+alna-s2,5,4,OverLords Z,"559,580",FALSE,g176,OverLords Z,86
+alna-s2,1,5,CrowsNest,"481,635",FALSE,g165,CrowsNest,89
+alna-s2,5,5,Тайфун,"427,840",FALSE,g177,Тайфун,92
+alna-s2,4,4,Cherry🍒,"361,270",FALSE,g173,Cherry🍒,97
+alna-s2,1,6,Goat🔥,"340,885",FALSE,g166,Goat🔥,99
+alna-s2,3,4,snow and ice,"280,040",FALSE,g170,snow and ice,109
+alna-s2,3,5,VINTAGE,"273,450",FALSE,g171,VINTAGE,111
+alna-s2,4,5,Hard Legion,"266,880",FALSE,g174,Hard Legion,113
+alna-s2,4,6,KingRage,"257,875",FALSE,g175,KingRage,117
+alna-s2,2,4,RedGarden,"249,720",FALSE,g167,RedGarden,120
+alna-s2,5,6,back garden5,"237,165",FALSE,g178,back garden5,125
+alna-s2,2,5,sabotage🇩🇪,"223,915",FALSE,g168,sabotage🇩🇪,129
+alna-s2,2,6,pour nouveau,"189,310",FALSE,g169,pour nouveau,141
+alna-s2,3,6,Swordhaven,"135,900",FALSE,g172,Swordhaven,156
+alna-s2,6,1,Песочница,"5,035,495",FALSE,g161,Песочница,36
+alna-s2,6,2,Empanadas,"1,673,340",FALSE,g179,Empanadas,74
+alna-s2,6,3,ロワン愛好会,"1,546,450",FALSE,g163,ロワン愛好会,75
+alna-s2,6,4,Карасики,"534,165",FALSE,g180,Карасики,87
+alna-s2,6,5,Shadow Breaker,"261,530",FALSE,g181,Shadow Breaker,115
+alna-s2,6,6,TripleWipe,"188,220",FALSE,g182,TripleWipe,143
+alna-s2,7,1,R43: Lazuli,"5,794,745",FALSE,g104,R43: Lazuli,31
+alna-s2,7,2,Shiva's Guard,"4,411,395",FALSE,g183,Shiva's Guard,49
+alna-s2,7,3,lantern corps,"4,357,135",FALSE,g184,lantern corps,51
+alna-s2,7,4,Кладбище,"952,860",FALSE,g185,Кладбище,78
+alna-s2,7,5,O R D E R,"568,910",FALSE,g186,O R D E R,85
+alna-s2,7,6,Олип,"308,545",FALSE,g187,Олип,103
+alna-s2,8,1,Emberfall,"5,874,370",FALSE,g084,Emberfall,30
+alna-s2,8,2,Eden: VURK MAFIA,"5,353,890",FALSE,96092,Eden: VURK MAFIA,32
+alna-s2,8,3,6,"4,842,935",FALSE,67247,Eden: 6,41
+alna-s2,8,4,Divine Legion,"305,320",FALSE,g189,Divine Legion,104
+alna-s2,8,5,• HISPANIA •,"237,860",FALSE,g190,• HISPANIA •,124
+alna-s2,8,6,Lost Knight,"150,990",FALSE,g191,Lost Knight,152
+alna-s2,9,1,Element: Kinship,"7,325,015",FALSE,g192,Element: Kinship,23
+alna-s2,9,2,ReZero-ZeroRe,"6,630,720",FALSE,g127,ReZero-ZeroRe,28
+alna-s2,9,3,Eden: JUSTICE#,"4,766,120",FALSE,95973,Eden: JUSTICE#,43
+alna-s2,9,4,AbstractSpace,"1,052,600",FALSE,g193,AbstractSpace,77
+alna-s2,9,5,Full Crown,"468,215",FALSE,g194,Full Crown,91
+alna-s2,9,6,NekoGIRL's,"302,150",FALSE,g195,NekoGIRL's,105
+alna-s2,10,1,ELTS: ChillOut,"7,107,430",FALSE,g044,ELTS: ChillOut,25
+alna-s2,10,2,Returnee,"3,636,980",FALSE,g196,Returnee,59
+alna-s2,10,3,•ASTER•,"3,195,650",FALSE,g197,•ASTER•,64
+alna-s2,10,4,TheRevenge2026,"425,495",FALSE,g198,TheRevenge2026,94
+alna-s2,10,5,Mad Zone,"201,655",FALSE,g199,Mad Zone,134
+alna-s2,10,6,abcdefg,"195,310",FALSE,g200,abcdefg,138
+alna-s2,11,1,Element: Spirit,"7,776,850",FALSE,g079,Element: Spirit,20
+alna-s2,11,2,Element: YinYang,"7,687,220",FALSE,g080,Element: YinYang,21
+alna-s2,11,3,Vanguard Elite,"4,753,930",FALSE,g152,Vanguard Elite,44
+alna-s2,11,4,Angels' Revenge,"606,695",FALSE,g201,Angels' Revenge,84
+alna-s2,11,5,EclipesX,"197,190",FALSE,g202,EclipesX,137
+alna-s2,11,6,Mary_Shroom,"188,240",FALSE,g203,Mary_Shroom,142
+alna-s2,12,1,R43: Sin:Goon,"5,042,135",FALSE,g136,R43: Sin:Goon,35
+alna-s2,12,2,ELTS: LOCO,"4,054,875",FALSE,g077,ELTS: LOCO,53
+alna-s2,12,3,Dream hunters,"3,542,485",FALSE,g204,Dream hunters,60
+alna-s2,12,4,OVERLORDS™,"1,128,630",FALSE,g205,OVERLORDS™,76
+alna-s2,12,5,Enemy of society,"270,325",FALSE,g206,Enemy of society,112
+alna-s2,12,6,da guild,"189,910",FALSE,g207,da guild,140
+alna-s2,13,1,wonderland✨,"4,975,470",FALSE,g157,wonderland✨,37
+alna-s2,13,2,BrightArcana,"4,098,520",FALSE,g039,BrightArcana,52
+alna-s2,13,3,Eden: Moon Sword,"3,915,295",FALSE,49391,Eden: Moon Sword,55
+alna-s2,13,4,Demonic Dawn,"504,480",FALSE,g208,Demonic Dawn,88
+alna-s2,13,5,N1ghtW1ngs,"427,450",FALSE,g209,N1ghtW1ngs,93
+alna-s2,13,6,MilkPopi,"226,410",FALSE,g210,MilkPopi,128
+alna-s2,14,1,STAR⭐,"11,000,000",TRUE,159989,STAR⭐,4
+alna-s2,14,2,AdySSS,"8,375,085",FALSE,147375,AdySSS,17
+alna-s2,14,3,30Days,"7,795,085",FALSE,65749,30Days,19
+alna-s2,14,4,RAKUZAN,"726,635",FALSE,g211,RAKUZAN,83
+alna-s2,14,5,SKTeam,"409,255",FALSE,g212,SKTeam,95
+alna-s2,14,6,Ignite,"228,740",FALSE,g213,Ignite,127
+alna-s2,15,1,Blue Sea,"5,083,050",FALSE,g038,Blue Sea,34
+alna-s2,15,2,ELTS: Garganta,"3,357,945",FALSE,g214,ELTS: Garganta,62
+alna-s2,15,3,BlackForest,"2,997,620",FALSE,g215,BlackForest,66
+alna-s2,15,4,Vua Trò Chơi 👾,"341,905",FALSE,g216,Vua Trò Chơi 👾,98
+alna-s2,15,5,Naked,"259,935",FALSE,g217,Naked,116
+alna-s2,15,6,JACKPOTTTT!!,"200,405",FALSE,g218,JACKPOTTTT!!,135
+alna-s2,16,1,Storm ~ Arcadia,"4,014,785",FALSE,g219,Storm ~ Arcadia,54
+alna-s2,16,2,The Legion,"3,673,310",FALSE,g150,The Legion,58
+alna-s2,16,3,Liquid Guild,"2,399,445",FALSE,g220,Liquid Guild,68
+alna-s2,16,4,Dark Eclipse,"751,350",FALSE,g221,Dark Eclipse,82
+alna-s2,16,5,FOG,"328,555",FALSE,g222,FOG,101
+alna-s2,16,6,weeeee,"191,965",FALSE,g223,weeeee,139
+alna-s2,17,1,Element: Chaøs,"7,375,790",FALSE,154280,Element: Chaøs,22
+alna-s2,17,2,Regalia,"5,226,495",FALSE,100371,Regalia,33
+alna-s2,17,3,NUYA,"4,363,620",FALSE,g114,NUYA,50
+alna-s2,17,4,MUS,"299,150",FALSE,g224,MUS,106
+alna-s2,17,5,legens,"254,140",FALSE,g225,legens,118
+alna-s2,17,6,HeavenSeven,"180,575",FALSE,g226,HeavenSeven,147
+alna-s2,18,1,Sea Wales 🌊,"4,772,595",FALSE,g130,Sea Wales 🌊,42
+alna-s2,18,2,RΞVΞLΛTION,"4,601,890",FALSE,g120,RΞVΞLΛTION,47
+alna-s2,18,3,Element: ÆTHER,"3,211,850",FALSE,g071,Element: ÆTHER,63
+alna-s2,18,4,Bromies,"253,455",FALSE,g227,Bromies,119
+alna-s2,18,5,hạo thiên tông,"187,020",FALSE,g228,hạo thiên tông,144
+alna-s2,18,6,ConstellationSS,"173,635",FALSE,g229,ConstellationSS,149
+alna-s2,19,1,Eden: ☆NYX☆,"2,262,475",FALSE,g230,Eden: ☆NYX☆,70
+alna-s2,19,2,Storm - [cuneiform],"2,211,450",FALSE,g231,Storm - [cuneiform],71
+alna-s2,19,3,BFD,"362,595",FALSE,g232,BFD,96
+alna-s2,19,4,İmperial Dragons,"337,855",FALSE,g233,İmperial Dragons,100
+alna-s2,19,5,satanic,"249,620",FALSE,g234,satanic,121
+alna-s2,19,6,The Shadow Realm,"148,170",FALSE,g235,The Shadow Realm,153
+alna-s2,20,1,Shiver,"3,181,645",FALSE,g134,Shiver,65
+alna-s2,20,2,R43: Lazurite,"2,583,370",FALSE,g236,R43: Lazurite,67
+alna-s2,20,3,Eclipse✧,"1,846,390",FALSE,g237,Eclipse✧,73
+alna-s2,20,4,World Alliance,"275,030",FALSE,g238,World Alliance,110
+alna-s2,20,5,Raftely,"183,925",FALSE,g239,Raftely,146
+alna-s2,20,6,ZΞN,"155,520",FALSE,g240,ZΞN,151
+alna-s2,21,1,Banshee,"9,749,165",FALSE,g030,Banshee,8
+alna-s2,21,2,Blackbird,"9,364,100",FALSE,51083,Blackbird,9
+alna-s2,21,3,Element: Tavern,"6,747,960",FALSE,g049,Element: Tavern,27
+alna-s2,21,4,casual gamers,"266,825",FALSE,g241,casual gamers,114
+alna-s2,21,5,Westmarch,"247,710",FALSE,g242,Westmarch,123
+alna-s2,21,6,Fame and Honor,"213,545",FALSE,g243,Fame and Honor,131
+alna-s2,22,1,Eden: ANTI,"9,064,285",FALSE,167921,Eden: ANTI,11
+alna-s2,22,2,Storm - Light,"6,573,155",FALSE,g144,Storm - Light,29
+alna-s2,22,3,SALVATORE,"4,867,335",FALSE,g244,SALVATORE,39
+alna-s2,22,4,|Aincrad|,"211,310",FALSE,g245,|Aincrad|,132
+alna-s2,22,5,IDon'tCare,"177,250",FALSE,g246,IDon'tCare,148
+alna-s2,22,6,magnet,"146,505",FALSE,g247,magnet,154
+alna-s2,23,1,NEW CAPYBARA,"4,661,560",FALSE,g248,NEW CAPYBARA,46
+alna-s2,23,2,Eden: Vespers,"3,717,270",FALSE,g249,Eden: Vespers,57
+alna-s2,23,3,Bees,"2,150,745",FALSE,g032,Bees,72
+alna-s2,23,4,KATANA,"784,320",FALSE,g250,KATANA,81
+alna-s2,23,5,ГлавПромТорг,"286,710",FALSE,g251,ГлавПромТорг,108
+alna-s2,23,6,Underground,"141,005",FALSE,g252,Underground,155
+alna-s2,24,1,R43: Sin:Lust,"9,162,470",FALSE,g253,R43: Sin:Lust,10
+alna-s2,24,2,Dobrinya,"829,505",FALSE,g254,Dobrinya,79
+alna-s2,24,3,🇷🇺Russia🇷🇺,"474,605",FALSE,g255,🇷🇺Russia🇷🇺,90
+alna-s2,24,4,T.A.T.Y,"320,980",FALSE,g256,T.A.T.Y,102
+alna-s2,24,5,Испытания судьбы,"248,670",FALSE,g257,Испытания судьбы,122
+alna-s2,24,6,The Nazarick,"217,515",FALSE,g258,The Nazarick,130
+alna-s2,25,1,FU: Fates Hand,"7,151,575",FALSE,61928,FU: Fates Hand,24
+alna-s2,25,2,ELTS: Pandora,"4,938,630",FALSE,g118,ELTS: Pandora,38
+alna-s2,25,3,Berceni,"3,832,555",FALSE,g033,Berceni,56
+alna-s2,25,4,POWERSEEKERS,"296,130",FALSE,g259,POWERSEEKERS,107
+alna-s2,25,5,mineminemine,"234,575",FALSE,g260,mineminemine,126
+alna-s2,25,6,ポンポネスコ,"158,525",FALSE,g261,ポンポネスコ,150
+alna-s2,26,1,Eden:Road2Heaven,"12,000,000",TRUE,32398,Eden:Road2Heaven,3
+alna-s2,26,2,Virtus,"8,379,215",FALSE,g154,Virtus,16
+alna-s2,26,3,Eden: Drakonis,"6,780,140",FALSE,105738,Eden: Drakonis,26
+alna-s2,26,4,A,"201,800",FALSE,g262,A,133
+alna-s2,26,5,United Guild,"197,410",FALSE,g263,United Guild,136
+alna-s2,26,6,Zero Wing,"186,400",FALSE,g264,Zero Wing,145
 ,,,,,FALSE,,,
 ,,,,,FALSE,,,
 ,,,,,FALSE,,,

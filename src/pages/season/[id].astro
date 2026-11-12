@@ -270,7 +270,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
         <section class="card" id="brackets">
           <h2>Brackets</h2>
           <p class="note">Each bracket's own ranking, as shown in game.</p>
-          <div class="bracket-grid">
+          <div class="bracket-grid" tabindex="0" role="region" aria-label="Bracket rankings (scrolls)">
             {alnaBrackets.map((b) => {
               const rows = alnaRows.filter((r) => r.bracket === b).sort((x, y) => x.bracketRank - y.bracketRank);
               return (
@@ -339,7 +339,10 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
 </Layout>
 
 <style>
-  .bracket-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: .9rem; }
+  .bracket-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: .9rem;
+    max-height: 32rem; overflow-y: auto; overscroll-behavior: contain; padding-right: .4rem;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  .bracket-grid:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
   .bracket { background: var(--raised); border: 1px solid var(--line); border-radius: 8px; padding: .7rem .8rem; min-width: 0; }
   .bracket h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 .4rem; }
   .bracket ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; font-size: .88rem; }

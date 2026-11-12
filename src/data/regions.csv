@@ -16,30 +16,35 @@ region,first_server,last_server,notes
 15,135,147,Confirmed by Malignant.
 16,148,160,Confirmed by Malignant.
 17,161,173,Confirmed by Malignant.
-18,177,186,Confirmed by Malignant.
+18,174,186,Confirmed by Malignant.
 19,187,199,Logic
 20,200,212,Confirmed by IDK_Trout
 21,213,225,Confirmed by Malignant.
 22,226,233,Logic
 23,234,241,Confirmed by IDK_Trout
-24,242,242,
-25,,,
-26,,,
-27,,,
-28,,,
-29,289,289,
+24,242,249,Confirmed by IDK_Trout
+25,250,257,Confirmed by IDK_Trout
+26,258,265,Logic
+27,266,273,Confirmed by IDK_Trout
+28,274,281,Confirmed by IDK_Trout
+29,282,289,Confirmed by IDK_Trout
 30,290,297,Confirmed by Malignant.
 31,298,305,Confirmed by IDK_Trout
-32,306,306,
-33,,,
-34,,,
-35,337,337,
+32,306,313,Confirmed by IDK_Trout
+33,314,321,Logic
+34,322,329,Confirmed by IDK_Trout
+35,330,337,Confirmed by IDK_Trout
 36,338,345,Confirmed by IDK_Trout
-37,346,346,
-38,,,
-39,369,369,
+37,346,353,Confirmed by IDK_Trout
+38,354,361,Confirmed by IDK_Trout
+39,362,369,Logic
 40,370,377,Confirmed by Malignant.
-41,378,378,
+41,378,385,Logic
 42,386,393,Confirmed by Malignant.
-43,394,403,Confirmed by SAO
-44,404,404,
+43,394,401,Confirmed by SAO
+44,402,409,"Confirmed by IDK_Trout, Regions not open yet"
+45,410,417,"Logic, Regions not open yet"
+46,418,425,"Logic, Regions not open yet"
+47,426,433,"Logic, Regions not open yet"
+48,434,441,"Logic, Regions not open yet"
+49,442,444,max server so far

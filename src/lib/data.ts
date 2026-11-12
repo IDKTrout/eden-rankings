@@ -1,4 +1,4 @@
-// Reads the CSV copies of the sheet (src/data/*.csv) and turns them into typed records
+// Reads the CSV copies of the database (src/data/*.csv, written by scripts/fetch-data.mjs) and turns them into typed records
 // plus the lookups every page needs. Everything here runs at build time only.
 
 import seasonsCsv from '../data/seasons.csv?raw';

@@ -1,45 +1,45 @@
-region,first_server,last_server,server_count,notes
-1,1,2,2,Confirmed by Malignant.
-2,3,4,2,Confirmed by Malignant.
-3,5,6,2,Confirmed by Malignant.
-4,7,10,4,Confirmed by Malignant.
-5,11,14,4,Confirmed by Malignant.
-6,15,30,16,Confirmed by Malignant.
-7,31,43,13,Confirmed by Malignant.
-8,44,56,13,Logic
-9,57,69,13,Confirmed by SAO
-10,70,82,13,Confirmed by Malignant.
-11,83,95,13,Confirmed by Malignant.
-12,96,108,13,Logic
-13,109,121,13,Logic
-14,122,134,13,Logic
-15,135,147,13,Confirmed by Malignant.
-16,148,160,13,Confirmed by Malignant.
-17,161,173,13,Confirmed by Malignant.
-18,177,186,10,Confirmed by Malignant.
-19,187,199,13,Logic
-20,200,212,13,Confirmed by IDK_Trout
-21,213,225,13,Confirmed by Malignant.
-22,226,233,8,Logic
-23,234,241,8,Confirmed by IDK_Trout
-24,242,242,1,
-25,,,,
-26,,,,
-27,,,,
-28,,,,
-29,289,289,1,
-30,290,297,8,Confirmed by Malignant.
-31,298,305,8,Confirmed by IDK_Trout
-32,306,306,1,
-33,,,,
-34,,,,
-35,337,337,1,
-36,338,345,8,Confirmed by IDK_Trout
-37,346,346,1,
-38,,,,
-39,369,369,1,
-40,370,377,8,Confirmed by Malignant.
-41,378,378,1,
-42,386,393,8,Confirmed by Malignant.
-43,394,403,10,Confirmed by SAO
-44,404,404,1,
+region,first_server,last_server,notes
+1,1,2,Confirmed by Malignant.
+2,3,4,Confirmed by Malignant.
+3,5,6,Confirmed by Malignant.
+4,7,10,Confirmed by Malignant.
+5,11,14,Confirmed by Malignant.
+6,15,30,Confirmed by Malignant.
+7,31,43,Confirmed by Malignant.
+8,44,56,Logic
+9,57,69,Confirmed by SAO
+10,70,82,Confirmed by Malignant.
+11,83,95,Confirmed by Malignant.
+12,96,108,Logic
+13,109,121,Logic
+14,122,134,Logic
+15,135,147,Confirmed by Malignant.
+16,148,160,Confirmed by Malignant.
+17,161,173,Confirmed by Malignant.
+18,177,186,Confirmed by Malignant.
+19,187,199,Logic
+20,200,212,Confirmed by IDK_Trout
+21,213,225,Confirmed by Malignant.
+22,226,233,Logic
+23,234,241,Confirmed by IDK_Trout
+24,242,242,
+25,,,
+26,,,
+27,,,
+28,,,
+29,289,289,
+30,290,297,Confirmed by Malignant.
+31,298,305,Confirmed by IDK_Trout
+32,306,306,
+33,,,
+34,,,
+35,337,337,
+36,338,345,Confirmed by IDK_Trout
+37,346,346,
+38,,,
+39,369,369,
+40,370,377,Confirmed by Malignant.
+41,378,378,
+42,386,393,Confirmed by Malignant.
+43,394,403,Confirmed by SAO
+44,404,404,

@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "data": "node scripts/fetch-data.mjs",
+    "data:sheet": "node scripts/fetch-sheet.mjs",
+    "guides": "node scripts/make-guides.mjs",
     "dev": "astro dev",
     "build": "astro build",
     "build:fresh": "node scripts/fetch-data.mjs && astro build",

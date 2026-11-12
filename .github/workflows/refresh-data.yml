@@ -1,10 +1,11 @@
-# Downloads the published rankings sheet and commits any changes to src/data/.
-# Each commit makes Cloudflare rebuild event-rankings.edenafk.com with the new data.
-name: Refresh sheet data
+# Downloads the rankings from the Supabase database and commits any changes to src/data/.
+# Each commit makes Cloudflare rebuild event-rankings.edenafk.com with the new data,
+# so edits made in the admin area appear on the site within about 15-20 minutes.
+name: Refresh rankings data
 
 on:
   schedule:
-    - cron: '17 */3 * * *'   # every 3 hours
+    - cron: '*/15 * * * *'   # every 15 minutes (GitHub may run it a few minutes late)
   workflow_dispatch: {}      # "Run workflow" button on GitHub, for an immediate update
 
 permissions:
@@ -22,16 +23,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Download sheet data
+      - name: Download database data
         run: node scripts/fetch-data.mjs
       - name: Commit if anything changed
         run: |
           if git diff --quiet -- src/data; then
-            echo "Sheet data unchanged."
+            echo "Data unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
           git add src/data
-          git commit -m "Refresh rankings data from the sheet"
+          git commit -m "Refresh rankings data from the database"
           git push

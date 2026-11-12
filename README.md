@@ -6,41 +6,35 @@ All rankings are gathered by Tunarda (id: 44843); each season credits its compil
 
 ## Where the data lives
 
-Everything is entered in the Google Sheet **AbEx Guild Rankings**. The site reads a published copy of it, so a change in the sheet appears on the site after the next refresh (see below).
+Since 2026-11-12 the data lives in a **Supabase database** (project *Event Rankings*, in the Eden organization) and is edited in the **admin area** at [/admin/](https://event-rankings.edenafk.com/admin/). The Google Sheet **AbEx Guild Rankings** is no longer read by the site; it is kept as an archive of how the data started.
 
-| Tab | One row per | Notes |
+| Table | One row per | Notes |
 |---|---|---|
-| `abex_rankings` | guild per AbEx season | `guild_name` exactly as in the image; `guild_id` and `current_guild_name` are looked up |
-| `rift_rankings` | player per Temporal Rift season | `player_id` from the image; `guild_id` and `current_guild_name` are looked up |
-| `guilds` | guild | `guild_id` is the game's guild ID (or `g###` until known). Set `home_server`, `group_id` and `inactive` here; `region`, `names_seen` and the season counts are formulas |
-| `groups` | group of guilds (Eden, Sin, FU, Elements, Storm) | `short_name` is the tag text, `color` its hex color |
-| `regions` | region | `first_server` to `last_server`; a row turns red if it overlaps another |
-| `guild_names` | spelling of a guild name seen in a ranking | maps each spelling to one `guild_id`, which is how renamed guilds are combined |
-| `players` | player | `player_id` is the game's player ID; tick `inactive` for players who stopped |
-| `seasons` | ranking season | oldest first; `end_date` (shown as "Ended …"), `max_damage_m` for AbEx, `compiled_by` and `thanks` for credits |
-| `fields` | column | describes every column in every tab |
-| `checks` | — | flags problems automatically; row 2 is green at 0 and red when something needs fixing |
+| `events` | event (AbEx, AbEx Test, Temporal Rift, Alna) | whether it ranks guilds or players, its score label, and whether it has brackets or times |
+| `seasons` | ranking season | `sort_order` (higher = more recent), `end_date`, `max_score` (AbEx max damage), `compiled_by` and `thanks` for credits |
+| `results` | one line of one ranking, for every event | `listed_name` exactly as in the image; `guild_id` and/or `player_id`; `bracket`, `rank`, `score`, `score_rounded` (like 13M), `time_seconds`, `server`; event-specific fields such as leader and essence in `extra` |
+| `guilds` | guild | `id` is the game's guild ID (or `g###` until known); `home_server`, `group_id`, `inactive` |
+| `guild_names` | spelling of a guild name seen in a ranking | maps each spelling to one guild, which is how renamed guilds are combined |
+| `players` | player | `id` is the game's player ID; `inactive` |
+| `groups` | group of guilds (Eden, Sin, FU, Elements, Storm) | `short_name` is the tag text, `color` its hex color, `sort_order` the display order |
+| `regions` | region | `first_server` to `last_server` (blank until known) |
+| `editors` | person who can edit | `admin` (add, fix, delete, manage editors) or `helper` (add and fix only) |
+| `change_log` | change | every add, fix and delete, with who made it and the old and new values |
 
-Guilds are matched by `guild_id` and players by `player_id`, so name changes keep one history. Renaming a guild in the `guilds` tab renames it everywhere on the site; tables add "listed as" with the name used that season.
+The schema is in `supabase/migrations/`. Row-level security lets anyone read, editors add and fix, and only admins delete. Guilds are matched by guild ID and players by player ID, so name changes keep one history; tables add "listed as" with the name used that season.
 
 ## Adding a season
 
-1. Add a row to `seasons` at the bottom (events are listed in the order they took place) with its `end_date`. For AbEx, fill in `max_damage_m`.
-2. Add the ranking rows to `abex_rankings` or `rift_rankings` with the new `season_id`, typing guild names exactly as they appear in the image.
-3. Open the `checks` tab and fix anything it lists:
-   - a new guild spelling: add it to `guild_names` (and the guild to `guilds` if it's new);
-   - a new player ID: add it to `players`;
-   - a server with no region: add the range to `regions`.
-4. Run the refresh (below) or wait up to 3 hours.
+Use the admin area: **Seasons → New season**, then **Results → Add results by pasting**. The [helper guide](guides/helper-guide.png) and [admin guide](guides/admin-guide.png) walk through it (rebuild them with `npm run guides` after changing `scripts/make-guides.mjs`).
 
-For AbEx, guilds at the season's `max_damage_m` finished and their time is their finish time; every other guild's time is their last attack.
+For AbEx, guilds at the season's max damage finished and their time is their finish time; every other guild's time is their last attack.
 
 ## Alna
 
-**Alna** (`alna_rankings`, `alna_overall`) is a guild event played in brackets and scored in points. On the site:
+**Alna** is a guild event played in brackets and scored in points. On the site:
 - a guild is shown if it finished **top 3 in its bracket**, or if it is in the season's **overall top 100 and has more than 1,000,000 points**;
-- the overall ranking uses `overall_rank`, which breaks equal-point ties using each bracket's own order;
-- scores the game rounded (`points_rounded`, such as 13M) are shown with ≈;
+- the overall rank is worked out when the data is downloaded, breaking equal-point ties using each bracket's own order;
+- scores the game rounded (`score_rounded`, such as 13M) are shown with ≈;
 - guild pages show Alna results with gold, silver and bronze for a top-3 finish in the guild's bracket, and Alna counts in group standings;
 - Alna is not featured on the home page or in region standings.
 
@@ -48,8 +42,9 @@ For AbEx, guilds at the season's `max_damage_m` finished and their time is their
 
 A static [Astro](https://astro.build) site, deployed by Cloudflare Workers Builds from the `main` branch.
 
-- `.github/workflows/refresh-data.yml` downloads the published sheet every 3 hours and commits any change to `src/data/`, which makes Cloudflare rebuild the site. To update right away, open the repository's **Actions** tab, pick **Refresh sheet data** and press **Run workflow**.
-- `scripts/fetch-data.mjs` does the download. The publish ID is in `sheet.config.json` (or the `SHEET_PUB_ID` environment variable). Cloudflare builds from the copy saved in the repository, so what is committed is exactly what goes live.
+- `.github/workflows/refresh-data.yml` downloads the database every 15 minutes and commits any change to `src/data/`, which makes Cloudflare rebuild the site. To update right away, open the repository's **Actions** tab, pick **Refresh rankings data** and press **Run workflow**.
+- `scripts/fetch-data.mjs` does the download with the public read-only key and writes one CSV per former sheet tab, so the pages read the same shape as before. Cloudflare builds from the copy saved in the repository, so what is committed is exactly what goes live. (`scripts/fetch-sheet.mjs` still downloads the old sheet, for reference.)
+- `src/admin/` and `src/pages/admin.astro` are the admin area; it talks to the database directly from the browser.
 - `src/lib/data.ts` turns the CSVs into seasons, rankings, guilds, players, groups and regions; `src/lib/groups.ts` and `src/lib/regions.ts` work out standings.
 - `src/pages/` holds the pages: home, `/seasons/`, `/season/<season_id>/`, `/guilds/`, `/guild/<guild_id>/`, `/players/`, `/player/<player_id>/`, `/groups/`, `/group/<group_id>/`, `/regions/`, `/region/<region>/`, `/search/` and `/sitemap.xml`.
 
@@ -57,10 +52,10 @@ A static [Astro](https://astro.build) site, deployed by Cloudflare Workers Build
 
 ```bash
 npm install
-npm run data         # download the latest sheet data
-npm run dev          # preview at http://localhost:4321
+npm run data         # download the latest data from the database
+npm run dev          # preview at http://localhost:4321 (admin at /admin/)
 npm run build        # build into dist/ from the saved data in src/data/
-npm run build:fresh  # download the latest sheet data, then build
+npm run build:fresh  # download the latest data, then build
 ```
 
 ## Cloudflare settings

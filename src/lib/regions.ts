@@ -38,5 +38,33 @@ export function regionRift(region: number, seasonId: string): RegionRift | null 
   return rows.length ? { players: rows.length, best: rows[0] } : null;
 }
 
+export interface RegionAbexStanding extends RegionAbex { region: number; totalDamage: number }
+export interface RegionRiftStanding extends RegionRift { region: number }
+
+/** Every region with a guild in an AbEx season, ordered by its best guild (like the Groups standings). */
+export function abexRegionStandings(seasonId: string): RegionAbexStanding[] {
+  const rows = abexFor(seasonId).filter((r) => r.damageRank != null && r.damage != null);
+  const by = new Map<number, AbexRow[]>();
+  for (const r of rows) {
+    const region = regionOf(r.server);
+    if (region != null) by.set(region, [...(by.get(region) ?? []), r]);
+  }
+  return [...by].map(([region, mine]) => ({
+    region, guilds: mine.length, finished: mine.filter(finished).length, best: mine[0],
+    totalDamage: mine.reduce((s, r) => s + (r.damage as number), 0),
+  })).sort((a, b) => (a.best.damageRank as number) - (b.best.damageRank as number));
+}
+
+/** Every region with a player in a Temporal Rift season: most players first, then best rank. */
+export function riftRegionStandings(seasonId: string): RegionRiftStanding[] {
+  const by = new Map<number, RiftRow[]>();
+  for (const r of riftFor(seasonId)) {
+    const region = regionOf(r.server);
+    if (region != null) by.set(region, [...(by.get(region) ?? []), r]);
+  }
+  return [...by].map(([region, mine]) => ({ region, players: mine.length, best: mine[0] }))
+    .sort((a, b) => b.players - a.players || a.best.rank - b.best.rank);
+}
+
 export const regionNumbers = regions.map((r) => r.region);
 export const regionRange = (region: number) => regions.find((r) => r.region === region);

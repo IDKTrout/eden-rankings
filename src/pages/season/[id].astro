@@ -6,6 +6,7 @@ import Rank from '../../components/Rank.astro';
 import Credit from '../../components/Credit.astro';
 import GroupTag from '../../components/GroupTag.astro';
 import { abexStandings, riftStandings, alnaStandings } from '../../lib/groups';
+import { abexRegionStandings, riftRegionStandings } from '../../lib/regions';
 import { alna, alnaFor, ALNA_MIN_POINTS, ALNA_MAX_RANK, ALNA_BRACKET_TOP } from '../../lib/data';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
@@ -37,6 +38,8 @@ const eyebrow = season.kind === 'abex' ? 'AbEx · guild damage' : season.kind ==
 const rSum = season.kind === 'rift' ? riftSummary(season.id) : null;
 const aStand = season.kind === 'abex' ? abexStandings(season.id) : [];
 const rStand = season.kind === 'rift' ? riftStandings(season.id) : [];
+const aRegions = season.kind === 'abex' ? abexRegionStandings(season.id) : [];
+const rRegions = season.kind === 'rift' ? riftRegionStandings(season.id) : [];
 
 const guildHref = (id: string) => (id ? `/guild/${encodeURIComponent(id)}/` : undefined);
 const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : undefined);
@@ -115,6 +118,29 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
                 {aStand.map((g) => (
                   <tr>
                     <td><a href={`/group/${g.groupId}/`}>{groupById.get(g.groupId)?.name}</a></td>
+                    <td class="num">{g.guilds}</td>
+                    <td class="wrap-sm"><Rank value={g.best.damageRank} tiers="abex" /> <a href={guildHref(g.best.guildId)}>{nameOf(g.best)}</a></td>
+                    <td class="num hide-sm">{g.finished}</td>
+                    <td class="num hide-sm">{fmtM(g.totalDamage)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {aRegions.length > 0 && (
+        <section class="card" id="regions">
+          <h2>Regions</h2>
+          <p class="note">How each region's guilds placed this season, ordered by their best guild. A guild counts for the region of the server it was listed on.</p>
+          <div class="table-wrap tall region-scroll">
+            <table class="rank">
+              <thead><tr><th>Region</th><th class="num"><span class="hide-sm">Guilds ranked</span><span class="show-sm">Guilds</span></th><th>Best guild</th><th class="num hide-sm">Finished</th><th class="num hide-sm">Total damage</th></tr></thead>
+              <tbody>
+                {aRegions.map((g) => (
+                  <tr>
+                    <td><a href={`/region/${g.region}/`}>Region {g.region}</a></td>
                     <td class="num">{g.guilds}</td>
                     <td class="wrap-sm"><Rank value={g.best.damageRank} tiers="abex" /> <a href={guildHref(g.best.guildId)}>{nameOf(g.best)}</a></td>
                     <td class="num hide-sm">{g.finished}</td>
@@ -209,6 +235,28 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
                 {rStand.map((g) => (
                   <tr>
                     <td><a href={`/group/${g.groupId}/`}>{groupById.get(g.groupId)?.name}</a></td>
+                    <td class="num">{g.players}</td>
+                    <td class="wrap-sm"><Rank value={g.best.rank} /> <a href={playerHref(g.best.playerId)}>{g.best.playerName}</a></td>
+                    <td class="num">{fmtInt(g.best.floor)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {rRegions.length > 0 && (
+        <section class="card" id="regions">
+          <h2>Regions</h2>
+          <p class="note">Players in this ranking from each region, most players first. A player counts for the region of the server they were listed on.</p>
+          <div class="table-wrap tall region-scroll">
+            <table class="rank">
+              <thead><tr><th>Region</th><th class="num">Players</th><th>Best player</th><th class="num">Floor</th></tr></thead>
+              <tbody>
+                {rRegions.map((g) => (
+                  <tr>
+                    <td><a href={`/region/${g.region}/`}>Region {g.region}</a></td>
                     <td class="num">{g.players}</td>
                     <td class="wrap-sm"><Rank value={g.best.rank} /> <a href={playerHref(g.best.playerId)}>{g.best.playerName}</a></td>
                     <td class="num">{fmtInt(g.best.floor)}</td>
@@ -339,6 +387,8 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
 </Layout>
 
 <style>
+  /* Regions list: a short box that scrolls, so a long list doesn't push the full ranking down. */
+  .table-wrap.region-scroll { max-height: 22rem; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
   .bracket-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: .9rem;
     max-height: 32rem; overflow-y: auto; overscroll-behavior: contain; padding-right: .4rem;
     scrollbar-width: thin; scrollbar-color: var(--line) transparent; }

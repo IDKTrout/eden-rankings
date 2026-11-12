@@ -432,6 +432,13 @@ export const fmtDate = (iso: string) => {
   const [y, m, d] = iso.split('-').map(Number);
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(Date.UTC(y, m - 1, d));
 };
+/** Guilds are shown by region only ("R20"); falls back to the server if no region covers it. */
+export const fmtRegion = (server: number | null | undefined) => {
+  if (server == null) return '—';
+  const region = regionOf(server);
+  return region == null ? `S${server}` : `R${region}`;
+};
+/** Players are shown by server, with the region ("S204 · R20"). */
 export const fmtServer = (v: number | null | undefined) => {
   if (v == null) return '—';
   const region = regionOf(v);

@@ -39,8 +39,9 @@ const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.lea
     <h1>{name}<StatusTag inactive={guild?.inactive} /></h1>
     {groupOf(id) && <p class="muted">Part of the <GroupTag guildId={id} full /> group.</p>}
     <div class="chips">
-      {server != null && <span class="chip">Server S{server}</span>}
-      {regionOf(server) != null && <a class="chip" href={`/region/${regionOf(server)}/`}>Region {regionOf(server)}</a>}
+      {regionOf(server) != null
+        ? <a class="chip" href={`/region/${regionOf(server)}/`}>Region {regionOf(server)}</a>
+        : server != null && <span class="chip">Server S{server}</span>}
       {isGameId && <span class="chip">Guild ID {id}</span>}
       {leaders.slice(0, 1).map((l) => <a class="chip" href={`/player/${l.leaderId}/`}>Leader {playerById.get(l.leaderId)?.name ?? l.leaderName}</a>)}
     </div>

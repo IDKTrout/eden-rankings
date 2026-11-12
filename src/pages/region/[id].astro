@@ -85,12 +85,11 @@ const playerRows = playersInRegion(region)
       {guildRows.length ? (
         <div class="table-wrap">
           <table class="rank">
-            <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Finishes</th><th class="num">Rift players</th></tr></thead>
+            <thead><tr><th>Guild</th><th class="num">Best AbEx rank</th><th class="num">Finishes</th><th class="num">Rift players</th></tr></thead>
             <tbody>
               {guildRows.map((r) => (
                 <tr>
                   <td><a href={`/guild/${encodeURIComponent(r.g.id)}/`}>{r.g.name}</a><StatusTag inactive={r.g.inactive} /><GroupTag guildId={r.g.id} /></td>
-                  <td>{r.server != null ? `S${r.server}` : '—'}</td>
                   <td class="num">{r.best == null ? '—' : <Rank value={r.best} tiers="abex" />}</td>
                   <td class="num">{r.finishes || '—'}</td>
                   <td class="num">{r.riftPlayers || '—'}</td>

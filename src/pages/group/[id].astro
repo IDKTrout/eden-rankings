@@ -5,7 +5,7 @@ import GroupTag from '../../components/GroupTag.astro';
 import StatusTag from '../../components/StatusTag.astro';
 import {
   groups, groupById, groupMembers, seasons, seasonLabel, abex, rift, finished,
-  fmtInt, fmtM, fmtServer, nameOf,
+  fmtInt, fmtM, fmtRegion, nameOf,
 } from '../../lib/data';
 import { abexStandings, riftStandings, alnaStandings, seasonOrder } from '../../lib/groups';
 
@@ -99,12 +99,12 @@ const history = [...seasons].reverse().map((s) => {
     <h2>Guilds</h2>
     <div class="table-wrap">
       <table class="rank">
-        <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">AbEx finishes</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
+        <thead><tr><th>Guild</th><th>Region</th><th class="num">Best AbEx rank</th><th class="num">AbEx finishes</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
         <tbody>
           {memberRows.map((r) => (
             <tr>
               <td><a href={`/guild/${encodeURIComponent(r.m.id)}/`}>{r.m.name}</a><StatusTag inactive={r.m.inactive} /></td>
-              <td>{fmtServer(r.server)}</td>
+              <td>{fmtRegion(r.server)}</td>
               <td class="num">{r.best == null ? '—' : <Rank value={r.best} tiers="abex" />}</td>
               <td class="num">{r.finishedCount || '—'}</td>
               <td class="num">{r.riftPlayers || '—'}</td>

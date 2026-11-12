@@ -9,7 +9,7 @@ import { abexStandings, riftStandings, alnaStandings } from '../../lib/groups';
 import { alna, alnaFor, ALNA_MIN_POINTS, ALNA_MAX_RANK, ALNA_BRACKET_TOP } from '../../lib/data';
 import {
   seasons, seasonLabel, seasonsOf, abexFor, riftFor, abexSummary, riftSummary, guildLabel,
-  fmtInt, fmtM, fmtEss, fmtServer, fmtDate, finished, timeNote, groupById, nameOf, type Season,
+  fmtInt, fmtM, fmtEss, fmtServer, fmtRegion, fmtDate, finished, timeNote, groupById, nameOf, type Season,
 } from '../../lib/data';
 
 export function getStaticPaths() {
@@ -139,7 +139,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
           <table class="rank">
             <thead>
               <tr>
-                <th class="num">Rank</th><th>Guild</th><th class="hide-sm">Leader</th><th class="hide-sm">Server</th>
+                <th class="num">Rank</th><th>Guild</th><th class="hide-sm">Leader</th><th class="hide-sm">Region</th>
                 <th class="num">Damage (M)<span class="show-sm sub">time</span></th><th class="num hide-sm">Finish / last attack</th>
                 {aSum.hasEssence && <><th class="num hide-sm">Essence rank</th><th class="num hide-sm">Essence (M)</th></>}
               </tr>
@@ -148,9 +148,9 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
               {abexRows.map((r) => (
                 <tr>
                   <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
-                  <td class="wrap-sm"><a href={guildHref(r.guildId)}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}<span class="show-sm sub">{[r.leaderName, r.server != null ? fmtServer(r.server) : ''].filter(Boolean).join(' · ')}</span></td>
+                  <td class="wrap-sm"><a href={guildHref(r.guildId)}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}<span class="show-sm sub">{[r.leaderName, r.server != null ? fmtRegion(r.server) : ''].filter(Boolean).join(' · ')}</span></td>
                   <td class="hide-sm">{r.leaderId ? <a href={playerHref(r.leaderId)}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
-                  <td class="hide-sm">{fmtServer(r.server)}</td>
+                  <td class="hide-sm">{fmtRegion(r.server)}</td>
                   <td class="num">{fmtInt(r.damage)}{r.time && <span class:list={['show-sm', 'sub', { fin: finished(r) }]}>{r.time}</span>}</td>
                   <td class="num hide-sm">{r.time ? <span class:list={{ fin: finished(r) }} title={timeNote(r)}>{r.time}</span> : '—'}</td>
                   {aSum.hasEssence && <><td class="num hide-sm">{r.essenceRank ?? '—'}</td><td class="num hide-sm">{r.essence == null ? '—' : fmtEss(r.essence).replace('M', '')}</td></>}

@@ -4,7 +4,7 @@ import FilterScript from '../components/FilterScript.astro';
 import GroupTag from '../components/GroupTag.astro';
 import StatusTag from '../components/StatusTag.astro';
 import { groupOf, regionOf } from '../lib/data';
-import { guildIds, guildById, abex, rift, seasonById, fmtServer, fmtInt } from '../lib/data';
+import { guildIds, guildById, abex, rift, seasonById, fmtRegion, fmtInt } from '../lib/data';
 
 const order = (sid: string) => seasonById.get(sid)?.order ?? 0;
 const list = guildIds.map((id) => {
@@ -45,7 +45,7 @@ const search = (g: (typeof list)[number]) => [
 
   <div class="card">
     <label class="small muted" for="filter">Search guilds (<span id="filter-count">{list.length}</span>)</label>
-    <input id="filter" class="filter" type="search" placeholder="Guild name, old name, group, server or region" autocomplete="off" />
+    <input id="filter" class="filter" type="search" placeholder="Guild name, old name, group or region" autocomplete="off" />
     <p id="filter-empty" class="empty-note" hidden>No guild matches that search.</p>
   </div>
 
@@ -55,12 +55,12 @@ const search = (g: (typeof list)[number]) => [
         <h2>{sec.title} <span class="muted small">{sec.rows.length}</span></h2>
         <div class="table-wrap">
           <table class="rank">
-            <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
+            <thead><tr><th>Guild</th><th>Region</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
             <tbody>
               {sec.rows.map((g) => (
                 <tr>
                 <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a><StatusTag inactive={g.inactive} /><GroupTag guildId={g.id} /></td>
-                <td>{fmtServer(g.server)}</td>
+                <td>{fmtRegion(g.server)}</td>
                 <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>
                 <td class="num">{g.riftPlayers || '—'}</td>
                 <td class="num">{g.bestFloor == null ? '—' : fmtInt(g.bestFloor)}</td>
@@ -77,12 +77,12 @@ const search = (g: (typeof list)[number]) => [
     <h2>Search results</h2>
     <div class="table-wrap">
       <table class="rank">
-        <thead><tr><th>Guild</th><th>Server</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
+        <thead><tr><th>Guild</th><th>Region</th><th class="num">Best AbEx rank</th><th class="num">Rift players</th><th class="num">Best Rift floor</th></tr></thead>
         <tbody>
           {list.map((g) => (
             <tr data-search={search(g)}>
                 <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a><StatusTag inactive={g.inactive} /><GroupTag guildId={g.id} /></td>
-                <td>{fmtServer(g.server)}</td>
+                <td>{fmtRegion(g.server)}</td>
                 <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>
                 <td class="num">{g.riftPlayers || '—'}</td>
                 <td class="num">{g.bestFloor == null ? '—' : fmtInt(g.bestFloor)}</td>

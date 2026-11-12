@@ -42,6 +42,9 @@ const nav = [
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <script is:inline>(function(){var a='gold';try{var m=document.cookie.match(/(?:^|; )eden-accent=([a-z]+)/);a=(m&&m[1])||localStorage.getItem('eden-accent')||a;}catch(e){}document.documentElement.setAttribute('data-accent',a);})();</script>
+    <link rel="stylesheet" href="/theme.css" />
+    <script is:inline src="/theme.js" defer></script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -59,6 +62,7 @@ const nav = [
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2" /><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
           </a>
         </nav>
+        <div data-theme-pick></div>
       </div>
     </header>
     <main id="main" class="wrap">
@@ -138,7 +142,7 @@ const nav = [
   .site-head { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
   .head-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .7rem; }
   .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: .03em; }
-  .site-head nav { display: flex; align-items: center; gap: .25rem; }
+  .site-head nav { display: flex; align-items: center; gap: .25rem; margin-left: auto; }
   .site-head nav a { text-decoration: none; color: var(--muted); padding: .4rem .65rem; border-radius: 6px; font-weight: 500; }
   .site-head nav a:hover { color: var(--ink); background: var(--raised); }
   .site-head nav a[aria-current='page'] { color: var(--ink); background: var(--raised); }
@@ -146,7 +150,8 @@ const nav = [
   @media (max-width: 560px) {
     /* Phones: logo on its own row, menu on a full-width row below it. */
     .head-row { flex-wrap: wrap; row-gap: .35rem; padding-block: .55rem .4rem; }
-    .site-head nav { width: 100%; justify-content: space-between; gap: 0; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+    .site-head [data-theme-pick] { order: 1; }
+    .site-head nav { order: 2; width: 100%; justify-content: space-between; gap: 0; min-width: 0; overflow-x: auto; scrollbar-width: none; }
     .site-head nav::-webkit-scrollbar { display: none; }
     .site-head nav a { padding: .4rem .32rem; font-size: .86rem; white-space: nowrap; }
   }

@@ -9,7 +9,10 @@ export const SUPABASE_KEY = 'sb_publishable_rBlmsD2-G_ece6fAXDL7aQ_0oa-iqX-';
 export const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export interface Group { id: string; name: string; short_name: string; color: string; notes: string | null }
-export interface EventRow { id: string; name: string; ranks: 'guild' | 'player'; score_label: string; has_brackets: boolean; has_time: boolean }
+export interface EventRow {
+  id: string; name: string; ranks: 'guild' | 'player'; score_label: string; has_brackets: boolean; has_time: boolean;
+  notes: string | null; show_on_site: boolean;
+}
 export interface Season {
   id: string; event_id: string; season_number: number | null; title: string; end_date: string | null;
   sort_order: number; max_score: number | null; compiled_by: string | null; thanks: string | null;

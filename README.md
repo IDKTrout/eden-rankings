@@ -10,7 +10,7 @@ Since 2026-11-12 the data lives in a **Supabase database** (project *Event Ranki
 
 | Table | One row per | Notes |
 |---|---|---|
-| `events` | event (AbEx, AbEx Test, Temporal Rift, Alna) | whether it ranks guilds or players, its score label, and whether it has brackets or times |
+| `events` | event (AbEx, AbEx Test, Temporal Rift, Alna) | whether it ranks guilds or players, its score label, whether it has brackets or times, and `show_on_site`. New events (added on the admin's Events tab) stay off the site until it has a page layout for them; only admins can switch that on |
 | `seasons` | ranking season | `sort_order` (higher = more recent), `end_date`, `max_score` (AbEx max damage), `compiled_by` and `thanks` for credits |
 | `results` | one line of one ranking, for every event | `listed_name` exactly as in the image; `guild_id` and/or `player_id`; `bracket`, `rank`, `score`, `score_rounded` (like 13M), `time_seconds`, `server`; event-specific fields such as leader and essence in `extra` |
 | `guilds` | guild | `id` is the game's guild ID (or `g###` until known); `home_server`, `group_id`, `inactive` |

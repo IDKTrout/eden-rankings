@@ -134,6 +134,15 @@ const addResults = [
   ] },
   { note: 'Leave columns you don\'t have empty. A score shown in-game as **13M** is saved as 13,000,000 and marked as rounded.' },
 ];
+const newEvent = [
+  { h: 'A brand-new event' },
+  { steps: [
+    '**Events** tab, **New event**. Give it an ID (like **guild-war**), its in-game name, whether it ranks **guilds or players**, and what the **score** is (points, damage, floor...).',
+    'Tick **brackets** if each bracket is ranked separately (like Alna), or **time** if it records a finish time (like AbEx). The form shows the paste columns that gives you.',
+    'Then add its season on the **Seasons** tab and its results on the **Results** tab, as above.',
+  ] },
+  { note: 'New events are saved but **not shown on the public site** yet. They go live once a page layout is made for them.' },
+];
 const fixing = [
   { h: 'Fixing mistakes' },
   { bullets: [
@@ -159,7 +168,7 @@ const helper = {
   subtitle: 'Event Rankings editor area · adding and fixing results',
   blocks: [
     { p: 'As a **helper** you can **add and fix** seasons, results, guilds and players. You **can\'t delete** anything. If something needs removing, ask an admin.' },
-    ...signIn, ...addResults, ...fixing, ...goodHabits,
+    ...signIn, ...addResults, ...newEvent, ...fixing, ...goodHabits,
   ],
 };
 
@@ -185,7 +194,9 @@ const admin = {
       '**Review what changed:** the **Change log** tab shows who changed what, with old and new values.',
     ] },
     { note: 'Deletes can\'t be undone from the admin area. The change log keeps a copy of what was removed, so ask **IDKTrout** if something needs to be restored.', warn: true },
-    ...addResults, ...fixing, ...goodHabits,
+    ...addResults, ...newEvent,
+    { note: 'Only an admin can tick **Shown on the public site** for an event. Leave it off until the site has a layout for that event, or its results will show with the wrong labels.', warn: true },
+    ...fixing, ...goodHabits,
   ],
 };
 

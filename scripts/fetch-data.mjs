@@ -37,7 +37,7 @@ async function writeCsv(name, cols, rows) {
 const hms = (sec) => (sec == null ? '' : `${Math.floor(sec / 3600)}:${String(Math.floor(sec / 60) % 60).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`);
 
 try {
-  const [events, seasons, results, guilds, guildNames, players, groups, regions] = await Promise.all([
+  const [events, allSeasons, allResults, guilds, guildNames, players, groups, regions] = await Promise.all([
     table('events', 'id'),
     table('seasons', 'sort_order'),
     table('results', 'id'),
@@ -49,8 +49,15 @@ try {
   ]);
   await mkdir(dataDir, { recursive: true });
 
-  // Which of the site's three layouts each event uses.
+  // Events not switched on for the site (new events with no page layout yet) are left out entirely.
   const eventById = new Map(events.map((e) => [e.id, e]));
+  const seasons = allSeasons.filter((s) => eventById.get(s.event_id)?.show_on_site);
+  const shownSeasons = new Set(seasons.map((s) => s.id));
+  const results = allResults.filter((r) => shownSeasons.has(r.season_id));
+  const hidden = allSeasons.length - seasons.length;
+  if (hidden) console.log(`[db] ${hidden} season(s) of events not on the site yet were left out`);
+
+  // Which of the site's three layouts each event uses.
   const tabOf = (s) => {
     const e = eventById.get(s.event_id);
     return e?.ranks === 'player' ? 'rift_rankings' : e?.has_brackets ? 'alna_rankings' : 'abex_rankings';

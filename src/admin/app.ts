@@ -126,6 +126,7 @@ const TABS: Tab[] = [
   { id: 'guilds', label: 'Guilds', render: guildsTab },
   { id: 'players', label: 'Players', render: playersTab },
   { id: 'seasons', label: 'Seasons', render: seasonsTab },
+  { id: 'events', label: 'Events', render: eventsTab },
   { id: 'log', label: 'Change log', render: logTab },
   { id: 'editors', label: 'Editors', render: editorsTab, adminOnly: true },
 ];
@@ -514,7 +515,8 @@ function seasonsTab(panel: HTMLElement) {
 function editSeason(s: Season | null, redraw: () => void) {
   const nextOrder = Math.max(0, ...seasons.map((x) => x.sort_order)) + 1;
   const f = {
-    id: text(s?.id ?? '', { placeholder: 'like alna-s3' }), event: select(events.map((e) => [e.id, e.name]), s?.event_id ?? events[0]?.id ?? ''),
+    id: text(s?.id ?? '', { placeholder: 'like alna-s3' }),
+    event: select(events.map((e) => [e.id, e.show_on_site ? e.name : `${e.name} (not on site yet)`]), s?.event_id ?? events[0]?.id ?? ''),
     number: num(s?.season_number), title: text(s?.title ?? ''), end: h('input', { type: 'date', value: s?.end_date ?? '' }),
     order: num(s?.sort_order ?? nextOrder), max: num(s?.max_score), by: text(s?.compiled_by ?? ''), thanks: text(s?.thanks ?? ''),
     url: text(s?.source_url ?? ''), notes: area(s?.notes, { rows: 3 }),
@@ -542,6 +544,77 @@ function editSeason(s: Season | null, redraw: () => void) {
   del?.addEventListener('click', async () => {
     if (!confirm(`Delete season ${s!.id}? Only works once it has no results.`)) return;
     try { check(await sb.from('seasons').delete().eq('id', s!.id)); await loadAll(); dlg.close(); redraw(); } catch (e) { st.err(e); }
+  });
+}
+
+// ------------------------------------------------------------------ events
+
+const layoutOf = (e: Pick<EventRow, 'ranks' | 'has_brackets' | 'has_time'>) =>
+  e.has_brackets ? 'Bracket, Rank, Name, Score'
+    : e.ranks === 'player' ? 'Rank, Player name, Player ID, Score, Server, Guild name'
+    : e.has_time ? 'Rank, Guild name, Score, Time, Server, Leader name, Leader ID, Essence rank, Essence (M)'
+    : 'Rank, Guild name, Score, Server';
+
+function eventsTab(panel: HTMLElement) {
+  const draw = () => {
+    const count = (id: string) => seasons.filter((s) => s.event_id === id).length;
+    clear(panel,
+      h('p', { class: 'muted small' }, 'Each event describes what its rankings measure. New events can be filled in here right away; they stay off the public site until a page layout is made for them.'),
+      h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: () => editEvent(null, draw) }, 'New event')),
+      h('div', { class: 'table-wrap' }, h('table', { class: 'rank' },
+        h('thead', {}, h('tr', {}, h('th', {}, 'Event'), h('th', {}, 'Ranks'), h('th', {}, 'Score'), h('th', {}, 'Brackets'), h('th', {}, 'Time'), h('th', {}, 'Seasons'), h('th', {}, 'On site'), h('th', {}, ''))),
+        h('tbody', {}, [...events].sort((a, b) => a.name.localeCompare(b.name)).map((e) => h('tr', {},
+          h('td', {}, e.name, h('span', { class: 'listed' }, e.id)), h('td', {}, e.ranks === 'player' ? 'Players' : 'Guilds'),
+          h('td', {}, e.score_label), h('td', {}, e.has_brackets ? 'Yes' : ''), h('td', {}, e.has_time ? 'Yes' : ''),
+          h('td', {}, count(e.id)), h('td', {}, e.show_on_site ? 'Yes' : h('span', { class: 'muted' }, 'Not yet')),
+          h('td', {}, h('button', { type: 'button', class: 'btn small', onclick: () => editEvent(e, draw) }, 'Edit'))))))));
+  };
+  draw();
+}
+
+function editEvent(e: EventRow | null, redraw: () => void) {
+  const f = {
+    id: text(e?.id ?? '', { placeholder: 'like guild-war' }), name: text(e?.name ?? ''),
+    ranks: select([['guild', 'Guilds'], ['player', 'Players']], e?.ranks ?? 'guild'),
+    score: text(e?.score_label ?? '', { placeholder: 'like Points, Damage (M), Floor' }),
+    brackets: box(e?.has_brackets ?? false), time: box(e?.has_time ?? false), notes: area(e?.notes, { rows: 2 }),
+    site: box(e?.show_on_site ?? false, { disabled: !isAdmin() }),
+  };
+  const layout = h('p', { class: 'hint' });
+  const showLayout = () => { layout.textContent = `Paste columns for its results: ${layoutOf({ ranks: f.ranks.value as 'guild' | 'player', has_brackets: f.brackets.checked, has_time: f.time.checked })}`; };
+  for (const c of [f.ranks, f.brackets, f.time]) c.addEventListener('change', showLayout);
+  showLayout();
+  const seasonCount = e ? seasons.filter((s) => s.event_id === e.id).length : 0;
+  const del = e && isAdmin() ? h('button', { type: 'button', class: 'btn danger' }, 'Delete') : null;
+  const { dlg, st } = dialog(e ? `Edit event: ${e.name}` : 'New event', [
+    h('div', { class: 'grid' }, field('Event ID', f.id, e && seasonCount ? 'Changing it updates its seasons too.' : 'Short, lowercase, no spaces.'), field('Name', f.name, 'As shown in the game.')),
+    h('div', { class: 'grid' }, field('Ranks', f.ranks, 'Who the ranking lists.'), field('Score is', f.score, 'What the number means.')),
+    h('label', { class: 'inline' }, f.brackets, ' Played in brackets (each bracket ranked separately, like Alna)'),
+    h('label', { class: 'inline' }, f.time, ' Records a finish or last-attack time (like AbEx)'),
+    layout,
+    field('Notes', f.notes, 'How the event works, how it is scored, anything worth remembering.'),
+    h('label', { class: 'inline' }, f.site, ' Shown on the public site'),
+    h('p', { class: 'hint' }, isAdmin()
+      ? 'Leave this off for new events: the site only has page layouts for AbEx, Temporal Rift and Alna so far. Ask for a layout first.'
+      : 'Only an admin can change this.'),
+  ], async () => {
+    const id = f.id.value.trim().toLowerCase();
+    const name = f.name.value.trim();
+    if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) throw new Error('The event ID needs lowercase letters, numbers or dashes, like guild-war.');
+    if (!name || !f.score.value.trim()) throw new Error('Fill in the name and what the score is.');
+    const row = {
+      id, name, ranks: f.ranks.value, score_label: f.score.value.trim(), has_brackets: f.brackets.checked, has_time: f.time.checked,
+      notes: blank(f.notes.value), ...(isAdmin() ? { show_on_site: f.site.checked } : {}),
+    };
+    if (e) check(await sb.from('events').update(row).eq('id', e.id));
+    else check(await sb.from('events').insert(row));
+    await loadAll();
+    redraw();
+    return e ? 'Saved.' : 'Event added. Now add its first season on the Seasons tab.';
+  }, del ? [del] : []);
+  del?.addEventListener('click', async () => {
+    if (!confirm(`Delete the event "${e!.name}"? Only works once it has no seasons.`)) return;
+    try { check(await sb.from('events').delete().eq('id', e!.id)); await loadAll(); dlg.close(); redraw(); } catch (err) { st.err(err); }
   });
 }
 

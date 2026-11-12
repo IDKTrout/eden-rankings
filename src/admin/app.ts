@@ -1,6 +1,6 @@
 // Event Rankings admin: sign in, then add and fix seasons, results, guilds and players.
 // Permissions are enforced by the database; this page only hides what you can't use.
-import { sb, check, nextGuildId, type Group, type EventRow, type Season, type Guild, type Player, type Result, type Editor } from './db';
+import { sb, check, nextGuildId, type Group, type Region, type EventRow, type Season, type Guild, type Player, type Result, type Editor } from './db';
 import {
   h, clear, field, text, num, check as box, area, select, status, busy,
   parseNum, parseInt0, parseTime, isRounded, fmtTime, fmtInt, blank,
@@ -11,6 +11,7 @@ const root = document.getElementById('admin') as HTMLElement;
 let me: { id: string; email: string } | null = null;
 let editor: Editor | null = null;
 let groups: Group[] = [];
+let regions: Region[] = [];
 let events: EventRow[] = [];
 let seasons: Season[] = [];
 let guilds: Guild[] = [];
@@ -32,14 +33,16 @@ const remember = (k: string, v?: string) => {
 // ------------------------------------------------------------------ data
 
 async function loadAll() {
-  const [g, e, s, gu, sp, pl] = await Promise.all([
-    sb.from('groups').select('*').order('name'),
+  const [g, e, s, gu, sp, pl, rg] = await Promise.all([
+    sb.from('groups').select('*').order('sort_order').order('name'),
     sb.from('events').select('*').order('name'),
     sb.from('seasons').select('*').order('sort_order'),
     sb.from('guilds').select('id,name,home_server,group_id,inactive,notes').order('name'),
     sb.from('guild_names').select('*').order('name'),
     sb.from('players').select('id,name,guild_id,inactive,notes').order('name'),
+    sb.from('regions').select('*').order('region'),
   ]);
+  regions = check(rg) as Region[];
   groups = check(g) as Group[];
   events = check(e) as EventRow[];
   seasons = check(s) as Season[];
@@ -127,6 +130,8 @@ const TABS: Tab[] = [
   { id: 'players', label: 'Players', render: playersTab },
   { id: 'seasons', label: 'Seasons', render: seasonsTab },
   { id: 'events', label: 'Events', render: eventsTab },
+  { id: 'groups', label: 'Groups', render: groupsTab },
+  { id: 'regions', label: 'Regions', render: regionsTab },
   { id: 'log', label: 'Change log', render: logTab },
   { id: 'editors', label: 'Editors', render: editorsTab, adminOnly: true },
 ];
@@ -615,6 +620,132 @@ function editEvent(e: EventRow | null, redraw: () => void) {
   del?.addEventListener('click', async () => {
     if (!confirm(`Delete the event "${e!.name}"? Only works once it has no seasons.`)) return;
     try { check(await sb.from('events').delete().eq('id', e!.id)); await loadAll(); dlg.close(); redraw(); } catch (err) { st.err(err); }
+  });
+}
+
+// ------------------------------------------------------------------ groups
+
+function groupsTab(panel: HTMLElement) {
+  const draw = () => {
+    const members = (id: string) => guilds.filter((g) => g.group_id === id).length;
+    clear(panel,
+      h('p', { class: 'muted small' }, 'Groups are families of guilds, like Eden or Sin. A guild joins a group from its own Edit form on the Guilds tab. The tag shows the short name in the group\'s color.'),
+      h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: () => editGroup(null, draw) }, 'New group')),
+      h('div', { class: 'table-wrap' }, h('table', { class: 'rank' },
+        h('thead', {}, h('tr', {}, h('th', {}, 'Order'), h('th', {}, 'Group'), h('th', {}, 'Tag'), h('th', {}, 'ID'), h('th', { class: 'num' }, 'Guilds'), h('th', {}, ''))),
+        h('tbody', {}, groups.map((g) => h('tr', {},
+          h('td', {}, g.sort_order), h('td', {}, g.name),
+          h('td', {}, h('span', { class: 'gswatch', style: `--c:${g.color}` }, g.short_name)),
+          h('td', {}, g.id), h('td', { class: 'num' }, members(g.id)),
+          h('td', {}, h('button', { type: 'button', class: 'btn small', onclick: () => editGroup(g, draw) }, 'Edit'))))))));
+  };
+  draw();
+}
+
+function editGroup(g: Group | null, redraw: () => void) {
+  const color = g?.color ?? '#3d8bff';
+  const f = {
+    id: text(g?.id ?? '', { placeholder: 'like eden' }), name: text(g?.name ?? ''), short: text(g?.short_name ?? '', { placeholder: 'tag text, like ELTS' }),
+    color: text(color, { placeholder: '#RRGGBB' }), picker: h('input', { type: 'color', value: color, class: 'picker', 'aria-label': 'Pick a color' }),
+    order: num(g?.sort_order ?? Math.max(0, ...groups.map((x) => x.sort_order)) + 1), notes: area(g?.notes, { rows: 2 }),
+  };
+  const preview = h('span', { class: 'gswatch', style: `--c:${color}` }, g?.short_name || 'Tag');
+  const sync = () => { preview.style.setProperty('--c', f.color.value); preview.textContent = f.short.value || f.name.value || 'Tag'; };
+  f.picker.addEventListener('input', () => { f.color.value = f.picker.value; sync(); });
+  f.color.addEventListener('input', () => { if (/^#[0-9a-f]{6}$/i.test(f.color.value)) f.picker.value = f.color.value; sync(); });
+  f.short.addEventListener('input', sync);
+  f.name.addEventListener('input', sync);
+  const members = g ? guilds.filter((x) => x.group_id === g.id).length : 0;
+  const del = g && isAdmin() ? h('button', { type: 'button', class: 'btn danger' }, 'Delete') : null;
+  const { dlg, st } = dialog(g ? `Edit group: ${g.name}` : 'New group', [
+    h('div', { class: 'grid' }, field('Group ID', f.id, g ? 'Changing it moves its guilds too.' : 'Short, lowercase.'), field('Name', f.name), field('Tag text', f.short)),
+    h('div', { class: 'grid' },
+      h('div', { class: 'fld' }, h('label', { for: (f.color.id = 'gcolor') }, 'Color'), h('div', { class: 'row' }, f.picker, f.color)),
+      field('Order', f.order, 'Lower numbers are listed first.'),
+      h('div', { class: 'fld' }, h('span', { class: 'lbl' }, 'Tag preview'), preview)),
+    field('Notes', f.notes, 'For example how its guild names start.'),
+  ], async () => {
+    const id = f.id.value.trim().toLowerCase();
+    if (!/^[a-z0-9][a-z0-9-]*$/.test(id)) throw new Error('The group ID needs lowercase letters, numbers or dashes.');
+    if (!f.name.value.trim()) throw new Error('A group needs a name.');
+    if (!/^#[0-9a-f]{6}$/i.test(f.color.value.trim())) throw new Error('The color must look like #2E9E5B.');
+    const row = {
+      id, name: f.name.value.trim(), short_name: f.short.value.trim() || f.name.value.trim(), color: f.color.value.trim().toUpperCase(),
+      sort_order: parseInt0(f.order.value) ?? 0, notes: blank(f.notes.value),
+    };
+    if (g) check(await sb.from('groups').update(row).eq('id', g.id));
+    else check(await sb.from('groups').insert(row));
+    await loadAll();
+    redraw();
+    return g ? 'Saved.' : 'Group added. Add guilds to it from the Guilds tab.';
+  }, del ? [del] : []);
+  del?.addEventListener('click', async () => {
+    if (!confirm(`Delete the group "${g!.name}"? Its ${members} guild(s) stay, but without a group.`)) return;
+    try { check(await sb.from('groups').delete().eq('id', g!.id)); await loadAll(); dlg.close(); redraw(); } catch (err) { st.err(err); }
+  });
+}
+
+// ------------------------------------------------------------------ regions
+
+/** Regions whose server range overlaps r's (excluding r itself). */
+const overlapsWith = (r: Pick<Region, 'region' | 'first_server' | 'last_server'>, others: Region[]) =>
+  r.first_server == null || r.last_server == null ? [] :
+    others.filter((o) => o.region !== r.region && o.first_server != null && o.last_server != null
+      && o.first_server <= r.last_server! && r.first_server! <= o.last_server);
+
+function regionsTab(panel: HTMLElement) {
+  const draw = () => {
+    const homeIn = (r: Region) => r.first_server == null ? 0 : guilds.filter((g) => g.home_server != null && g.home_server >= r.first_server! && g.home_server <= r.last_server!).length;
+    const covered = regions.filter((r) => r.first_server != null);
+    const maxServer = Math.max(0, ...covered.map((r) => r.last_server ?? 0));
+    const uncoveredHomes = guilds.filter((g) => g.home_server != null && !covered.some((r) => g.home_server! >= r.first_server! && g.home_server! <= r.last_server!));
+    clear(panel,
+      h('p', { class: 'muted small' }, `Each region is a range of servers. ${covered.length} of ${regions.length} regions have servers, covering up to server ${maxServer}.`),
+      uncoveredHomes.length ? h('p', { class: 'status err' }, `${uncoveredHomes.length} guild home server(s) aren't in any region: ${[...new Set(uncoveredHomes.map((g) => g.home_server))].sort((a, b) => a! - b!).join(', ')}.`) : null,
+      h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: () => editRegion(null, draw) }, 'New region')),
+      h('div', { class: 'table-wrap tall' }, h('table', { class: 'rank' },
+        h('thead', {}, h('tr', {}, h('th', {}, 'Region'), h('th', {}, 'Servers'), h('th', { class: 'num' }, 'Count'), h('th', { class: 'num' }, 'Guilds'), h('th', {}, 'Notes'), h('th', {}, ''))),
+        h('tbody', {}, regions.map((r) => {
+          const clash = overlapsWith(r, regions);
+          return h('tr', {},
+            h('td', {}, `R${r.region}`),
+            h('td', {}, r.first_server == null ? h('span', { class: 'muted' }, 'not set') : `S${r.first_server}–S${r.last_server}`,
+              clash.length ? h('span', { class: 'listed warn' }, `overlaps ${clash.map((o) => 'R' + o.region).join(', ')}`) : null),
+            h('td', { class: 'num' }, r.first_server == null ? '' : r.last_server! - r.first_server + 1),
+            h('td', { class: 'num' }, homeIn(r) || ''),
+            h('td', { class: 'wrapcell' }, r.notes ?? ''),
+            h('td', {}, h('button', { type: 'button', class: 'btn small', onclick: () => editRegion(r, draw) }, 'Edit')));
+        })))));
+  };
+  draw();
+}
+
+function editRegion(r: Region | null, redraw: () => void) {
+  const last = regions.filter((x) => x.last_server != null).sort((a, b) => b.last_server! - a.last_server!)[0];
+  const f = {
+    region: num(r?.region ?? Math.max(0, ...regions.map((x) => x.region)) + 1),
+    first: num(r ? r.first_server : (last?.last_server ?? 0) + 1), last: num(r?.last_server), notes: text(r?.notes ?? '', { placeholder: 'like Confirmed by …' }),
+  };
+  const del = r && isAdmin() ? h('button', { type: 'button', class: 'btn danger' }, 'Delete') : null;
+  const { dlg, st } = dialog(r ? `Edit region R${r.region}` : 'New region', [
+    h('div', { class: 'grid' }, field('Region number', f.region), field('First server', f.first), field('Last server', f.last)),
+    field('Notes', f.notes, 'Where the range came from, for example who confirmed it.'),
+  ], async () => {
+    const row = { region: parseInt0(f.region.value), first_server: parseInt0(f.first.value), last_server: parseInt0(f.last.value), notes: blank(f.notes.value) };
+    if (row.region == null) throw new Error('Fill in the region number.');
+    if ((row.first_server == null) !== (row.last_server == null)) throw new Error('Fill in both the first and last server, or leave both empty.');
+    if (row.first_server != null && row.first_server > row.last_server!) throw new Error('The first server must not be after the last one.');
+    const clash = overlapsWith(row as Region, regions.filter((x) => x.region !== r?.region));
+    if (clash.length) throw new Error(`Those servers overlap ${clash.map((o) => `R${o.region} (S${o.first_server}–S${o.last_server})`).join(', ')}. Fix that region first.`);
+    if (r) check(await sb.from('regions').update(row).eq('region', r.region));
+    else check(await sb.from('regions').insert(row));
+    await loadAll();
+    redraw();
+    return r ? 'Saved.' : 'Region added.';
+  }, del ? [del] : []);
+  del?.addEventListener('click', async () => {
+    if (!confirm(`Delete region R${r!.region}?`)) return;
+    try { check(await sb.from('regions').delete().eq('region', r!.region)); await loadAll(); dlg.close(); redraw(); } catch (err) { st.err(err); }
   });
 }
 

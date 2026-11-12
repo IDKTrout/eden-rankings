@@ -8,7 +8,8 @@ export const SUPABASE_KEY = 'sb_publishable_rBlmsD2-G_ece6fAXDL7aQ_0oa-iqX-';
 
 export const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-export interface Group { id: string; name: string; short_name: string; color: string; notes: string | null }
+export interface Group { id: string; name: string; short_name: string; color: string; notes: string | null; sort_order: number }
+export interface Region { region: number; first_server: number | null; last_server: number | null; notes: string | null }
 export interface EventRow {
   id: string; name: string; ranks: 'guild' | 'player'; score_label: string; has_brackets: boolean; has_time: boolean;
   notes: string | null; show_on_site: boolean;

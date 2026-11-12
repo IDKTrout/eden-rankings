@@ -57,5 +57,9 @@ import Layout from '../layouts/Layout.astro';
   .dlg-body { display: flex; flex-direction: column; gap: .75rem; padding: 1.1rem 1.25rem; }
   .dlg .row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: flex-end; }
   .dlg .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: .6rem; }
+  .gswatch { display: inline-block; padding: .1rem .5rem; border-radius: 999px; font-size: .75rem; font-weight: 700; color: #fff; background: var(--c); }
+  .dlg input.picker { width: 3rem; height: 2.4rem; padding: .15rem; flex: none; }
+  .dlg .row input.picker + input { flex: 1; }
+  .listed.warn { color: #e05a4a; }
   .dlg details summary { cursor: pointer; font-weight: 600; font-size: .85rem; }
 </style>

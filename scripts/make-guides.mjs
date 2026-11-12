@@ -151,6 +151,8 @@ const fixing = [
     '**Guild renamed?** Edit the guild, set **Current name**, and use **Add spelling** for the new name so future pastes match it.',
     '**Learned the real guild ID?** Edit the guild and replace its **Guild ID** (like g123) with the game\'s ID. Its results follow automatically.',
     '**A player:** Players tab, search, **Edit**.',
+    '**A group** (like Eden or Sin): Groups tab. Set its name, tag text and color. To put a guild in a group, edit the guild.',
+    '**A region:** Regions tab. Set its first and last server; it warns you if the range overlaps another region.',
   ] },
 ];
 const goodHabits = [

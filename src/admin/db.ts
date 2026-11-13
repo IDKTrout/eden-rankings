@@ -19,12 +19,12 @@ export interface Season {
   sort_order: number; max_score: number | null; compiled_by: string | null; thanks: string | null;
   source_url: string | null; notes: string | null;
 }
-export interface Guild { id: string; name: string; home_server: number | null; group_id: string | null; inactive: boolean; notes: string | null }
+export interface Guild { id: string; name: string; region: number | null; group_id: string | null; inactive: boolean; notes: string | null }
 export interface Player { id: string; name: string; guild_id: string | null; inactive: boolean; notes: string | null }
 export interface Result {
   id: number; season_id: string; listed_name: string; guild_id: string | null; player_id: string | null;
   bracket: number | null; rank: number | null; score: number | null; score_rounded: boolean;
-  time_seconds: number | null; server: number | null; extra: Record<string, unknown>;
+  time_seconds: number | null; server: number | null; region: number | null; extra: Record<string, unknown>;
 }
 export interface Editor { user_id: string; name: string; role: 'admin' | 'helper' }
 

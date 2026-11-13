@@ -133,7 +133,7 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
       {aRegions.length > 0 && (
         <section class="card" id="regions">
           <h2>Regions</h2>
-          <p class="note">How each region's guilds placed this season, ordered by their best guild. A guild counts for the region of the server it was listed on.</p>
+          <p class="note">How each region's guilds placed this season, ordered by their best guild. A guild counts for the region it was listed in that season.</p>
           <div class="table-wrap tall region-scroll">
             <table class="rank">
               <thead><tr><th>Region</th><th class="num"><span class="hide-sm">Guilds ranked</span><span class="show-sm">Guilds</span></th><th>Best guild</th><th class="num hide-sm">Finished</th><th class="num hide-sm">Total damage</th></tr></thead>
@@ -174,9 +174,9 @@ const playerHref = (id: string) => (id ? `/player/${encodeURIComponent(id)}/` : 
               {abexRows.map((r) => (
                 <tr>
                   <td class="num"><Rank value={r.damageRank} tiers="abex" /></td>
-                  <td class="wrap-sm"><a href={guildHref(r.guildId)}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}<span class="show-sm sub">{[r.leaderName, r.server != null ? fmtRegion(r.server) : ''].filter(Boolean).join(' · ')}</span></td>
+                  <td class="wrap-sm"><a href={guildHref(r.guildId)}>{nameOf(r)}</a><GroupTag guildId={r.guildId} />{nameOf(r) !== r.guildName && <span class="listed">listed as {r.guildName}</span>}<span class="show-sm sub">{[r.leaderName, r.region != null ? fmtRegion(r.region) : ''].filter(Boolean).join(' · ')}</span></td>
                   <td class="hide-sm">{r.leaderId ? <a href={playerHref(r.leaderId)}>{r.leaderName}</a> : <span class="muted">—</span>}</td>
-                  <td class="hide-sm">{fmtRegion(r.server)}</td>
+                  <td class="hide-sm">{fmtRegion(r.region)}</td>
                   <td class="num">{fmtInt(r.damage)}{r.time && <span class:list={['show-sm', 'sub', { fin: finished(r) }]}>{r.time}</span>}</td>
                   <td class="num hide-sm">{r.time ? <span class:list={{ fin: finished(r) }} title={timeNote(r)}>{r.time}</span> : '—'}</td>
                   {aSum.hasEssence && <><td class="num hide-sm">{r.essenceRank ?? '—'}</td><td class="num hide-sm">{r.essence == null ? '—' : fmtEss(r.essence).replace('M', '')}</td></>}

@@ -3,8 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
 import GroupTag from '../../components/GroupTag.astro';
 import StatusTag from '../../components/StatusTag.astro';
-import { regions, seasons, seasonLabel, abex, rift, finished, guildLabel, fmtInt, fmtM, nameOf } from '../../lib/data';
-import { guildsInRegion, playersInRegion, regionAbex, regionRift, guildServer, playerServer } from '../../lib/regions';
+import { regions, serverRange, seasons, seasonLabel, abex, rift, finished, guildLabel, fmtInt, fmtM, nameOf } from '../../lib/data';
+import { guildsInRegion, playersInRegion, regionAbex, regionRift, playerServer } from '../../lib/regions';
 
 export function getStaticPaths() {
   return regions.map((r) => ({ params: { id: String(r.region) } }));
@@ -12,7 +12,8 @@ export function getStaticPaths() {
 
 const region = Number(Astro.params.id);
 const range = regions.find((r) => r.region === region)!;
-const servers = range.first === range.last ? `S${range.first}` : `S${range.first}–S${range.last}`;
+const servers = serverRange(range);
+const serverCount = range.first != null && range.last != null ? range.last - range.first + 1 : 0;
 
 // Newest season first.
 const history = [...seasons].filter((s) => s.kind !== 'alna').reverse().map((s) => ({
@@ -26,7 +27,6 @@ const guildRows = guildsInRegion(region).map((g) => {
   const rr = rift.filter((r) => r.guildId === g.id);
   return {
     g,
-    server: guildServer(g.id),
     best: a.length ? Math.min(...a.map((r) => r.damageRank as number)) : null,
     finishes: a.filter(finished).length,
     riftPlayers: rr.length,
@@ -43,11 +43,11 @@ const playerRows = playersInRegion(region)
   }))
   .sort((a, b) => b.best - a.best || a.bestRank - b.bestRank);
 ---
-<Layout title={`Region ${region}`} description={`Region ${region} (${servers}): its guilds and players and how they placed in every AbEx and Temporal Rift season.`}>
+<Layout title={`Region ${region}`} description={`Region ${region}${servers ? ` (${servers})` : ''}: its guilds and players and how they placed in every AbEx and Temporal Rift season.`}>
   <section class="page-head">
     <span class="eyebrow">Region</span>
     <h1>Region {region}</h1>
-    <div class="chips"><span class="chip">Servers {servers}</span><span class="chip">{range.last - range.first + 1} {range.last === range.first ? 'server' : 'servers'}</span></div>
+    {servers && <div class="chips"><span class="chip">Servers {servers}</span><span class="chip">{serverCount} {serverCount === 1 ? 'server' : 'servers'}</span></div>}
   </section>
 
   <section class="card" id="seasons">
@@ -77,7 +77,7 @@ const playerRows = playersInRegion(region)
         </tbody>
       </table>
     </div>
-    <p class="note small muted">Uses the server listed on each ranking row. Finished counts AbEx guilds that reached the season's max damage.</p>
+    <p class="note small muted">Uses the region listed on each AbEx row and the server on each Rift row. Finished counts AbEx guilds that reached the season's max damage.</p>
   </section>
 
   <section class="card" id="guilds">
@@ -98,7 +98,7 @@ const playerRows = playersInRegion(region)
             </tbody>
           </table>
         </div>
-      ) : <p class="empty-note">No ranked guild is on these servers yet.</p>}
+      ) : <p class="empty-note">No ranked guild is in this region yet.</p>}
     </section>
 
     <section class="card" id="players">
@@ -120,6 +120,6 @@ const playerRows = playersInRegion(region)
             </tbody>
           </table>
         </div>
-      ) : <p class="empty-note">No Temporal Rift player is on these servers yet.</p>}
+      ) : <p class="empty-note">No Temporal Rift player is in this region yet.</p>}
     </section>
 </Layout>

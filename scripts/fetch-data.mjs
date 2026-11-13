@@ -49,6 +49,10 @@ try {
   ]);
   await mkdir(dataDir, { recursive: true });
 
+  // Guilds are placed by region only. (Before the switch they had servers; map those to regions.)
+  const regionOf = (server) => server == null ? null
+    : regions.find((x) => x.first_server != null && server >= x.first_server && server <= x.last_server)?.region ?? null;
+
   // Events not switched on for the site (new events with no page layout yet) are left out entirely.
   const eventById = new Map(events.map((e) => [e.id, e]));
   const seasons = allSeasons.filter((s) => eventById.get(s.event_id)?.show_on_site);
@@ -74,10 +78,10 @@ try {
       max_damage_m: s.max_score, thanks: s.thanks,
     })));
 
-  await writeCsv('abex_rankings', ['season_id', 'damage_rank', 'guild_name', 'leader_name', 'leader_id', 'server', 'damage_m', 'clear_time', 'clear_seconds', 'essence_rank', 'essence_m', 'guild_id'],
+  await writeCsv('abex_rankings', ['season_id', 'damage_rank', 'guild_name', 'leader_name', 'leader_id', 'region', 'damage_m', 'clear_time', 'clear_seconds', 'essence_rank', 'essence_m', 'guild_id'],
     of('abex_rankings').map((r) => ({
       season_id: r.season_id, damage_rank: r.rank, guild_name: r.listed_name, leader_name: r.extra?.leader_name, leader_id: r.extra?.leader_id,
-      server: r.server, damage_m: r.score, clear_time: r.extra?.clear_time || hms(r.time_seconds), clear_seconds: r.time_seconds,
+      region: r.region ?? regionOf(r.server), damage_m: r.score, clear_time: r.extra?.clear_time || hms(r.time_seconds), clear_seconds: r.time_seconds,
       essence_rank: r.extra?.essence_rank, essence_m: r.extra?.essence_m, guild_id: r.guild_id,
     })));
 
@@ -97,8 +101,8 @@ try {
       points_rounded: r.score_rounded, guild_id: r.guild_id, overall_rank: r.score == null ? '' : overall(r),
     })));
 
-  await writeCsv('guilds', ['guild_id', 'guild_name', 'home_server', 'notes', 'group_id', 'inactive'],
-    guilds.map((g) => ({ guild_id: g.id, guild_name: g.name, home_server: g.home_server, notes: g.notes, group_id: g.group_id, inactive: g.inactive })));
+  await writeCsv('guilds', ['guild_id', 'guild_name', 'region', 'notes', 'group_id', 'inactive'],
+    guilds.map((g) => ({ guild_id: g.id, guild_name: g.name, region: g.region ?? regionOf(g.home_server), notes: g.notes, group_id: g.group_id, inactive: g.inactive })));
   await writeCsv('guild_names', ['guild_name', 'guild_id', 'notes'],
     guildNames.map((n) => ({ guild_name: n.name, guild_id: n.guild_id, notes: n.notes })));
   await writeCsv('players', ['player_id', 'player_name', 'guild_id', 'notes', 'inactive'],

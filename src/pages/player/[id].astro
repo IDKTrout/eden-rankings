@@ -22,7 +22,9 @@ const guildRecords = abex
   .sort((a, b) => seasonOrder(b.seasonId) - seasonOrder(a.seasonId) || (a.damageRank as number) - (b.damageRank as number));
 const best = p.rift.length ? Math.max(...p.rift.map((r) => r.floor)) : null;
 const bestRank = p.rift.length ? Math.min(...p.rift.map((r) => r.rank)) : null;
-const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.server ?? null;
+const server = [...p.rift].reverse().find((r) => r.server != null)?.server ?? null;
+// Guild leaders with no Rift row: show the region their guild was in when they led it (guilds have regions, not servers).
+const ledRegion = server == null ? [...p.led].reverse().find((r) => r.region != null)?.region ?? null : null;
 ---
 <Layout title={p.name} description={`${p.name}: Temporal Rift floors and guilds across every season.`}>
   <section class="page-head">
@@ -31,6 +33,7 @@ const server = [...p.rift, ...p.led].reverse().find((r) => r.server != null)?.se
     <div class="chips">
       <span class="chip">Player ID {p.id}</span>
       {server != null && <span class="chip">Server {fmtServer(server)}</span>}
+      {ledRegion != null && <a class="chip" href={`/region/${ledRegion}/`}>Region {ledRegion}</a>}
       {p.guildId && <a class="chip" href={`/guild/${encodeURIComponent(p.guildId)}/`}>Guild {guildLabel(p.guildId)}</a>}
     </div>
     {otherNames.length > 0 && <p class="muted">Also known as {otherNames.map((n, i) => <>{i > 0 && ', '}<strong>{n}</strong></>)}.</p>}

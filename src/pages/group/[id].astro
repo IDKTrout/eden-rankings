@@ -24,7 +24,7 @@ const memberRows = members.map((m) => {
   const best = a.length ? Math.min(...a.map((r) => r.damageRank as number)) : null;
   return {
     m,
-    server: m.homeServer ?? latest?.server ?? null,
+    region: m.region ?? latest?.region ?? null,
     best,
     finishedCount: a.filter(finished).length,
     riftPlayers: rr.length,
@@ -104,7 +104,7 @@ const history = [...seasons].reverse().map((s) => {
           {memberRows.map((r) => (
             <tr>
               <td><a href={`/guild/${encodeURIComponent(r.m.id)}/`}>{r.m.name}</a><StatusTag inactive={r.m.inactive} /></td>
-              <td>{fmtRegion(r.server)}</td>
+              <td>{fmtRegion(r.region)}</td>
               <td class="num">{r.best == null ? '—' : <Rank value={r.best} tiers="abex" />}</td>
               <td class="num">{r.finishedCount || '—'}</td>
               <td class="num">{r.riftPlayers || '—'}</td>

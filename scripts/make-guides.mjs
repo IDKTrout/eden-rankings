@@ -129,7 +129,7 @@ const addResults = [
   { table: [
     ['Event', 'Columns, in order'],
     ['Alna', 'Bracket, Rank, Guild name, Points'],
-    ['AbEx', 'Rank, Guild name, Damage (M), Time (h:mm:ss), Server, Leader name, Leader ID, Essence rank, Essence (M)'],
+    ['AbEx', 'Rank, Guild name, Damage (M), Time (h:mm:ss), Region, Leader name, Leader ID, Essence rank, Essence (M)'],
     ['Rift', 'Rank, Player name, Player ID, Floor, Server, Guild name'],
   ] },
   { note: 'Leave columns you don\'t have empty. A score shown in-game as **13M** is saved as 13,000,000 and marked as rounded.' },
@@ -147,7 +147,7 @@ const fixing = [
   { h: 'Fixing mistakes' },
   { bullets: [
     '**A result:** Results tab, pick the season, **Edit** on the row.',
-    '**A guild:** Guilds tab, search, **Edit**. Change the name, home server, group, inactive, or notes.',
+    '**A guild:** Guilds tab, search, **Edit**. Change the name, region, group, inactive, or notes. Guilds use a region, not a server; only players keep a server.',
     '**Guild renamed?** Edit the guild, set **Current name**, and use **Add spelling** for the new name so future pastes match it.',
     '**Learned the real guild ID?** Edit the guild and replace its **Guild ID** (like g123) with the game\'s ID. Its results follow automatically.',
     '**A player:** Players tab, search, **Edit**.',

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import FilterScript from '../components/FilterScript.astro';
 import GroupTag from '../components/GroupTag.astro';
 import StatusTag from '../components/StatusTag.astro';
-import { groupOf, regionOf } from '../lib/data';
+import { groupOf } from '../lib/data';
 import { guildIds, guildById, abex, rift, seasonById, fmtRegion, fmtInt } from '../lib/data';
 
 const order = (sid: string) => seasonById.get(sid)?.order ?? 0;
@@ -18,7 +18,7 @@ const list = guildIds.map((id) => {
     id,
     name: g?.name || latest?.guildName || rr[0]?.guildName || id,
     names,
-    server: g?.homeServer ?? latest?.server ?? null,
+    region: g?.region ?? latest?.region ?? null,
     best: Number.isFinite(best) ? best : null,
     riftPlayers: rr.length,
     bestFloor: rr.length ? Math.max(...rr.map((r) => r.floor)) : null,
@@ -31,8 +31,7 @@ const sections = [
   { id: 'inactive', title: 'Inactive', rows: list.filter((g) => g.inactive) },
 ].filter((s) => s.rows.length > 0);
 const search = (g: (typeof list)[number]) => [
-  ...g.names, g.name, g.server != null ? `s${g.server}` : '',
-  regionOf(g.server) != null ? `r${regionOf(g.server)} region ${regionOf(g.server)}` : '',
+  ...g.names, g.name, g.region != null ? `r${g.region} region ${g.region}` : '',
   g.id, groupOf(g.id)?.name ?? '', groupOf(g.id)?.short ?? '', g.inactive ? 'inactive' : 'active',
 ].join(' ');
 ---
@@ -60,7 +59,7 @@ const search = (g: (typeof list)[number]) => [
               {sec.rows.map((g) => (
                 <tr>
                 <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a><StatusTag inactive={g.inactive} /><GroupTag guildId={g.id} /></td>
-                <td>{fmtRegion(g.server)}</td>
+                <td>{fmtRegion(g.region)}</td>
                 <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>
                 <td class="num">{g.riftPlayers || '—'}</td>
                 <td class="num">{g.bestFloor == null ? '—' : fmtInt(g.bestFloor)}</td>
@@ -82,7 +81,7 @@ const search = (g: (typeof list)[number]) => [
           {list.map((g) => (
             <tr data-search={search(g)}>
                 <td><a href={`/guild/${encodeURIComponent(g.id)}/`}>{g.name}</a><StatusTag inactive={g.inactive} /><GroupTag guildId={g.id} /></td>
-                <td>{fmtRegion(g.server)}</td>
+                <td>{fmtRegion(g.region)}</td>
                 <td class="num">{g.best == null ? '—' : `#${g.best}`}</td>
                 <td class="num">{g.riftPlayers || '—'}</td>
                 <td class="num">{g.bestFloor == null ? '—' : fmtInt(g.bestFloor)}</td>

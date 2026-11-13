@@ -37,7 +37,7 @@ async function loadAll() {
     sb.from('groups').select('*').order('sort_order').order('name'),
     sb.from('events').select('*').order('name'),
     sb.from('seasons').select('*').order('sort_order'),
-    sb.from('guilds').select('id,name,home_server,group_id,inactive,notes').order('name'),
+    sb.from('guilds').select('id,name,region,group_id,inactive,notes').order('name'),
     sb.from('guild_names').select('*').order('name'),
     sb.from('players').select('id,name,guild_id,inactive,notes').order('name'),
     sb.from('regions').select('*').order('region'),
@@ -179,15 +179,25 @@ const groupOptions = (): [string, string][] => [['', '(no group)'], ...groups.ma
 // ------------------------------------------------------------------ results
 
 const COLS: Record<string, string> = {
-  bracket: 'Bracket', rank: 'Rank', name: 'Name', score: 'Score', time: 'Time (h:mm:ss)', server: 'Server',
+  bracket: 'Bracket', rank: 'Rank', name: 'Name', score: 'Score', time: 'Time (h:mm:ss)', server: 'Server', region: 'Region',
   player_id: 'Player ID', guild_name: 'Guild name', leader_name: 'Leader name', leader_id: 'Leader ID',
   essence_rank: 'Essence rank', essence_m: 'Essence (M)',
 };
 function pasteColumns(ev: EventRow): string[] {
   if (ev.has_brackets) return ['bracket', 'rank', 'name', 'score'];
   if (ev.ranks === 'player') return ['rank', 'name', 'player_id', 'score', 'server', 'guild_name'];
-  if (ev.has_time) return ['rank', 'name', 'score', 'time', 'server', 'leader_name', 'leader_id', 'essence_rank', 'essence_m'];
-  return ['rank', 'name', 'score', 'server'];
+  if (ev.has_time) return ['rank', 'name', 'score', 'time', 'region', 'leader_name', 'leader_id', 'essence_rank', 'essence_m'];
+  return ['rank', 'name', 'score', 'region'];
+}
+
+const regionOptions = (): [string, string][] => [['', '(no region)'], ...regions.map((r) => [String(r.region), `R${r.region}`] as [string, string])];
+/** Reads a region typed as "20", "R20" or "Region 20"; it must be a region on the Regions tab. */
+function parseRegion(s: string): number | null {
+  const t = s.trim();
+  if (!t) return null;
+  const m = /^(?:r|region)?\s*(\d+)$/i.exec(t);
+  if (!m || !regions.some((r) => r.region === +m[1])) throw new Error(`"${t}" isn't a region on the Regions tab.`);
+  return +m[1];
 }
 
 async function resultsTab(panel: HTMLElement) {
@@ -209,7 +219,7 @@ async function resultsTab(panel: HTMLElement) {
       h('thead', {}, h('tr', {},
         ev.has_brackets && h('th', {}, 'Bracket'),
         h('th', {}, 'Rank'), h('th', {}, 'Listed as'), h('th', {}, ev.ranks === 'player' ? 'Player · Guild' : 'Guild'),
-        h('th', { class: 'num' }, ev.score_label), ev.has_time && h('th', {}, 'Time'), h('th', {}, 'Server'), h('th', {}, ''))),
+        h('th', { class: 'num' }, ev.score_label), ev.has_time && h('th', {}, 'Time'), h('th', {}, ev.ranks === 'player' ? 'Server' : 'Region'), h('th', {}, ''))),
       h('tbody', {}, rows.map((r) => h('tr', {},
         ev.has_brackets && h('td', {}, r.bracket ?? ''),
         h('td', {}, r.rank ?? '—'),
@@ -217,7 +227,7 @@ async function resultsTab(panel: HTMLElement) {
         h('td', {}, ev.ranks === 'player' ? `${playerById.get(r.player_id ?? '')?.name ?? r.player_id} · ${guildLabel(r.guild_id)}` : guildLabel(r.guild_id)),
         h('td', { class: 'num' }, (r.score_rounded ? '≈ ' : '') + fmtInt(r.score)),
         ev.has_time && h('td', {}, fmtTime(r.time_seconds)),
-        h('td', {}, r.server ?? ''),
+        h('td', {}, ev.ranks === 'player' ? (r.server ?? '') : r.region != null ? `R${r.region}` : ''),
         h('td', {}, h('button', { type: 'button', class: 'btn small', onclick: () => editResult(r, ev, load) }, 'Edit')),
       ))),
     );
@@ -230,7 +240,7 @@ function editResult(r: Result, ev: EventRow, reload: () => void) {
   const f = {
     listed: text(r.listed_name), guild: text(r.guild_id), player: text(r.player_id),
     bracket: num(r.bracket), rank: num(r.rank), score: num(r.score), rounded: box(r.score_rounded),
-    time: text(fmtTime(r.time_seconds)), server: num(r.server), extra: area(JSON.stringify(r.extra ?? {}, null, 1), { rows: 4 }),
+    time: text(fmtTime(r.time_seconds)), server: num(r.server), region: select(regionOptions(), r.region == null ? '' : String(r.region)), extra: area(JSON.stringify(r.extra ?? {}, null, 1), { rows: 4 }),
   };
   const del = isAdmin() ? h('button', { type: 'button', class: 'btn danger' }, 'Delete') : null;
   const { dlg, st } = dialog(`Edit result: ${r.listed_name}`, [
@@ -240,7 +250,7 @@ function editResult(r: Result, ev: EventRow, reload: () => void) {
     h('div', { class: 'grid' },
       ev.has_brackets ? field('Bracket', f.bracket) : null,
       field('Rank', f.rank), field(ev.score_label, f.score),
-      ev.has_time ? field('Time', f.time) : null, field('Server', f.server)),
+      ev.has_time ? field('Time', f.time) : null, ev.ranks === 'player' ? field('Server', f.server) : field('Region', f.region)),
     h('label', { class: 'inline' }, f.rounded, ' Rounded by the game (like 13M)'),
     field('Other fields (JSON)', f.extra, 'Leader, essence and similar event-specific values.'),
   ].filter(Boolean) as HTMLElement[], async () => {
@@ -251,7 +261,9 @@ function editResult(r: Result, ev: EventRow, reload: () => void) {
     check(await sb.from('results').update({
       listed_name: f.listed.value.trim(), guild_id: guildId, player_id: blank(f.player.value),
       bracket: parseInt0(f.bracket.value), rank: parseInt0(f.rank.value), score: parseNum(f.score.value),
-      score_rounded: f.rounded.checked, time_seconds: parseTime(f.time.value), server: parseInt0(f.server.value), extra,
+      score_rounded: f.rounded.checked, time_seconds: parseTime(f.time.value), extra,
+      server: ev.ranks === 'player' ? parseInt0(f.server.value) : null,
+      region: ev.ranks === 'player' ? null : f.region.value ? +f.region.value : null,
     }).eq('id', r.id));
     reload();
     return 'Saved.';
@@ -282,6 +294,7 @@ function addResults(season: Season, ev: EventRow, reload: () => void) {
         const v: Record<string, string> = {};
         cols.forEach((c, i) => { v[c] = (cells[i] ?? '').trim(); });
         if (!v.name) throw new Error(`A line has no name: "${line}"`);
+        if (v.region) v.region = String(parseRegion(v.region));
         const guildName = ev.ranks === 'player' ? v.guild_name : v.name;
         parsed.push({ v, guildName, matched: guildName ? guildBySpelling.get(guildName) ?? null : null, override: text('', { placeholder: 'new guild', class: 'narrow' }) });
       }
@@ -324,7 +337,8 @@ function addResults(season: Season, ev: EventRow, reload: () => void) {
       }
       if (!created.has(p.guildName)) {
         const id = next; next = bump(next);
-        check(await sb.from('guilds').insert({ id, name: p.guildName, notes: `First seen in ${season.id}` }));
+        const region = ev.ranks === 'player' ? null : parseInt0(p.v.region ?? '');
+        check(await sb.from('guilds').insert({ id, name: p.guildName, region, notes: `First seen in ${season.id}` }));
         check(await sb.from('guild_names').insert({ name: p.guildName, guild_id: id }));
         created.set(p.guildName, id);
         guildBySpelling.set(p.guildName, id);
@@ -350,7 +364,9 @@ function addResults(season: Season, ev: EventRow, reload: () => void) {
         season_id: season.id, listed_name: p.v.name, guild_id: resolved[i], player_id: blank(p.v.player_id ?? ''),
         bracket: p.v.bracket ? parseInt0(p.v.bracket) : null, rank: parseInt0(p.v.rank ?? ''),
         score: parseNum(p.v.score ?? ''), score_rounded: isRounded(p.v.score ?? ''),
-        time_seconds: parseTime(p.v.time ?? ''), server: parseInt0(p.v.server ?? ''), extra,
+        time_seconds: parseTime(p.v.time ?? ''), extra,
+        server: ev.ranks === 'player' ? parseInt0(p.v.server ?? '') : null,
+        region: ev.ranks === 'player' ? null : parseInt0(p.v.region ?? ''),
       };
     });
     check(await sb.from('results').insert(rows));
@@ -365,7 +381,7 @@ function addResults(season: Season, ev: EventRow, reload: () => void) {
     h('summary', {}, 'Add results by pasting'),
     h('p', { class: 'muted small' }, 'Paste rows straight from a spreadsheet (tab-separated) or as comma-separated text, one result per line, in this column order:'),
     h('ol', { class: 'cols' }, cols.map((c) => h('li', {}, COLS[c]))),
-    h('p', { class: 'muted small' }, 'Leave trailing columns empty if you don\'t have them. Scores like 13M are saved as 13,000,000 and marked rounded. Guild names are matched to known spellings.'),
+    h('p', { class: 'muted small' }, 'Leave trailing columns empty if you don\'t have them. Guild events take a region (20 or R20), not a server. Scores like 13M are saved as 13,000,000 and marked rounded. Guild names are matched to known spellings.'),
     input, h('div', { class: 'row' }, previewBtn), preview, st);
 }
 
@@ -382,9 +398,9 @@ function guildsTab(panel: HTMLElement) {
     const hits = guilds.filter((g) => !term || g.id.toLowerCase().includes(term) || g.name.toLowerCase().includes(term)
       || spellings.some((s) => s.guild_id === g.id && s.name.toLowerCase().includes(term))).slice(0, 100);
     clear(list, h('table', { class: 'rank' },
-      h('thead', {}, h('tr', {}, h('th', {}, 'Guild'), h('th', {}, 'ID'), h('th', {}, 'Server'), h('th', {}, 'Group'), h('th', {}, ''), h('th', {}, ''))),
+      h('thead', {}, h('tr', {}, h('th', {}, 'Guild'), h('th', {}, 'ID'), h('th', {}, 'Region'), h('th', {}, 'Group'), h('th', {}, ''), h('th', {}, ''))),
       h('tbody', {}, hits.map((g) => h('tr', {},
-        h('td', {}, g.name), h('td', {}, g.id), h('td', {}, g.home_server ?? ''),
+        h('td', {}, g.name), h('td', {}, g.id), h('td', {}, g.region != null ? `R${g.region}` : ''),
         h('td', {}, groups.find((x) => x.id === g.group_id)?.name ?? ''),
         h('td', {}, g.inactive ? 'inactive' : ''),
         h('td', {}, h('button', { type: 'button', class: 'btn small', onclick: () => editGuild(g, draw) }, 'Edit')))))),
@@ -395,7 +411,7 @@ function guildsTab(panel: HTMLElement) {
 
 function editGuild(g: Guild | null, redraw: () => void) {
   const f = {
-    id: text(g?.id ?? '', { placeholder: 'leave empty for an auto ID' }), name: text(g?.name ?? ''), server: num(g?.home_server),
+    id: text(g?.id ?? '', { placeholder: 'leave empty for an auto ID' }), name: text(g?.name ?? ''), region: select(regionOptions(), g?.region == null ? '' : String(g.region)),
     group: select(groupOptions(), g?.group_id ?? ''), inactive: box(g?.inactive ?? false), notes: area(g?.notes, { rows: 2 }),
   };
   const mine = g ? spellings.filter((s) => s.guild_id === g.id) : [];
@@ -432,14 +448,14 @@ function editGuild(g: Guild | null, redraw: () => void) {
   const { dlg, st } = dialog(g ? `Edit guild: ${g.name}` : 'New guild', [
     field('Guild ID', f.id, g ? 'Swap in the game\'s guild ID when you learn it. Results and spellings follow automatically.' : 'The game\'s guild ID if you know it.'),
     field('Current name', f.name),
-    h('div', { class: 'grid' }, field('Home server', f.server), field('Group', f.group)),
+    h('div', { class: 'grid' }, field('Region', f.region), field('Group', f.group)),
     h('label', { class: 'inline' }, f.inactive, ' Inactive'),
     field('Notes', f.notes),
     spellBox, mergeBox,
   ].filter(Boolean) as HTMLElement[], async () => {
     const name = f.name.value.trim();
     if (!name) throw new Error('A guild needs a name.');
-    const row = { name, home_server: parseInt0(f.server.value), group_id: f.group.value || null, inactive: f.inactive.checked, notes: blank(f.notes.value) };
+    const row = { name, region: f.region.value ? +f.region.value : null, group_id: f.group.value || null, inactive: f.inactive.checked, notes: blank(f.notes.value) };
     const id = f.id.value.trim();
     if (g) {
       check(await sb.from('guilds').update({ ...row, id: id || g.id }).eq('id', g.id));
@@ -695,13 +711,13 @@ const overlapsWith = (r: Pick<Region, 'region' | 'first_server' | 'last_server'>
 
 function regionsTab(panel: HTMLElement) {
   const draw = () => {
-    const homeIn = (r: Region) => r.first_server == null ? 0 : guilds.filter((g) => g.home_server != null && g.home_server >= r.first_server! && g.home_server <= r.last_server!).length;
+    const homeIn = (r: Region) => guilds.filter((g) => g.region === r.region).length;
     const covered = regions.filter((r) => r.first_server != null);
     const maxServer = Math.max(0, ...covered.map((r) => r.last_server ?? 0));
-    const uncoveredHomes = guilds.filter((g) => g.home_server != null && !covered.some((r) => g.home_server! >= r.first_server! && g.home_server! <= r.last_server!));
+    const noRegion = guilds.filter((g) => g.region == null).length;
     clear(panel,
-      h('p', { class: 'muted small' }, `Each region is a range of servers. ${covered.length} of ${regions.length} regions have servers, covering up to server ${maxServer}.`),
-      uncoveredHomes.length ? h('p', { class: 'status err' }, `${uncoveredHomes.length} guild home server(s) aren't in any region: ${[...new Set(uncoveredHomes.map((g) => g.home_server))].sort((a, b) => a! - b!).join(', ')}.`) : null,
+      h('p', { class: 'muted small' }, `Each region is a range of servers. ${covered.length} of ${regions.length} regions have servers, covering up to server ${maxServer}. Guilds are placed by region (set on the Guilds tab); players keep their server.`),
+      noRegion ? h('p', { class: 'muted small' }, `${noRegion} guild(s) have no region yet.`) : null,
       h('div', { class: 'row' }, h('button', { type: 'button', class: 'btn', onclick: () => editRegion(null, draw) }, 'New region')),
       h('div', { class: 'table-wrap tall' }, h('table', { class: 'rank' },
         h('thead', {}, h('tr', {}, h('th', {}, 'Region'), h('th', {}, 'Servers'), h('th', { class: 'num' }, 'Count'), h('th', { class: 'num' }, 'Guilds'), h('th', {}, 'Notes'), h('th', {}, ''))),

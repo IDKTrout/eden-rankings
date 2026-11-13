@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { regions, regionsListed, latestOf, seasonLabel, fmtInt, nameOf } from '../lib/data';
+import { regions, serverRange, latestOf, seasonLabel, fmtInt, nameOf } from '../lib/data';
 import { guildsInRegion, playersInRegion, regionAbex, regionRift } from '../lib/regions';
 
 const abexSeason = latestOf('abex');
@@ -13,24 +13,23 @@ const list = regions.map((r) => ({
   abex: abexSeason ? regionAbex(r.region, abexSeason.id) : null,
   rift: riftSeason ? regionRift(r.region, riftSeason.id) : null,
 }));
-const range = (a: number, b: number) => (a === b ? `S${a}` : `S${a}–S${b}`);
 ---
 <Layout title="Regions" description="Every region, the servers it covers, and how its guilds and players placed.">
   <section class="page-head">
     <span class="eyebrow">Directory</span>
     <h1>Regions</h1>
-    <p class="muted">Each region groups a range of servers. {regions.length} of {regionsListed} regions have their servers listed so far; the rest appear here once their servers are added.</p>
+    <p class="muted">Each region groups a range of servers. Guilds are listed by region; players keep their server.</p>
   </section>
 
   {list.length === 0 ? (
-    <p class="empty-note">No region has servers listed yet.</p>
+    <p class="empty-note">No regions are listed yet.</p>
   ) : (
     <div class="region-grid">
       {list.map(({ r, guilds, players, abex, rift }) => (
         <a class="card region-card" href={`/region/${r.region}/`}>
           <div class="rc-head">
             <h2>Region {r.region}</h2>
-            <span class="chip">{range(r.first, r.last)}</span>
+            {serverRange(r) && <span class="chip">{serverRange(r)}</span>}
           </div>
           <p class="muted small">{guilds} {guilds === 1 ? 'guild' : 'guilds'} · {players} {players === 1 ? 'player' : 'players'}</p>
           <dl>

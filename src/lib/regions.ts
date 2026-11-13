@@ -6,29 +6,37 @@ import {
 
 const order = (sid: string) => seasonById.get(sid)?.order ?? 0;
 
-/** A guild's server: its home server from the guilds tab, else the server on its newest AbEx row. */
-export function guildServer(guildId: string): number | null {
+/** A guild's region: from the guilds table, else the region on its newest AbEx row. */
+export function guildRegion(guildId: string): number | null {
   const g = guilds.find((x) => x.id === guildId);
-  if (g?.homeServer != null) return g.homeServer;
-  const rows = abex.filter((r) => r.guildId === guildId && r.server != null).sort((a, b) => order(b.seasonId) - order(a.seasonId));
-  return rows[0]?.server ?? null;
+  if (g?.region != null) return g.region;
+  const rows = abex.filter((r) => r.guildId === guildId && r.region != null).sort((a, b) => order(b.seasonId) - order(a.seasonId));
+  return rows[0]?.region ?? null;
 }
 
-/** A player's server from their newest ranking row. */
+/** A player's server from their newest Temporal Rift row. */
 export function playerServer(p: Player): number | null {
-  const rows = [...p.rift, ...p.led].filter((r) => r.server != null).sort((a, b) => order(b.seasonId) - order(a.seasonId));
+  const rows = p.rift.filter((r) => r.server != null).sort((a, b) => order(b.seasonId) - order(a.seasonId));
   return rows[0]?.server ?? null;
 }
 
-export const guildsInRegion = (region: number) => guilds.filter((g) => regionOf(guildServer(g.id)) === region);
-export const playersInRegion = (region: number) => players.filter((p) => regionOf(playerServer(p)) === region);
+export const guildsInRegion = (region: number) => guilds.filter((g) => guildRegion(g.id) === region);
+/** A player's region: from their newest Rift server, else (guild leaders) the region of the guild they led most recently. */
+export function playerRegion(p: Player): number | null {
+  const server = playerServer(p);
+  if (server != null) return regionOf(server);
+  const led = p.led.filter((r) => r.region != null).sort((a, b) => order(b.seasonId) - order(a.seasonId));
+  return led[0]?.region ?? null;
+}
+
+export const playersInRegion = (region: number) => players.filter((p) => playerRegion(p) === region);
 
 export interface RegionAbex { guilds: number; finished: number; best: AbexRow }
 export interface RegionRift { players: number; best: RiftRow }
 
-/** How a region's guilds did in an AbEx season (by the server on that season's row). */
+/** How a region's guilds did in an AbEx season (by the region on that season's row). */
 export function regionAbex(region: number, seasonId: string): RegionAbex | null {
-  const rows = abexFor(seasonId).filter((r) => r.damageRank != null && r.damage != null && regionOf(r.server) === region);
+  const rows = abexFor(seasonId).filter((r) => r.damageRank != null && r.damage != null && r.region === region);
   return rows.length ? { guilds: rows.length, finished: rows.filter(finished).length, best: rows[0] } : null;
 }
 
@@ -46,8 +54,7 @@ export function abexRegionStandings(seasonId: string): RegionAbexStanding[] {
   const rows = abexFor(seasonId).filter((r) => r.damageRank != null && r.damage != null);
   const by = new Map<number, AbexRow[]>();
   for (const r of rows) {
-    const region = regionOf(r.server);
-    if (region != null) by.set(region, [...(by.get(region) ?? []), r]);
+    if (r.region != null) by.set(r.region, [...(by.get(r.region) ?? []), r]);
   }
   return [...by].map(([region, mine]) => ({
     region, guilds: mine.length, finished: mine.filter(finished).length, best: mine[0],

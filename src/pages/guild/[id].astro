@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Rank from '../../components/Rank.astro';
 import GroupTag from '../../components/GroupTag.astro';
 import StatusTag from '../../components/StatusTag.astro';
-import { groupOf, regionOf, alna, alnaShown } from '../../lib/data';
+import { groupOf, alna, alnaShown } from '../../lib/data';
 import {
   guildIds, guildById, abex, rift, seasonById, seasonLabel, playerById,
   fmtInt, fmtM, fmtEss, fmtServer,
@@ -25,7 +25,7 @@ const riftRows = rift.filter((r) => r.guildId === id).sort((a, b) => order(b.sea
 const spellings = [...new Set([...(guild?.names ?? []), ...abexRows.map((r) => r.guildName), ...riftRows.map((r) => r.guildName)])];
 const name = guild?.name || abexRows[0]?.guildName || riftRows[0]?.guildName || id;
 const otherNames = spellings.filter((n) => n !== name);
-const server = guild?.homeServer ?? abexRows.find((r) => r.server != null)?.server ?? null;
+const region = guild?.region ?? abexRows.find((r) => r.region != null)?.region ?? null;
 const bestDamageRank = Math.min(...abexRows.map((r) => r.damageRank ?? Infinity));
 const riftSeasons = [...new Set(riftRows.map((r) => r.seasonId))];
 const isGameId = !/^g\d+$/.test(id);
@@ -39,9 +39,7 @@ const leaders = [...new Map(abexRows.filter((r) => r.leaderId).map((r) => [r.lea
     <h1>{name}<StatusTag inactive={guild?.inactive} /></h1>
     {groupOf(id) && <p class="muted">Part of the <GroupTag guildId={id} full /> group.</p>}
     <div class="chips">
-      {regionOf(server) != null
-        ? <a class="chip" href={`/region/${regionOf(server)}/`}>Region {regionOf(server)}</a>
-        : server != null && <span class="chip">Server S{server}</span>}
+      {region != null && <a class="chip" href={`/region/${region}/`}>Region {region}</a>}
       {isGameId && <span class="chip">Guild ID {id}</span>}
       {leaders.slice(0, 1).map((l) => <a class="chip" href={`/player/${l.leaderId}/`}>Leader {playerById.get(l.leaderId)?.name ?? l.leaderName}</a>)}
     </div>

@@ -38,7 +38,8 @@ export interface AbexRow {
   guildName: string;
   leaderName: string;
   leaderId: string;
-  server: number | null;
+  /** The guild's region that season. */
+  region: number | null;
   damage: number | null; // millions
   time: string;
   seconds: number | null;
@@ -85,7 +86,8 @@ export interface Guild {
   groupId: string;
   /** Ticked as inactive in the guilds tab. */
   inactive: boolean;
-  homeServer: number | null;
+  /** The guild's region (guilds are placed by region, not server). */
+  region: number | null;
   names: string[];
   notes: string;
 }
@@ -152,6 +154,23 @@ function toIsoDate(v: string | undefined) {
 export const SHOW_ALNA = process.env.SHOW_ALNA !== '0';
 const SITE_TABS = ['abex_rankings', 'rift_rankings', ...(SHOW_ALNA ? ['alna_rankings'] : [])];
 
+/** Regions group servers together: every server from first to last belongs to the region. */
+const regionRows = parseCsv(regionsCsv).filter((r) => r.region);
+/** How many regions the regions tab lists, including ones whose servers aren't filled in yet. */
+export const regionsListed = regionRows.length;
+/** Every listed region. A region's servers (first to last) may be blank until known; guilds are placed by region either way. */
+export const regions = regionRows
+  .map((r) => ({ region: num(r.region), first: num(r.first_server), last: num(r.last_server) }))
+  .filter((r): r is { region: number; first: number | null; last: number | null } => r.region != null)
+  .sort((a, b) => a.region - b.region);
+
+/** The region a server belongs to, or null if no region in the regions tab covers it. */
+export const regionOf = (server: number | null | undefined) =>
+  server == null ? null : regions.find((r) => r.first != null && r.last != null && server >= r.first && server <= r.last)?.region ?? null;
+/** "S201–S210", or '' if the region's servers aren't known yet. */
+export const serverRange = (r: { first: number | null; last: number | null }) =>
+  r.first == null || r.last == null ? '' : r.first === r.last ? `S${r.first}` : `S${r.first}–S${r.last}`;
+
 export const seasons: Season[] = parseCsv(seasonsCsv)
   .filter((r) => r.season_id && SITE_TABS.includes(str(r.data_tab)))
   .map((r, i) => ({
@@ -177,7 +196,7 @@ export const abex: AbexRow[] = parseCsv(abexCsv)
     guildName: str(r.guild_name),
     leaderName: str(r.leader_name),
     leaderId: str(r.leader_id).replace(/,/g, ''),
-    server: num(r.server),
+    region: num(r.region) ?? regionOf(num(r.server)),
     damage: num(r.damage_m),
     time: str(r.clear_time),
     seconds: num(r.clear_seconds),
@@ -242,7 +261,7 @@ export const guilds: Guild[] = parseCsv(guildsCsv)
     name: str(r.guild_name),
     groupId: str(r.group_id),
     inactive: /^true$/i.test(str(r.inactive)),
-    homeServer: num(r.home_server),
+    region: num(r.region) ?? regionOf(num(r.home_server)),
     names: guildNameRows.filter((n) => n.guild_id === r.guild_id).map((n) => n.guild_name),
     notes: str(r.notes),
   }));
@@ -250,19 +269,6 @@ export const guilds: Guild[] = parseCsv(guildsCsv)
 export const groups: Group[] = parseCsv(groupsCsv)
   .filter((r) => r.group_id)
   .map((r) => ({ id: str(r.group_id), name: str(r.group_name) || str(r.group_id), short: str(r.short_name) || str(r.group_name), color: /^#[0-9a-f]{6}$/i.test(str(r.color)) ? str(r.color) : '', notes: str(r.notes) }));
-
-/** Regions group servers together: every server from first to last belongs to the region. */
-const regionRows = parseCsv(regionsCsv).filter((r) => r.region);
-/** How many regions the regions tab lists, including ones whose servers aren't filled in yet. */
-export const regionsListed = regionRows.length;
-export const regions = regionRows
-  .map((r) => ({ region: num(r.region), first: num(r.first_server), last: num(r.last_server) }))
-  .filter((r): r is { region: number; first: number; last: number } => r.region != null && r.first != null && r.last != null)
-  .sort((a, b) => a.region - b.region);
-
-/** The region a server belongs to, or null if no region in the regions tab covers it. */
-export const regionOf = (server: number | null | undefined) =>
-  server == null ? null : regions.find((r) => server >= r.first && server <= r.last)?.region ?? null;
 
 /* ------------------------------------------------------------------ lookups */
 
@@ -425,19 +431,14 @@ const decFmt = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximu
 export const fmtInt = (v: number | null | undefined) => (v == null ? '—' : intFmt.format(v));
 export const fmtM = (v: number | null | undefined) => (v == null ? '—' : `${intFmt.format(v)}M`);
 export const fmtEss = (v: number | null | undefined) => (v == null ? '—' : `${decFmt.format(v)}M`);
-/** "S204 · R20" when the server's region is known, otherwise "S204". */
 /** "Nov 10, 2026" from YYYY-MM-DD (read as a calendar day, not shifted by time zone). */
 export const fmtDate = (iso: string) => {
   if (!iso) return '';
   const [y, m, d] = iso.split('-').map(Number);
   return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(Date.UTC(y, m - 1, d));
 };
-/** Guilds are shown by region only ("R20"); falls back to the server if no region covers it. */
-export const fmtRegion = (server: number | null | undefined) => {
-  if (server == null) return '—';
-  const region = regionOf(server);
-  return region == null ? `S${server}` : `R${region}`;
-};
+/** Guilds are shown by region only ("R20"). */
+export const fmtRegion = (region: number | null | undefined) => (region == null ? '—' : `R${region}`);
 /** Players are shown by server, with the region ("S204 · R20"). */
 export const fmtServer = (v: number | null | undefined) => {
   if (v == null) return '—';

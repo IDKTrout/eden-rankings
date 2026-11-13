@@ -6,20 +6,36 @@ guild_id,guild_name,region,notes,group_id,inactive
 107196,🌕Element: Sun🌕,20,,elts,FALSE
 107859,Eden: Aurelion,20,,eden,FALSE
 114658,TeaHouse,21,,,FALSE
+116812,Elements Potato,21,,elts,FALSE
 127004,Eden: UnderDawg,23,,eden,FALSE
 127295,Knights of RHOK.,21,,,FALSE
 128031,Eden: Pride,23,,eden,FALSE
 132292,Fʀeeedom:NewDawn,25,,,FALSE
 135252,S.T.A.R.S.,26,,,FALSE
 143337,Sin: Pride,29,,sin,FALSE
+146232,Element:Oblivion,30,,elts,FALSE
 147375,AdySSS,30,,,FALSE
+150674,Element: ÆTHER,30,,elts,FALSE
+152495,Element: Divine,31,,elts,FALSE
+153249,Element: Fire 🔥,31,,elts,FALSE
 154280,Element: Chaøs,31,,elts,FALSE
+155034,Element: Radiant,32,,elts,FALSE
 155501,Sin: Greed,32,,sin,FALSE
 159989,STAR⭐,33,,,FALSE
+162238,Element: Tavern,34,,elts,FALSE
 165967,Eden: Prodigy,36,,eden,FALSE
 165974,Eden: StarSky,36,,eden,FALSE
+166439,Element: Kinship,36,,elts,FALSE
 166704,Eden: Vorpal,36,,eden,FALSE
 167921,Eden: ANTI,36,,eden,FALSE
+169001,ELTS: LOCO,37,,elts,FALSE
+169728,Element: Eternal,37,,elts,FALSE
+170556,Element: Immortal,37,,elts,FALSE
+174370,ELTS: ChillOut,39,,elts,FALSE
+180864,Element: YinYang,42,,elts,FALSE
+181465,Element: Spirit,42,,elts,FALSE
+181832,ELTS: Garganta,42,,elts,FALSE
+183094,Element: Rose,42,,elts,FALSE
 30060,<NO M≡RCY>,1,,,FALSE
 30465,Astra,2,,,FALSE
 31616,SUPERNOVA,4,,,FALSE
@@ -34,6 +50,7 @@ guild_id,guild_name,region,notes,group_id,inactive
 65749,30Days,12,,,FALSE
 67247,Eden: 6,12,,eden,FALSE
 74875,FU: Valhalla Inn,13,,fu,FALSE
+83439,Element: Pandora,15,,elts,FALSE
 88281,°•♡Nemesis♡•°,16,,,FALSE
 93890,FATE,17,,,FALSE
 95973,Eden: JUSTICE#,18,,eden,FALSE
@@ -62,18 +79,16 @@ g032,Bees,6,,,FALSE
 g033,Berceni,5,,,FALSE
 g035,BlackList,5,,,FALSE
 g036,Blood Moon,25,,,FALSE
-g038,Blue Sea,,,,FALSE
+g038,Blue Sea,39,,,FALSE
 g039,BrightArcana,14,,,FALSE
 g040,Bundes Bros 🔥,8,,,FALSE
 g041,BurnHub,28,,,FALSE
 g042,CAPYBARA,25,,,FALSE
 g043,Celestial Flash,35,,,FALSE
-g044,ELTS: ChillOut,39,,elts,FALSE
 g045,Classic Comp,35,,,FALSE
 g046,Coolness×Rehab,22,,,FALSE
 g047,COVENANT,10,,,FALSE
 g048,Crimson Knight,,,,FALSE
-g049,Element: Tavern,34,,elts,FALSE
 g050,Dark Inquisition,,,,FALSE
 g051,dArkAngels,25,,,FALSE
 g052,DarkBlood,,,,FALSE
@@ -84,16 +99,7 @@ g056,DiamondDogs,23,,,FALSE
 g057,Divine Warriors,26,,,FALSE
 g058,DivineCult⭐,19,,,FALSE
 g059,Eclipse,,,,FALSE
-g071,Element: ÆTHER,30,,elts,FALSE
-g073,Element: Chill 🧊,31,,elts,FALSE
 g074,Element: Curse,42,,elts,TRUE
-g075,Element: Eclipse,37,,elts,FALSE
-g076,Element: Fire 🔥,31,,elts,FALSE
-g077,ELTS: LOCO,37,,elts,FALSE
-g078,Element: Radiant,32,,elts,FALSE
-g079,Element: Spirit,42,,elts,FALSE
-g080,Element: YinYang,42,,elts,FALSE
-g081,Element:Oblivion,30,,elts,FALSE
 g082,Element:Surprise,31,,elts,TRUE
 g083,Elysium,29,,,FALSE
 g084,Emberfall,35,,,FALSE
@@ -124,9 +130,8 @@ g114,NUYA,28,,,FALSE
 g115,OLYMP 2.0,,,,FALSE
 g116,Olympus,,,,FALSE
 g117,OneVictory,19,,,FALSE
-g118,Pandora,15,,,FALSE
 g119,Quality Hotpot,7,,,FALSE
-g120,RΞVΞLΛTION,26,,,FALSE
+g120,RΞVΞLΛ┼IΘN,26,,,FALSE
 g121,RAGNAROK ⚡,22,,,FALSE
 g122,Rank One,15,,,FALSE
 g125,RevolutionR,32,,,FALSE
@@ -188,7 +193,6 @@ g187,Олип,,,,FALSE
 g189,Divine Legion,,,,FALSE
 g190,• HISPANIA •,,,,FALSE
 g191,Lost Knight,,,,FALSE
-g192,Element: Kinship,,,elts,FALSE
 g193,AbstractSpace,,,,FALSE
 g194,Full Crown,,,,FALSE
 g195,NekoGIRL's,,,,FALSE
@@ -209,8 +213,7 @@ g209,N1ghtW1ngs,,,,FALSE
 g210,MilkPopi,,,,FALSE
 g211,RAKUZAN,,,,FALSE
 g212,SKTeam,,,,FALSE
-g213,Eden: Ignite,,,eden,FALSE
-g214,ELTS: Garganta,,,elts,FALSE
+g213,Eden: Ignite,33,,eden,FALSE
 g215,BlackForest,,,,FALSE
 g216,Vua Trò Chơi 👾,,,,FALSE
 g217,Naked,,,,FALSE
@@ -226,7 +229,7 @@ g226,HeavenSeven,,,,FALSE
 g227,Bromies,,,,FALSE
 g228,hạo thiên tông,,,,FALSE
 g229,ConstellationSS,,,,FALSE
-g230,Eden: ☆NYX☆,,,eden,FALSE
+g230,Eden: ☆NYX☆,37,,eden,FALSE
 g231,Storm - Unknown,,,storm,FALSE
 g232,BFD,,,,FALSE
 g233,İmperial Dragons,,,,FALSE
@@ -248,7 +251,7 @@ g248,NEW CAPYBARA,,,,FALSE
 g250,KATANA,,,,FALSE
 g251,ГлавПромТорг,,,,FALSE
 g252,Underground,,,,FALSE
-g253,Sin: Lust,,,sin,FALSE
+g253,Sin: Lust,43,,sin,FALSE
 g254,Dobrinya,,,,FALSE
 g255,🇷🇺Russia🇷🇺,,,,FALSE
 g256,T.A.T.Y,,,,FALSE

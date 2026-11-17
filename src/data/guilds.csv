@@ -5,6 +5,7 @@ guild_id,guild_name,region,notes,group_id,inactive
 106180,Eden: Vyraxus,20,,eden,FALSE
 107196,🌕Element: Sun🌕,20,,elts,FALSE
 107859,Eden: Aurelion,20,,eden,FALSE
+109899,Eden: Ignivar,20,,eden,TRUE
 114658,TeaHouse,21,,,FALSE
 116812,Elements Potato,21,,elts,FALSE
 127004,Eden: UnderDawg,23,,eden,FALSE
@@ -21,6 +22,7 @@ guild_id,guild_name,region,notes,group_id,inactive
 154280,Element: Chaøs,31,,elts,FALSE
 155034,Element: Radiant,32,,elts,FALSE
 155501,Sin: Greed,32,,sin,FALSE
+158050,Eden: Ignite,33,,eden,FALSE
 159989,STAR⭐,33,,,FALSE
 162238,Element: Tavern,34,,elts,FALSE
 165967,Eden: Prodigy,36,,eden,FALSE
@@ -31,11 +33,17 @@ guild_id,guild_name,region,notes,group_id,inactive
 169001,ELTS: LOCO,37,,elts,FALSE
 169728,Element: Eternal,37,,elts,FALSE
 170556,Element: Immortal,37,,elts,FALSE
+170998,Eden: ☆NYX☆,37,,eden,FALSE
+171618,Storm ~ Arcadia,,,storm,FALSE
+171855,Storm - imperium,,,storm,FALSE
+172424,Storm - Light,38,,storm,FALSE
 174370,ELTS: ChillOut,39,,elts,FALSE
 180864,Element: YinYang,42,,elts,FALSE
 181465,Element: Spirit,42,,elts,FALSE
 181832,ELTS: Garganta,42,,elts,FALSE
 183094,Element: Rose,42,,elts,FALSE
+197397,Storm - Haze,48,,storm,FALSE
+198375,Storm - Mist,48,,storm,FALSE
 30060,<NO M≡RCY>,1,,,FALSE
 30465,Astra,2,,,FALSE
 31616,SUPERNOVA,4,,,FALSE
@@ -148,7 +156,6 @@ g139,Sin: Wollust,27,,sin,FALSE
 g140,Sin: Wrath 🔥,29,,sin,FALSE
 g141,SinsOfGlory,27,,,FALSE
 g142,Snow Dream ❄️,9,,,FALSE
-g144,Storm - Light,38,,storm,FALSE
 g145,STΛNDyourGRΘUND,28,,,FALSE
 g147,Synopsys,30,,,FALSE
 g148,Taverna do GaL0,44,,,FALSE
@@ -213,12 +220,10 @@ g209,N1ghtW1ngs,,,,FALSE
 g210,MilkPopi,,,,FALSE
 g211,RAKUZAN,,,,FALSE
 g212,SKTeam,,,,FALSE
-g213,Eden: Ignite,33,,eden,FALSE
 g215,BlackForest,,,,FALSE
 g216,Vua Trò Chơi 👾,,,,FALSE
 g217,Naked,,,,FALSE
 g218,JACKPOTTTT!!,,,,FALSE
-g219,Storm ~ Arcadia,,,storm,FALSE
 g220,Liquid Guild,,,,FALSE
 g221,Dark Eclipse,,,,FALSE
 g222,FOG,,,,FALSE
@@ -229,8 +234,6 @@ g226,HeavenSeven,,,,FALSE
 g227,Bromies,,,,FALSE
 g228,hạo thiên tông,,,,FALSE
 g229,ConstellationSS,,,,FALSE
-g230,Eden: ☆NYX☆,37,,eden,FALSE
-g231,Storm - Unknown,,,storm,FALSE
 g232,BFD,,,,FALSE
 g233,İmperial Dragons,,,,FALSE
 g234,satanic,,,,FALSE
@@ -266,3 +269,4 @@ g264,Zero Wing,,,,FALSE
 g265,Soda:)*,,,,FALSE
 g266,Free 7,,,,FALSE
 g267,Nothempty,,,,FALSE
+g268,Eden: Hades,23,,eden,TRUE
